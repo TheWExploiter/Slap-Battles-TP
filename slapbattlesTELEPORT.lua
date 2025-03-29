@@ -1,3 +1,4 @@
+-- Made By Cat
 local player = game.Players.LocalPlayer
 local screenGui = Instance.new("ScreenGui")
 screenGui.ResetOnSpawn = false
@@ -59,11 +60,11 @@ closeButton.Text = "X"
 closeButton.TextScaled = true
 addUICorner(closeButton, 10)
 
--- Teleport Buttons
+-- Teleport Buttons (Placed closer together)
 local tpButton1 = Instance.new("TextButton")
 tpButton1.Parent = scrollFrame
 tpButton1.Size = UDim2.new(0, 300, 0, 40)
-tpButton1.Position = UDim2.new(0.5, -150, 0.2, -10)
+tpButton1.Position = UDim2.new(0.5, -150, 0.2, 0)
 tpButton1.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
 tpButton1.TextColor3 = Color3.fromRGB(255, 255, 255)
 tpButton1.Text = "Teleport: Guide Place"
@@ -72,13 +73,13 @@ addUICorner(tpButton1, 10)
 
 local tpButton2 = tpButton1:Clone()
 tpButton2.Parent = scrollFrame
-tpButton2.Position = UDim2.new(0.5, -150, 0.35, -10)
+tpButton2.Position = UDim2.new(0.5, -150, 0.3, 0)
 tpButton2.Text = "Teleport: Guide Place (Outside)"
 
 local tpButton3 = Instance.new("TextButton")
 tpButton3.Parent = scrollFrame
 tpButton3.Size = UDim2.new(0, 300, 0, 40)
-tpButton3.Position = UDim2.new(0.5, -150, 0.5, -10)
+tpButton3.Position = UDim2.new(0.5, -150, 0.4, 0)
 tpButton3.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
 tpButton3.TextColor3 = Color3.fromRGB(255, 255, 255)
 tpButton3.Text = "Teleport: Starter Island"
@@ -89,7 +90,7 @@ addUICorner(tpButton3, 10)
 local antiVoid = Instance.new("TextButton")
 antiVoid.Parent = scrollFrame
 antiVoid.Size = UDim2.new(0, 300, 0, 40)
-antiVoid.Position = UDim2.new(0.5, -150, 0.65, -10)
+antiVoid.Position = UDim2.new(0.5, -150, 0.5, 0)
 antiVoid.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
 antiVoid.TextColor3 = Color3.fromRGB(255, 255, 255)
 antiVoid.Text = "Activate Anti-Void"
@@ -100,12 +101,33 @@ addUICorner(antiVoid, 10)
 local antiBan = Instance.new("TextButton")
 antiBan.Parent = scrollFrame
 antiBan.Size = UDim2.new(0, 300, 0, 40)
-antiBan.Position = UDim2.new(0.5, -150, 0.8, -10)
+antiBan.Position = UDim2.new(0.5, -150, 0.6, 0)
 antiBan.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
 antiBan.TextColor3 = Color3.fromRGB(255, 255, 255)
 antiBan.Text = "Activate Anti-Ban"
 antiBan.TextScaled = true
 addUICorner(antiBan, 10)
+
+-- Speed Input Box
+local speedLabel = Instance.new("TextLabel")
+speedLabel.Parent = scrollFrame
+speedLabel.Size = UDim2.new(0, 300, 0, 40)
+speedLabel.Position = UDim2.new(0.5, -150, 0.7, 0)
+speedLabel.BackgroundTransparency = 1
+speedLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+speedLabel.Text = "Enter Speed (Value)"
+speedLabel.TextScaled = true
+speedLabel.Font = Enum.Font.SourceSans
+
+local speedBox = Instance.new("TextBox")
+speedBox.Parent = scrollFrame
+speedBox.Size = UDim2.new(0, 300, 0, 40)
+speedBox.Position = UDim2.new(0.5, -150, 0.8, 0)
+speedBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+speedBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+speedBox.Text = "50"  -- Default speed
+speedBox.TextScaled = true
+addUICorner(speedBox, 10)
 
 -- Toggle the visibility of the main menu
 toggleButton.MouseButton1Click:Connect(function()
@@ -148,8 +170,8 @@ antiVoid.MouseButton1Click:Connect(function()
     -- Create the Anti-Void part with collision enabled
     local voidGuard = Instance.new("Part")
     voidGuard.Name = "VoidGuard"  -- Set a name to identify the part
-    voidGuard.Size = Vector3.new(1000000, 0.4, 1000000)  -- Size of the void guard
-    voidGuard.Position = Vector3.new(-82, -15, 87)  -- Correct position
+    voidGuard.Size = Vector3.new(1000000, 15, 1000000)  -- Size of the void guard
+    voidGuard.Position = Vector3.new(-82, -8, 87)  -- Correct position
     voidGuard.Anchored = true  -- Keep the part anchored
     voidGuard.CanCollide = true  -- Enable collision
     voidGuard.Transparency = 0.8  -- Make it 80% transparent
@@ -157,9 +179,29 @@ antiVoid.MouseButton1Click:Connect(function()
     voidGuard.Parent = game.Workspace  -- Place it in the workspace
 end)
 
--- Anti-Ban Functionality
+-- Anti-Ban Functionality (Remove Ban RemoteEvent)
 antiBan.MouseButton1Click:Connect(function()
-    -- Fire the "Ban" remote event (this would be used server-side to handle banning)
-    local remoteEvent = game.ReplicatedStorage:WaitForChild("Ban")
-    remoteEvent:FireServer()
+    -- Remove or disable the "Ban" remote event
+    local remoteEvent = game.ReplicatedStorage:FindFirstChild("Ban")
+    if remoteEvent then
+        remoteEvent:Destroy()  -- Removes the Ban remote event from ReplicatedStorage
+    end
+end)
+
+-- Speed Functionality
+speedBox.FocusLost:Connect(function()
+    local speedValue = tonumber(speedBox.Text)
+    if speedValue then
+        -- Change the player's walk speed
+        player.Character.Humanoid.WalkSpeed = speedValue
+    else
+        -- If invalid, reset speed to default
+        player.Character.Humanoid.WalkSpeed = 16
+    end
+end)
+
+-- Persist Speed After Death
+player.CharacterAdded:Connect(function(character)
+    character:WaitForChild("Humanoid")
+    character.Humanoid.WalkSpeed = tonumber(speedBox.Text) or 50  -- Set speed to saved value
 end)
