@@ -170,8 +170,8 @@ antiVoid.MouseButton1Click:Connect(function()
     -- Create the Anti-Void part with collision enabled
     local voidGuard = Instance.new("Part")
     voidGuard.Name = "VoidGuard"  -- Set a name to identify the part
-    voidGuard.Size = Vector3.new(1000000, 15, 1000000)  -- Size of the void guard
-    voidGuard.Position = Vector3.new(-82, -8, 87)  -- Correct position
+    voidGuard.Size = Vector3.new(1000000, 0.8, 1000000)  -- Size of the void guard
+    voidGuard.Position = Vector3.new(-82, -18, 87)  -- Correct position
     voidGuard.Anchored = true  -- Keep the part anchored
     voidGuard.CanCollide = true  -- Enable collision
     voidGuard.Transparency = 0.8  -- Make it 80% transparent
