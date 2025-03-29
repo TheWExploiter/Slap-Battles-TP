@@ -1,5 +1,6 @@
 local player = game.Players.LocalPlayer
 local screenGui = Instance.new("ScreenGui")
+screenGui.ResetOnSpawn = false -- Makes the GUI stay after death
 screenGui.Parent = player:WaitForChild("PlayerGui")
 
 -- Function to make UI elements smooth
@@ -13,7 +14,7 @@ end
 local toggleButton = Instance.new("TextButton")
 toggleButton.Parent = screenGui
 toggleButton.Size = UDim2.new(0, 100, 0, 50)
-toggleButton.Position = UDim2.new(0, 20, 0, 100)
+toggleButton.Position = UDim2.new(1, -120, 0.3, 0) -- Positioned on the right side
 toggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 toggleButton.Text = "Open GUI"
@@ -23,7 +24,7 @@ addUICorner(toggleButton, 10)
 local mainFrame = Instance.new("Frame")
 mainFrame.Parent = screenGui
 mainFrame.Size = UDim2.new(0, 300, 0, 180)
-mainFrame.Position = UDim2.new(0.5, -150, 0.5, -90)
+mainFrame.Position = UDim2.new(1, -320, 0.3, 0) -- Right side of the screen
 mainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
 mainFrame.Visible = false
 addUICorner(mainFrame, 15)
@@ -88,13 +89,9 @@ local function createPlatform()
     platform.Position = Vector3.new(18000, -130, -3700)
     platform.Anchored = true -- Stops it from falling
     platform.CanCollide = true -- Enables collision so players can stand on it
-    platform.BrickColor = BrickColor.new("Bright blue") -- Color
-    platform.Material = Enum.Material.SmoothPlastic -- Makes it look better
-
-    -- Add rounded edges to the platform
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 10) -- Smooth edges
-    corner.Parent = platform
+    platform.Transparency = 0.6 -- Makes the platform slightly see-through
+    platform.Material = Enum.Material.Studs -- Changes material to studs
+    platform.BrickColor = BrickColor.new("White") -- Color
 
     platform.Parent = game.Workspace
 end
