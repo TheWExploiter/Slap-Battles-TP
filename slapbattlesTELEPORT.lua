@@ -1,3 +1,4 @@
+-- Made By ImCatTrust (potato)
 local player = game.Players.LocalPlayer
 local screenGui = Instance.new("ScreenGui")
 screenGui.ResetOnSpawn = false
@@ -80,7 +81,7 @@ addUICorner(tpButton1, 10)
 antiVoid.MouseButton1Click:Connect(function()
     local voidGuard = Instance.new("Part")
     voidGuard.Size = Vector3.new(1000000, 2, 1000000)
-    voidGuard.Position = Vector3.new(-6, 4, 0)  -- 15 studs lower than before
+    voidGuard.Position = Vector3.new(-82, -8, 87)
     voidGuard.Anchored = true
     voidGuard.CanCollide = true  -- Enable collision
     voidGuard.Transparency = 0.7  -- Set transparency to 0.7
