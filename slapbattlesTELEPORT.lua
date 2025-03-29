@@ -1,4 +1,3 @@
--- Made By Cat
 local player = game.Players.LocalPlayer
 local screenGui = Instance.new("ScreenGui")
 screenGui.ResetOnSpawn = false
@@ -10,7 +9,6 @@ local function addUICorner(uiElement, radius)
     corner.Parent = uiElement
 end
 
--- GUI Button to open the menu
 local toggleButton = Instance.new("TextButton")
 toggleButton.Parent = screenGui
 toggleButton.Size = UDim2.new(0, 150, 0, 60)
@@ -21,35 +19,31 @@ toggleButton.Text = "Open Menu"
 toggleButton.TextScaled = true
 addUICorner(toggleButton, 10)
 
--- Main Frame for the menu
 local mainFrame = Instance.new("Frame")
 mainFrame.Parent = screenGui
-mainFrame.Size = UDim2.new(0, 350, 0, 500)  -- Increased the height of the frame
-mainFrame.Position = UDim2.new(0.5, -175, 0.5, -250)  -- Center the GUI
+mainFrame.Size = UDim2.new(0, 350, 0, 500)
+mainFrame.Position = UDim2.new(0.5, -175, 0.4, -10)
 mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 mainFrame.Visible = false
 addUICorner(mainFrame, 15)
 
--- Scrollable Frame inside the main frame
 local scrollFrame = Instance.new("ScrollingFrame")
 scrollFrame.Parent = mainFrame
 scrollFrame.Size = UDim2.new(1, 0, 1, 0)
-scrollFrame.CanvasSize = UDim2.new(0, 0, 4, 0)  -- Increased canvas size for longer scrolling
+scrollFrame.CanvasSize = UDim2.new(0, 0, 3, 0)
 scrollFrame.ScrollBarThickness = 10
 scrollFrame.BackgroundTransparency = 1
 
--- Section Title
 local sectionTitle = Instance.new("TextLabel")
 sectionTitle.Parent = scrollFrame
 sectionTitle.Size = UDim2.new(1, 0, 0, 40)
 sectionTitle.BackgroundTransparency = 1
-sectionTitle.Text = "Teleport GUI Made by Cat"
+sectionTitle.Text = "Player Enhancements"
 sectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
 sectionTitle.TextSize = 20
 sectionTitle.Font = Enum.Font.SourceSansBold
 sectionTitle.TextScaled = true
 
--- Close Button for the menu
 local closeButton = Instance.new("TextButton")
 closeButton.Parent = mainFrame
 closeButton.Size = UDim2.new(0, 30, 0, 30)
@@ -60,11 +54,25 @@ closeButton.Text = "X"
 closeButton.TextScaled = true
 addUICorner(closeButton, 10)
 
--- Teleport Buttons (Placed closer together)
+local antiVoid = Instance.new("TextButton")
+antiVoid.Parent = scrollFrame
+antiVoid.Size = UDim2.new(0, 300, 0, 40)
+antiVoid.Position = UDim2.new(0.5, -150, 0.2, -10)
+antiVoid.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
+antiVoid.TextColor3 = Color3.fromRGB(255, 255, 255)
+antiVoid.Text = "Activate Anti-Void"
+antiVoid.TextScaled = true
+addUICorner(antiVoid, 10)
+
+local teleportTitle = sectionTitle:Clone()
+teleportTitle.Parent = scrollFrame
+teleportTitle.Position = UDim2.new(0, 0, 0.5, -10)
+teleportTitle.Text = "Teleports"
+
 local tpButton1 = Instance.new("TextButton")
 tpButton1.Parent = scrollFrame
 tpButton1.Size = UDim2.new(0, 300, 0, 40)
-tpButton1.Position = UDim2.new(0.5, -150, 0.2, 0)
+tpButton1.Position = UDim2.new(0.5, -150, 0.6, -10)
 tpButton1.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
 tpButton1.TextColor3 = Color3.fromRGB(255, 255, 255)
 tpButton1.Text = "Teleport: Guide Place"
@@ -73,73 +81,52 @@ addUICorner(tpButton1, 10)
 
 local tpButton2 = tpButton1:Clone()
 tpButton2.Parent = scrollFrame
-tpButton2.Position = UDim2.new(0.5, -150, 0.3, 0)
+tpButton2.Position = UDim2.new(0.5, -150, 0.75, -10)
 tpButton2.Text = "Teleport: Guide Place (Outside)"
 
 local tpButton3 = Instance.new("TextButton")
 tpButton3.Parent = scrollFrame
 tpButton3.Size = UDim2.new(0, 300, 0, 40)
-tpButton3.Position = UDim2.new(0.5, -150, 0.4, 0)
+tpButton3.Position = UDim2.new(0.5, -150, 0.85, -10)
 tpButton3.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
 tpButton3.TextColor3 = Color3.fromRGB(255, 255, 255)
 tpButton3.Text = "Teleport: Starter Island"
 tpButton3.TextScaled = true
 addUICorner(tpButton3, 10)
 
--- Anti-Void Button
-local antiVoid = Instance.new("TextButton")
-antiVoid.Parent = scrollFrame
-antiVoid.Size = UDim2.new(0, 300, 0, 40)
-antiVoid.Position = UDim2.new(0.5, -150, 0.5, 0)
-antiVoid.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
-antiVoid.TextColor3 = Color3.fromRGB(255, 255, 255)
-antiVoid.Text = "Activate Anti-Void"
-antiVoid.TextScaled = true
-addUICorner(antiVoid, 10)
-
--- Anti-Ban Button
-local antiBan = Instance.new("TextButton")
-antiBan.Parent = scrollFrame
-antiBan.Size = UDim2.new(0, 300, 0, 40)
-antiBan.Position = UDim2.new(0.5, -150, 0.6, 0)
-antiBan.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-antiBan.TextColor3 = Color3.fromRGB(255, 255, 255)
-antiBan.Text = "Activate Anti-Ban"
-antiBan.TextScaled = true
-addUICorner(antiBan, 10)
-
--- Speed Input Box
-local speedLabel = Instance.new("TextLabel")
-speedLabel.Parent = scrollFrame
-speedLabel.Size = UDim2.new(0, 300, 0, 40)
-speedLabel.Position = UDim2.new(0.5, -150, 0.7, 0)
-speedLabel.BackgroundTransparency = 1
-speedLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-speedLabel.Text = "Enter Speed (Value)"
-speedLabel.TextScaled = true
-speedLabel.Font = Enum.Font.SourceSans
-
+-- Speed Control
 local speedBox = Instance.new("TextBox")
 speedBox.Parent = scrollFrame
 speedBox.Size = UDim2.new(0, 300, 0, 40)
-speedBox.Position = UDim2.new(0.5, -150, 0.8, 0)
-speedBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-speedBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-speedBox.Text = "50"  -- Default speed
+speedBox.Position = UDim2.new(0.5, -150, 0.9, -10)
+speedBox.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+speedBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+speedBox.Text = "Speed"
 speedBox.TextScaled = true
 addUICorner(speedBox, 10)
 
--- Toggle the visibility of the main menu
-toggleButton.MouseButton1Click:Connect(function()
-    mainFrame.Visible = not mainFrame.Visible
+local slapAuraToggle = Instance.new("TextButton")
+slapAuraToggle.Parent = scrollFrame
+slapAuraToggle.Size = UDim2.new(0, 300, 0, 40)
+slapAuraToggle.Position = UDim2.new(0.5, -150, 0.95, -10)
+slapAuraToggle.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+slapAuraToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
+slapAuraToggle.Text = "Toggle Slap Aura"
+slapAuraToggle.TextScaled = true
+addUICorner(slapAuraToggle, 10)
+
+-- Anti Void Function
+antiVoid.MouseButton1Click:Connect(function()
+    local voidGuard = Instance.new("Part")
+    voidGuard.Size = Vector3.new(1000000, 0.8, 1000000)
+    voidGuard.Position = Vector3.new(-82, -12, 87)
+    voidGuard.Anchored = true
+    voidGuard.CanCollide = true
+    voidGuard.Transparency = 0.8
+    voidGuard.Parent = game.Workspace
 end)
 
--- Close the menu
-closeButton.MouseButton1Click:Connect(function()
-    mainFrame.Visible = false
-end)
-
--- Teleport Functions
+-- Teleports
 tpButton1.MouseButton1Click:Connect(function()
     if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
         player.Character.HumanoidRootPart.CFrame = CFrame.new(17892, -130, -3539)
@@ -154,55 +141,47 @@ end)
 
 tpButton3.MouseButton1Click:Connect(function()
     if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        player.Character.HumanoidRootPart.CFrame = CFrame.new(-0, -4, -0)
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(-0, -4, 0)
     end
 end)
 
--- Anti-Void Functionality
-antiVoid.MouseButton1Click:Connect(function()
-    -- Remove any existing void parts to prevent duplicates
-    for _, part in pairs(game.Workspace:GetChildren()) do
-        if part.Name == "VoidGuard" then
-            part:Destroy()
-        end
-    end
-
-    -- Create the Anti-Void part with collision enabled
-    local voidGuard = Instance.new("Part")
-    voidGuard.Name = "VoidGuard"  -- Set a name to identify the part
-    voidGuard.Size = Vector3.new(1000000, 0.8, 1000000)  -- Size of the void guard
-    voidGuard.Position = Vector3.new(-82, -12, 87)  -- Correct position
-    voidGuard.Anchored = true  -- Keep the part anchored
-    voidGuard.CanCollide = true  -- Enable collision
-    voidGuard.Transparency = 0.8  -- Make it 80% transparent
-    voidGuard.BrickColor = BrickColor.new("Institutional white")  -- Make the part white for visibility
-    voidGuard.Parent = game.Workspace  -- Place it in the workspace
-end)
-
--- Anti-Ban Functionality (Remove Ban RemoteEvent)
-antiBan.MouseButton1Click:Connect(function()
-    -- Remove or disable the "Ban" remote event
-    local remoteEvent = game.ReplicatedStorage:FindFirstChild("Ban")
-    if remoteEvent then
-        remoteEvent:Destroy()  -- Removes the Ban remote event from ReplicatedStorage
-    end
-end)
-
--- Speed Functionality
+-- Speed Control
 speedBox.FocusLost:Connect(function()
     local speedValue = tonumber(speedBox.Text)
     if speedValue then
-        -- Change the player's walk speed
         player.Character.Humanoid.WalkSpeed = speedValue
     else
-        -- If invalid, reset speed to default
-        player.Character.Humanoid.WalkSpeed = 16
+        player.Character.Humanoid.WalkSpeed = 50 -- Default speed
     end
 end)
 
--- Persist Speed After Death
-player.CharacterAdded:Connect(function(character)
-    character:WaitForChild("Humanoid")
-    character.Humanoid.WalkSpeed = tonumber(speedBox.Text) or 50  -- Set speed to saved value
+-- Slap Aura (Hitbox Extender and Auto Slap)
+local slapAuraEnabled = false
+slapAuraToggle.MouseButton1Click:Connect(function()
+    slapAuraEnabled = not slapAuraEnabled
+    slapAuraToggle.BackgroundColor3 = slapAuraEnabled and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(0, 255, 0)
 end)
-print("Working!")
+
+-- Handle Slap Aura logic (if enabled)
+game:GetService("RunService").Heartbeat:Connect(function()
+    if slapAuraEnabled and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        for _, otherPlayer in pairs(game.Players:GetPlayers()) do
+            if otherPlayer ~= player and otherPlayer.Character and otherPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                local distance = (player.Character.HumanoidRootPart.Position - otherPlayer.Character.HumanoidRootPart.Position).Magnitude
+                if distance < 20 then -- Slap distance
+                    -- Apply slap damage or effects here
+                end
+            end
+        end
+    end
+end)
+
+-- Toggle GUI Visibility
+toggleButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = not mainFrame.Visible
+end)
+
+-- Close Button
+closeButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = false
+end)
