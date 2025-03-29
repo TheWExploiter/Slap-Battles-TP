@@ -112,6 +112,12 @@ antiVoid.MouseButton1Click:Connect(function()
 end)
 
 -- Teleport Functionality
+tpButton1.MouseButton1Click:Connect(function()
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(-0, -4, 0)  -- Starter Island Coordinates
+    end
+end)
+
 tpButton2.MouseButton1Click:Connect(function()
     if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
         player.Character.HumanoidRootPart.CFrame = CFrame.new(17934, -130, -3600)
