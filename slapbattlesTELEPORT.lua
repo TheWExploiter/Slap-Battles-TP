@@ -1,4 +1,5 @@
--- Made By ImCatTrust (potato)
+-- Made By KingSameAlotNOTFAKE
+
 local player = game.Players.LocalPlayer
 local screenGui = Instance.new("ScreenGui")
 screenGui.ResetOnSpawn = false
@@ -10,6 +11,7 @@ local function addUICorner(uiElement, radius)
     corner.Parent = uiElement
 end
 
+-- GUI Container
 local toggleButton = Instance.new("TextButton")
 toggleButton.Parent = screenGui
 toggleButton.Size = UDim2.new(0, 150, 0, 50)
@@ -23,7 +25,7 @@ addUICorner(toggleButton, 10)
 local mainFrame = Instance.new("Frame")
 mainFrame.Parent = screenGui
 mainFrame.Size = UDim2.new(0, 400, 0, 500)
-mainFrame.Position = UDim2.new(0.5, -200, 0.3, -10)
+mainFrame.Position = UDim2.new(0.5, -200, 0.2, -10)  -- Moved up to avoid clipping with the floor
 mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 mainFrame.Visible = false
 addUICorner(mainFrame, 15)
@@ -35,6 +37,7 @@ scrollFrame.CanvasSize = UDim2.new(0, 0, 3, 0)
 scrollFrame.ScrollBarThickness = 10
 scrollFrame.BackgroundTransparency = 1
 
+-- Section Title (Removed multiple sections as per the request)
 local sectionTitle = Instance.new("TextLabel")
 sectionTitle.Parent = scrollFrame
 sectionTitle.Size = UDim2.new(1, 0, 0, 40)
@@ -55,7 +58,7 @@ closeButton.Text = "X"
 closeButton.TextScaled = true
 addUICorner(closeButton, 10)
 
--- Anti-Void button (with collision and 0.7 transparency)
+-- Anti-Void Button
 local antiVoid = Instance.new("TextButton")
 antiVoid.Parent = scrollFrame
 antiVoid.Size = UDim2.new(0, 350, 0, 40)
@@ -66,32 +69,58 @@ antiVoid.Text = "Activate Anti-Void"
 antiVoid.TextScaled = true
 addUICorner(antiVoid, 10)
 
--- Teleport to Guide Place (Outside)
+-- Teleports
 local tpButton1 = Instance.new("TextButton")
 tpButton1.Parent = scrollFrame
 tpButton1.Size = UDim2.new(0, 350, 0, 40)
 tpButton1.Position = UDim2.new(0.5, -175, 0.4, -10)
 tpButton1.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
 tpButton1.TextColor3 = Color3.fromRGB(255, 255, 255)
-tpButton1.Text = "Teleport: Guide Place (Outside)"
+tpButton1.Text = "Teleport: Starter Island"
 tpButton1.TextScaled = true
 addUICorner(tpButton1, 10)
 
--- Anti-Void function (with collision and 0.7 transparency)
+local tpButton2 = Instance.new("TextButton")
+tpButton2.Parent = scrollFrame
+tpButton2.Size = UDim2.new(0, 350, 0, 40)
+tpButton2.Position = UDim2.new(0.5, -175, 0.5, -10)
+tpButton2.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
+tpButton2.TextColor3 = Color3.fromRGB(255, 255, 255)
+tpButton2.Text = "Teleport: Guide Place (Outside)"
+tpButton2.TextScaled = true
+addUICorner(tpButton2, 10)
+
+local tpButton3 = Instance.new("TextButton")
+tpButton3.Parent = scrollFrame
+tpButton3.Size = UDim2.new(0, 350, 0, 40)
+tpButton3.Position = UDim2.new(0.5, -175, 0.6, -10)
+tpButton3.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
+tpButton3.TextColor3 = Color3.fromRGB(255, 255, 255)
+tpButton3.Text = "Teleport: Guide Place (Inside)"
+tpButton3.TextScaled = true
+addUICorner(tpButton3, 10)
+
+-- Anti-Void Function
 antiVoid.MouseButton1Click:Connect(function()
     local voidGuard = Instance.new("Part")
     voidGuard.Size = Vector3.new(1000000, 2, 1000000)
     voidGuard.Position = Vector3.new(-82, -8, 87)
     voidGuard.Anchored = true
-    voidGuard.CanCollide = true  -- Enable collision
-    voidGuard.Transparency = 0.7  -- Set transparency to 0.7
+    voidGuard.CanCollide = true
+    voidGuard.Transparency = 0.7
     voidGuard.Parent = game.Workspace
 end)
 
--- Teleport to Guide Place (Outside)
-tpButton1.MouseButton1Click:Connect(function()
+-- Teleport Functionality
+tpButton2.MouseButton1Click:Connect(function()
     if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
         player.Character.HumanoidRootPart.CFrame = CFrame.new(17934, -130, -3600)
+    end
+end)
+
+tpButton3.MouseButton1Click:Connect(function()
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(17892, -130, -3539)
     end
 end)
 
@@ -105,7 +134,18 @@ closeButton.MouseButton1Click:Connect(function()
     mainFrame.Visible = false
 end)
 
--- Drag to move the GUI
+-- Add the small draggable gray ball
+local dragBall = Instance.new("Part")
+dragBall.Parent = screenGui
+dragBall.Size = Vector3.new(1, 1, 1)
+dragBall.Position = Vector3.new(0, 10, 0)
+dragBall.Shape = Enum.PartType.Ball
+dragBall.Color = Color3.fromRGB(169, 169, 169)  -- Gray color
+dragBall.Anchored = false
+dragBall.CanCollide = false
+dragBall.Name = "DragBall"
+dragBall.Parent = screenGui
+
 local dragging = false
 local dragInput
 local dragStart
@@ -116,7 +156,7 @@ local function update(input)
     mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
 end
 
-toggleButton.InputBegan:Connect(function(input)
+dragBall.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
         dragging = true
         dragStart = input.Position
@@ -130,7 +170,7 @@ toggleButton.InputBegan:Connect(function(input)
     end
 end)
 
-toggleButton.InputEnded:Connect(function(input)
+dragBall.InputEnded:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
         dragging = false
     end
