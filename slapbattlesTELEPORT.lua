@@ -21,8 +21,8 @@ addUICorner(toggleButton, 10)
 
 local mainFrame = Instance.new("Frame")
 mainFrame.Parent = screenGui
-mainFrame.Size = UDim2.new(0, 350, 0, 500)
-mainFrame.Position = UDim2.new(0.5, -175, 0.4, -10)
+mainFrame.Size = UDim2.new(0, 350, 0, 600)
+mainFrame.Position = UDim2.new(0.5, -175, 0.5, -300)
 mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 mainFrame.Visible = false
 addUICorner(mainFrame, 15)
@@ -30,19 +30,38 @@ addUICorner(mainFrame, 15)
 local scrollFrame = Instance.new("ScrollingFrame")
 scrollFrame.Parent = mainFrame
 scrollFrame.Size = UDim2.new(1, 0, 1, 0)
-scrollFrame.CanvasSize = UDim2.new(0, 0, 3, 0)
+scrollFrame.CanvasSize = UDim2.new(0, 0, 5, 0)
 scrollFrame.ScrollBarThickness = 10
 scrollFrame.BackgroundTransparency = 1
 
-local sectionTitle = Instance.new("TextLabel")
-sectionTitle.Parent = scrollFrame
-sectionTitle.Size = UDim2.new(1, 0, 0, 40)
-sectionTitle.BackgroundTransparency = 1
-sectionTitle.Text = "Player Enhancements"
-sectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-sectionTitle.TextSize = 20
-sectionTitle.Font = Enum.Font.SourceSansBold
-sectionTitle.TextScaled = true
+-- Add background gradient to scrollFrame
+local gradient = Instance.new("UIGradient")
+gradient.Parent = scrollFrame
+gradient.Color = ColorSequence.new({ 
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(25, 25, 25)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(50, 50, 50))
+})
+gradient.Rotation = 45
+
+local sectionTitle1 = Instance.new("TextLabel")
+sectionTitle1.Parent = scrollFrame
+sectionTitle1.Size = UDim2.new(1, 0, 0, 40)
+sectionTitle1.BackgroundTransparency = 1
+sectionTitle1.Text = "Player Enhancements"
+sectionTitle1.TextColor3 = Color3.fromRGB(255, 255, 255)
+sectionTitle1.TextSize = 20
+sectionTitle1.Font = Enum.Font.SourceSansBold
+sectionTitle1.TextScaled = true
+
+local sectionTitle2 = sectionTitle1:Clone()
+sectionTitle2.Parent = scrollFrame
+sectionTitle2.Position = UDim2.new(0, 0, 0.3, 10)
+sectionTitle2.Text = "Teleportations"
+
+local sectionTitle3 = sectionTitle1:Clone()
+sectionTitle3.Parent = scrollFrame
+sectionTitle3.Position = UDim2.new(0, 0, 0.6, 10)
+sectionTitle3.Text = "Other Features"
 
 local closeButton = Instance.new("TextButton")
 closeButton.Parent = mainFrame
@@ -57,22 +76,17 @@ addUICorner(closeButton, 10)
 local antiVoid = Instance.new("TextButton")
 antiVoid.Parent = scrollFrame
 antiVoid.Size = UDim2.new(0, 300, 0, 40)
-antiVoid.Position = UDim2.new(0.5, -150, 0.2, -10)
+antiVoid.Position = UDim2.new(0.5, -150, 0.1, -10)
 antiVoid.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
 antiVoid.TextColor3 = Color3.fromRGB(255, 255, 255)
 antiVoid.Text = "Activate Anti-Void"
 antiVoid.TextScaled = true
 addUICorner(antiVoid, 10)
 
-local teleportTitle = sectionTitle:Clone()
-teleportTitle.Parent = scrollFrame
-teleportTitle.Position = UDim2.new(0, 0, 0.5, -10)
-teleportTitle.Text = "Teleports"
-
 local tpButton1 = Instance.new("TextButton")
 tpButton1.Parent = scrollFrame
 tpButton1.Size = UDim2.new(0, 300, 0, 40)
-tpButton1.Position = UDim2.new(0.5, -150, 0.6, -10)
+tpButton1.Position = UDim2.new(0.5, -150, 0.35, -10)
 tpButton1.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
 tpButton1.TextColor3 = Color3.fromRGB(255, 255, 255)
 tpButton1.Text = "Teleport: Guide Place"
@@ -81,24 +95,23 @@ addUICorner(tpButton1, 10)
 
 local tpButton2 = tpButton1:Clone()
 tpButton2.Parent = scrollFrame
-tpButton2.Position = UDim2.new(0.5, -150, 0.75, -10)
+tpButton2.Position = UDim2.new(0.5, -150, 0.45, -10)
 tpButton2.Text = "Teleport: Guide Place (Outside)"
 
 local tpButton3 = Instance.new("TextButton")
 tpButton3.Parent = scrollFrame
 tpButton3.Size = UDim2.new(0, 300, 0, 40)
-tpButton3.Position = UDim2.new(0.5, -150, 0.85, -10)
+tpButton3.Position = UDim2.new(0.5, -150, 0.55, -10)
 tpButton3.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
 tpButton3.TextColor3 = Color3.fromRGB(255, 255, 255)
 tpButton3.Text = "Teleport: Starter Island"
 tpButton3.TextScaled = true
 addUICorner(tpButton3, 10)
 
--- Speed Control
 local speedBox = Instance.new("TextBox")
 speedBox.Parent = scrollFrame
 speedBox.Size = UDim2.new(0, 300, 0, 40)
-speedBox.Position = UDim2.new(0.5, -150, 0.9, -10)
+speedBox.Position = UDim2.new(0.5, -150, 0.65, -10)
 speedBox.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
 speedBox.TextColor3 = Color3.fromRGB(0, 0, 0)
 speedBox.Text = "Speed"
@@ -108,7 +121,7 @@ addUICorner(speedBox, 10)
 local slapAuraToggle = Instance.new("TextButton")
 slapAuraToggle.Parent = scrollFrame
 slapAuraToggle.Size = UDim2.new(0, 300, 0, 40)
-slapAuraToggle.Position = UDim2.new(0.5, -150, 0.95, -10)
+slapAuraToggle.Position = UDim2.new(0.5, -150, 0.75, -10)
 slapAuraToggle.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 slapAuraToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
 slapAuraToggle.Text = "Toggle Slap Aura"
