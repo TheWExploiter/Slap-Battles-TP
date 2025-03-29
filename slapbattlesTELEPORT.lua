@@ -21,21 +21,11 @@ addUICorner(toggleButton, 10)
 
 local mainFrame = Instance.new("Frame")
 mainFrame.Parent = screenGui
-mainFrame.Size = UDim2.new(0, 350, 0, 450)
+mainFrame.Size = UDim2.new(0, 350, 0, 400)
 mainFrame.Position = UDim2.new(0.5, -175, 0.3, -10)
 mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 mainFrame.Visible = false
 addUICorner(mainFrame, 15)
-
-local titleLabel = Instance.new("TextLabel")
-titleLabel.Parent = mainFrame
-titleLabel.Size = UDim2.new(1, 0, 0, 40)
-titleLabel.BackgroundTransparency = 1
-titleLabel.Text = "Teleport Gui Made by Cat"
-titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-titleLabel.TextSize = 18
-titleLabel.Font = Enum.Font.SourceSansBold
-titleLabel.TextScaled = true
 
 local scrollFrame = Instance.new("ScrollingFrame")
 scrollFrame.Parent = mainFrame
@@ -48,7 +38,7 @@ local sectionTitle = Instance.new("TextLabel")
 sectionTitle.Parent = scrollFrame
 sectionTitle.Size = UDim2.new(1, 0, 0, 40)
 sectionTitle.BackgroundTransparency = 1
-sectionTitle.Text = "Teleports"
+sectionTitle.Text = "Teleport GUI Made by Cat"
 sectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
 sectionTitle.TextSize = 20
 sectionTitle.Font = Enum.Font.SourceSansBold
@@ -64,92 +54,49 @@ closeButton.Text = "X"
 closeButton.TextScaled = true
 addUICorner(closeButton, 10)
 
-local tpButton1 = Instance.new("TextButton")
-tpButton1.Parent = scrollFrame
-tpButton1.Size = UDim2.new(0, 300, 0, 40)
-tpButton1.Position = UDim2.new(0.5, -150, 0.2, -10)
-tpButton1.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
-tpButton1.TextColor3 = Color3.fromRGB(255, 255, 255)
-tpButton1.Text = "Teleport: Guide Place (Inside)"
-tpButton1.TextScaled = true
-addUICorner(tpButton1, 10)
-
-local tpButton2 = Instance.new("TextButton")
-tpButton2.Parent = scrollFrame
-tpButton2.Size = UDim2.new(0, 300, 0, 40)
-tpButton2.Position = UDim2.new(0.5, -150, 0.3, -10)
-tpButton2.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
-tpButton2.TextColor3 = Color3.fromRGB(255, 255, 255)
-tpButton2.Text = "Teleport: Guide Place (Outside)"
-tpButton2.TextScaled = true
-addUICorner(tpButton2, 10)
-
-local tpButton3 = Instance.new("TextButton")
-tpButton3.Parent = scrollFrame
-tpButton3.Size = UDim2.new(0, 300, 0, 40)
-tpButton3.Position = UDim2.new(0.5, -150, 0.4, -10)
-tpButton3.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
-tpButton3.TextColor3 = Color3.fromRGB(255, 255, 255)
-tpButton3.Text = "Teleport: Starter Island"
-tpButton3.TextScaled = true
-addUICorner(tpButton3, 10)
-
-local tpButton4 = Instance.new("TextButton")
-tpButton4.Parent = scrollFrame
-tpButton4.Size = UDim2.new(0, 300, 0, 40)
-tpButton4.Position = UDim2.new(0.5, -150, 0.5, -10)
-tpButton4.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
-tpButton4.TextColor3 = Color3.fromRGB(255, 255, 255)
-tpButton4.Text = "Teleport: Platform"
-tpButton4.TextScaled = true
-addUICorner(tpButton4, 10)
-
 local antiVoid = Instance.new("TextButton")
 antiVoid.Parent = scrollFrame
 antiVoid.Size = UDim2.new(0, 300, 0, 40)
-antiVoid.Position = UDim2.new(0.5, -150, 0.6, -10)
+antiVoid.Position = UDim2.new(0.5, -150, 0.2, -10)
 antiVoid.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
 antiVoid.TextColor3 = Color3.fromRGB(255, 255, 255)
 antiVoid.Text = "Activate Anti-Void"
 antiVoid.TextScaled = true
 addUICorner(antiVoid, 10)
 
-local speedInput = Instance.new("TextBox")
-speedInput.Parent = scrollFrame
-speedInput.Size = UDim2.new(0, 300, 0, 40)
-speedInput.Position = UDim2.new(0.5, -150, 0.7, -10)
-speedInput.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
-speedInput.TextColor3 = Color3.fromRGB(0, 0, 0)
-speedInput.PlaceholderText = "Enter Speed"
-speedInput.TextScaled = true
-addUICorner(speedInput, 10)
+local tpButton1 = Instance.new("TextButton")
+tpButton1.Parent = scrollFrame
+tpButton1.Size = UDim2.new(0, 300, 0, 40)
+tpButton1.Position = UDim2.new(0.5, -150, 0.6, -10)
+tpButton1.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
+tpButton1.TextColor3 = Color3.fromRGB(255, 255, 255)
+tpButton1.Text = "Teleport: Guide Place"
+tpButton1.TextScaled = true
+addUICorner(tpButton1, 10)
 
-local applySpeedButton = Instance.new("TextButton")
-applySpeedButton.Parent = scrollFrame
-applySpeedButton.Size = UDim2.new(0, 300, 0, 40)
-applySpeedButton.Position = UDim2.new(0.5, -150, 0.8, -10)
-applySpeedButton.BackgroundColor3 = Color3.fromRGB(100, 200, 100)
-applySpeedButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-applySpeedButton.Text = "Apply Speed"
-applySpeedButton.TextScaled = true
-addUICorner(applySpeedButton, 10)
+local tpButton2 = tpButton1:Clone()
+tpButton2.Parent = scrollFrame
+tpButton2.Position = UDim2.new(0.5, -150, 0.75, -10)
+tpButton2.Text = "Teleport: Guide Place (Outside)"
 
--- Toggle Button Functionality
+local tpButton3 = Instance.new("TextButton")
+tpButton3.Parent = scrollFrame
+tpButton3.Size = UDim2.new(0, 300, 0, 40)
+tpButton3.Position = UDim2.new(0.5, -150, 0.85, -10)
+tpButton3.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
+tpButton3.TextColor3 = Color3.fromRGB(255, 255, 255)
+tpButton3.Text = "Teleport: Starter Island"
+tpButton3.TextScaled = true
+addUICorner(tpButton3, 10)
+
 toggleButton.MouseButton1Click:Connect(function()
     mainFrame.Visible = not mainFrame.Visible
-    if mainFrame.Visible then
-        mainFrame:TweenSize(UDim2.new(0, 350, 0, 450), "Out", "Quad", 0.5, true)
-    else
-        mainFrame:TweenSize(UDim2.new(0, 0, 0, 0), "In", "Quad", 0.5, true)
-    end
 end)
 
--- Close Button Functionality
 closeButton.MouseButton1Click:Connect(function()
     mainFrame.Visible = false
 end)
 
--- Teleport Functions
 tpButton1.MouseButton1Click:Connect(function()
     if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
         player.Character.HumanoidRootPart.CFrame = CFrame.new(17892, -130, -3539)
@@ -164,64 +111,45 @@ end)
 
 tpButton3.MouseButton1Click:Connect(function()
     if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        player.Character.HumanoidRootPart.CFrame = CFrame.new(-6, -5, 0)
-    end
-end)
-
-tpButton4.MouseButton1Click:Connect(function()
-    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        player.Character.HumanoidRootPart.CFrame = CFrame.new(18000, -130, -3700)
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(-0, -4, -0)
     end
 end)
 
 -- Anti-Void Functionality
 antiVoid.MouseButton1Click:Connect(function()
+    -- Remove any existing void parts to prevent duplicates
+    for _, part in pairs(game.Workspace:GetChildren()) do
+        if part.Name == "VoidGuard" then
+            part:Destroy()
+        end
+    end
+
+    -- Create the Anti-Void part
     local voidGuard = Instance.new("Part")
-    voidGuard.Size = Vector3.new(1000000, 15, 1000000)
-    voidGuard.Position = Vector3.new(-82, -8, 87)
-    voidGuard.Anchored = true
-    voidGuard.CanCollide = false
-    voidGuard.Parent = game.Workspace
+    voidGuard.Name = "VoidGuard"  -- Set a name to identify the part
+    voidGuard.Size = Vector3.new(1000000, 15, 1000000)  -- Size of the void guard
+    voidGuard.Position = Vector3.new(-82, -8, 87)  -- Correct position
+    voidGuard.Anchored = true  -- Keep the part anchored
+    voidGuard.CanCollide = false  -- No collision with other parts
+    voidGuard.Transparency = 0.8  -- Make it 80% transparent
+    voidGuard.BrickColor = BrickColor.new("Institutional white")  -- Make the part white for visibility
+    voidGuard.Parent = game.Workspace  -- Place it in the workspace
 end)
 
--- Speed Adjustment Functionality
-applySpeedButton.MouseButton1Click:Connect(function()
-    local speed = tonumber(speedInput.Text)
-    if speed and speed > 0 then
-        player.Character.Humanoid.WalkSpeed = speed
-    else
-        print("Invalid speed input. Please enter a positive number.")
+-- Speed Feature (Client-side)
+local speedTextBox = Instance.new("TextBox")
+speedTextBox.Parent = scrollFrame
+speedTextBox.Size = UDim2.new(0, 300, 0, 40)
+speedTextBox.Position = UDim2.new(0.5, -150, 0.95, -10)
+speedTextBox.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
+speedTextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+speedTextBox.Text = "Speed (Default 16)"
+speedTextBox.TextScaled = true
+addUICorner(speedTextBox, 10)
+
+speedTextBox.FocusLost:Connect(function()
+    local speedValue = tonumber(speedTextBox.Text)
+    if speedValue then
+        player.Character.Humanoid.WalkSpeed = speedValue
     end
 end)
-
--- Button Hover Effect
-local function onHoverIn(button)
-    button:TweenSize(UDim2.new(0, button.Size.X.Offset - 5, 0, button.Size.Y.Offset - 5), "Out", "Quad", 0.2, true)
-    button.BackgroundColor3 = button.BackgroundColor3:lerp(Color3.fromRGB(50, 50, 50), 0.5)
-end
-
-local function onHoverOut(button)
-    button:TweenSize(UDim2.new(0, button.Size.X.Offset + 5, 0, button.Size.Y.Offset + 5), "Out", "Quad", 0.2, true)
-    button.BackgroundColor3 = button.BackgroundColor3:lerp(Color3.fromRGB(70, 130, 180), 0.5)
-end
-
-tpButton1.MouseEnter:Connect(function() onHoverIn(tpButton1) end)
-tpButton1.MouseLeave:Connect(function() onHoverOut(tpButton1) end)
-
-tpButton2.MouseEnter:Connect(function() onHoverIn(tpButton2) end)
-tpButton2.MouseLeave:Connect(function() onHoverOut(tpButton2) end)
-
-tpButton3.MouseEnter:Connect(function() onHoverIn(tpButton3) end)
-tpButton3.MouseLeave:Connect(function() onHoverOut(tpButton3) end)
-
-tpButton4.MouseEnter:Connect(function() onHoverIn(tpButton4) end)
-tpButton4.MouseLeave:Connect(function() onHoverOut(tpButton4) end)
-
-antiVoid.MouseEnter:Connect(function() onHoverIn(antiVoid) end)
-antiVoid.MouseLeave:Connect(function() onHoverOut(antiVoid) end)
-
-applySpeedButton.MouseEnter:Connect(function() onHoverIn(applySpeedButton) end)
-applySpeedButton.MouseLeave:Connect(function() onHoverOut(applySpeedButton) end)
-
-closeButton.MouseEnter:Connect(function() onHoverIn(closeButton) end)
-closeButton.MouseLeave:Connect(function() onHoverOut(closeButton) end)
