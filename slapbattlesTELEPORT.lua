@@ -22,14 +22,14 @@ addUICorner(toggleButton, 10)
 local mainFrame = Instance.new("Frame")
 mainFrame.Parent = screenGui
 mainFrame.Size = UDim2.new(0, 350, 0, 600)
-mainFrame.Position = UDim2.new(0.5, -175, 0.5, -300)
+mainFrame.Position = UDim2.new(0.5, -175, 0.5, -175)
 mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 mainFrame.Visible = false
 addUICorner(mainFrame, 15)
 
 local scrollFrame = Instance.new("ScrollingFrame")
 scrollFrame.Parent = mainFrame
-scrollFrame.Size = UDim2.new(1, 0, 1, 0)
+scrollFrame.Size = UDim2.new(1, 0, 2, 0)
 scrollFrame.CanvasSize = UDim2.new(0, 0, 5, 0)
 scrollFrame.ScrollBarThickness = 10
 scrollFrame.BackgroundTransparency = 1
@@ -47,7 +47,7 @@ local sectionTitle1 = Instance.new("TextLabel")
 sectionTitle1.Parent = scrollFrame
 sectionTitle1.Size = UDim2.new(1, 0, 0, 40)
 sectionTitle1.BackgroundTransparency = 1
-sectionTitle1.Text = "Player Enhancements"
+sectionTitle1.Text = "Cats TP Gui"
 sectionTitle1.TextColor3 = Color3.fromRGB(255, 255, 255)
 sectionTitle1.TextSize = 20
 sectionTitle1.Font = Enum.Font.SourceSansBold
