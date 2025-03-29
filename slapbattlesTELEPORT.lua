@@ -54,7 +54,7 @@ closeButton.Text = "X"
 closeButton.TextScaled = true
 addUICorner(closeButton, 10)
 
--- Anti-Void button
+-- Anti-Void button (with collision and 0.7 transparency)
 local antiVoid = Instance.new("TextButton")
 antiVoid.Parent = scrollFrame
 antiVoid.Size = UDim2.new(0, 350, 0, 40)
@@ -65,81 +65,30 @@ antiVoid.Text = "Activate Anti-Void"
 antiVoid.TextScaled = true
 addUICorner(antiVoid, 10)
 
--- Teleport buttons
+-- Teleport to Guide Place (Outside)
 local tpButton1 = Instance.new("TextButton")
 tpButton1.Parent = scrollFrame
 tpButton1.Size = UDim2.new(0, 350, 0, 40)
 tpButton1.Position = UDim2.new(0.5, -175, 0.4, -10)
 tpButton1.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
 tpButton1.TextColor3 = Color3.fromRGB(255, 255, 255)
-tpButton1.Text = "Teleport: Guide Place"
+tpButton1.Text = "Teleport: Guide Place (Outside)"
 tpButton1.TextScaled = true
 addUICorner(tpButton1, 10)
 
-local tpButton2 = tpButton1:Clone()
-tpButton2.Parent = scrollFrame
-tpButton2.Position = UDim2.new(0.5, -175, 0.55, -10)
-tpButton2.Text = "Teleport: Platform"
-
-local tpButton3 = Instance.new("TextButton")
-tpButton3.Parent = scrollFrame
-tpButton3.Size = UDim2.new(0, 350, 0, 40)
-tpButton3.Position = UDim2.new(0.5, -175, 0.7, -10)
-tpButton3.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
-tpButton3.TextColor3 = Color3.fromRGB(255, 255, 255)
-tpButton3.Text = "Teleport to Player (Full Username)"
-tpButton3.TextScaled = true
-addUICorner(tpButton3, 10)
-
--- Guide Place teleport button (Updated coordinates)
-local tpButton4 = Instance.new("TextButton")
-tpButton4.Parent = scrollFrame
-tpButton4.Size = UDim2.new(0, 350, 0, 40)
-tpButton4.Position = UDim2.new(0.5, -175, 0.85, -10)
-tpButton4.BackgroundColor3 = Color3.fromRGB(100, 150, 255)
-tpButton4.TextColor3 = Color3.fromRGB(255, 255, 255)
-tpButton4.Text = "Teleport: Guide Place (Outside)"
-tpButton4.TextScaled = true
-addUICorner(tpButton4, 10)
-
--- Anti-Void function (lowered by 15 studs)
+-- Anti-Void function (with collision and 0.7 transparency)
 antiVoid.MouseButton1Click:Connect(function()
     local voidGuard = Instance.new("Part")
     voidGuard.Size = Vector3.new(1000000, 2, 1000000)
-    voidGuard.Position = Vector3.new(-6, -1, 0)  -- 15 studs lower than before
+    voidGuard.Position = Vector3.new(-6, 4, 0)  -- 15 studs lower than before
     voidGuard.Anchored = true
-    voidGuard.CanCollide = false
+    voidGuard.CanCollide = true  -- Enable collision
+    voidGuard.Transparency = 0.7  -- Set transparency to 0.7
     voidGuard.Parent = game.Workspace
 end)
 
--- Teleport to Guide Place (Old Coordinates)
+-- Teleport to Guide Place (Outside)
 tpButton1.MouseButton1Click:Connect(function()
-    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        player.Character.HumanoidRootPart.CFrame = CFrame.new(17892, -130, -3539)
-    end
-end)
-
--- Teleport to Platform
-tpButton2.MouseButton1Click:Connect(function()
-    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        player.Character.HumanoidRootPart.CFrame = CFrame.new(18000, -130, -3700)
-    end
-end)
-
--- Teleport to the closest player (by full username)
-tpButton3.MouseButton1Click:Connect(function()
-    local username = player.Name  -- Replace this with the username you want to teleport to
-    local targetPlayer = game.Players:FindFirstChild(username)
-    
-    if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
-        player.Character.HumanoidRootPart.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame
-    else
-        warn("Player with username " .. username .. " not found or does not have a character.")
-    end
-end)
-
--- Teleport to Guide Place (Updated coordinates)
-tpButton4.MouseButton1Click:Connect(function()
     if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
         player.Character.HumanoidRootPart.CFrame = CFrame.new(17934, -130, -3600)
     end
