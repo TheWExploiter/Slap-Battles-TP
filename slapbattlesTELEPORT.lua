@@ -15,7 +15,7 @@ end
 local toggleButton = Instance.new("TextButton")
 toggleButton.Parent = screenGui
 toggleButton.Size = UDim2.new(0, 150, 0, 50)
-toggleButton.Position = UDim2.new(1, -130, 0.1, 10)
+toggleButton.Position = UDim2.new(1, -160, 0.1, 10)
 toggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 toggleButton.Text = "Open Menu"
@@ -24,7 +24,7 @@ addUICorner(toggleButton, 10)
 
 local mainFrame = Instance.new("Frame")
 mainFrame.Parent = screenGui
-mainFrame.Size = UDim2.new(0, 400, 0, 500)
+mainFrame.Size = UDim2.new(0, 400, 0, 650)
 mainFrame.Position = UDim2.new(0.5, -200, 0.2, -10)  -- Moved up to avoid clipping with the floor
 mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 mainFrame.Visible = false
@@ -181,3 +181,5 @@ dragBall.InputEnded:Connect(function(input)
         dragging = false
     end
 end)
+print("Credit To KingSameAlotNOTFAKE")
+end
