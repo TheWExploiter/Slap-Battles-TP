@@ -47,7 +47,7 @@ local sectionTitle1 = Instance.new("TextLabel")
 sectionTitle1.Parent = scrollFrame
 sectionTitle1.Size = UDim2.new(1, 0, 0, 40)
 sectionTitle1.BackgroundTransparency = 1
-sectionTitle1.Text = "Cats TP Gui"
+sectionTitle1.Text = "ImCatTrust's Gui"
 sectionTitle1.TextColor3 = Color3.fromRGB(255, 255, 255)
 sectionTitle1.TextSize = 20
 sectionTitle1.Font = Enum.Font.SourceSansBold
@@ -124,15 +124,15 @@ slapAuraToggle.Size = UDim2.new(0, 300, 0, 40)
 slapAuraToggle.Position = UDim2.new(0.5, -150, 0.75, -10)
 slapAuraToggle.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 slapAuraToggle.TextColor3 = Color3.fromRGB(255, 255, 255)
-slapAuraToggle.Text = "Toggle Slap Aura"
+slapAuraToggle.Text = "Toggle Slap Aura (Broken)"
 slapAuraToggle.TextScaled = true
 addUICorner(slapAuraToggle, 10)
 
 -- Anti Void Function
 antiVoid.MouseButton1Click:Connect(function()
     local voidGuard = Instance.new("Part")
-    voidGuard.Size = Vector3.new(1000000, 0.8, 1000000)
-    voidGuard.Position = Vector3.new(-82, -12, 87)
+    voidGuard.Size = Vector3.new(1000000, 2, 1000000)
+    voidGuard.Position = Vector3.new(-82, -13, 87)
     voidGuard.Anchored = true
     voidGuard.CanCollide = true
     voidGuard.Transparency = 0.8
