@@ -81,112 +81,72 @@ for i, tp in ipairs(teleports) do
     end)
 end
 
-local featuresFrame = Instance.new("Frame")
-featuresFrame.Parent = mainFrame
-featuresFrame.Name = "Features"
-featuresFrame.Size = UDim2.new(1, 0, 1, -40)
-featuresFrame.Position = UDim2.new(0, 0, 0, 40)
-featuresFrame.BackgroundTransparency = 1
-featuresFrame.Visible = false
-
-local antiVoid = Instance.new("TextButton")
-antiVoid.Parent = featuresFrame
-antiVoid.Size = UDim2.new(0, 300, 0, 40)
-antiVoid.Position = UDim2.new(0.5, -150, 0, 0)
-antiVoid.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
-antiVoid.TextColor3 = Color3.fromRGB(255, 255, 255)
-antiVoid.Text = "Activate Anti-Void"
-addUICorner(antiVoid, 10)
-
-antiVoid.MouseButton1Click:Connect(function()
-    local voidGuard = Instance.new("Part")
-    voidGuard.Size = Vector3.new(1000000, 2, 1000000)
-    voidGuard.Position = Vector3.new(-82, -12, 87)
-    voidGuard.Anchored = true
-    voidGuard.CanCollide = true
-    voidGuard.Transparency = 0.8
-    voidGuard.Parent = game.Workspace
-end)
-
-local speedBox = Instance.new("TextBox")
-speedBox.Parent = featuresFrame
-speedBox.Size = UDim2.new(0, 150, 0, 40)
-speedBox.Position = UDim2.new(0.5, -75, 0, 50)
-speedBox.Text = "Enter Speed"
-addUICorner(speedBox, 10)
-
-local function setSpeed(value)
-    if player.Character and player.Character:FindFirstChild("Humanoid") then
-        player.Character.Humanoid.WalkSpeed = value
+-- ESP Functionality
+local function createESP(player)
+    local espLabel = Instance.new("TextLabel")
+    espLabel.Parent = screenGui
+    espLabel.Size = UDim2.new(0, 200, 0, 50)
+    espLabel.BackgroundTransparency = 1
+    espLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    espLabel.TextSize = 18
+    espLabel.Text = player.Name
+    
+    -- Update position based on character
+    local function updateESP()
+        if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local humanoidRootPart = player.Character.HumanoidRootPart
+            espLabel.Position = UDim2.new(0, humanoidRootPart.Position.X, 0, humanoidRootPart.Position.Y + 50)
+        else
+            espLabel:Destroy()
+        end
     end
+
+    -- Update ESP for glove
+    local function getGlove()
+        if player.Backpack:FindFirstChildOfClass("Tool") then
+            return player.Backpack:FindFirstChildOfClass("Tool").Name
+        end
+        return "No Glove"
+    end
+    
+    -- Create label showing glove
+    local gloveLabel = Instance.new("TextLabel")
+    gloveLabel.Parent = espLabel
+    gloveLabel.Size = UDim2.new(1, 0, 0, 20)
+    gloveLabel.BackgroundTransparency = 1
+    gloveLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    gloveLabel.TextSize = 16
+    gloveLabel.Text = "Glove: " .. getGlove()
+
+    -- Update position every frame
+    game:GetService("RunService").Heartbeat:Connect(updateESP)
 end
 
-speedBox.FocusLost:Connect(function()
-    local newSpeed = tonumber(speedBox.Text)
-    if newSpeed then
-        setSpeed(newSpeed)
-        player:SetAttribute("SavedSpeed", newSpeed)
+-- Create ESP for all players
+game.Players.PlayerAdded:Connect(function(otherPlayer)
+    if otherPlayer ~= player then
+        createESP(otherPlayer)
     end
 end)
 
--- Add Jump Boost in the Settings Section
-local jumpBoostBox = Instance.new("TextBox")
-jumpBoostBox.Parent = featuresFrame
-jumpBoostBox.Size = UDim2.new(0, 150, 0, 40)
-jumpBoostBox.Position = UDim2.new(0.5, -75, 0, 100)
-jumpBoostBox.Text = "Enter Jump Power"
-addUICorner(jumpBoostBox, 10)
-
-local function setJumpPower(value)
-    if player.Character and player.Character:FindFirstChild("Humanoid") then
-        player.Character.Humanoid.JumpPower = value
-    end
-end
-
-jumpBoostBox.FocusLost:Connect(function()
-    local newJumpPower = tonumber(jumpBoostBox.Text)
-    if newJumpPower then
-        setJumpPower(newJumpPower)
-        player:SetAttribute("SavedJumpPower", newJumpPower)
+-- Create ESP for already existing players
+for _, otherPlayer in pairs(game.Players:GetPlayers()) do
+    if otherPlayer ~= player then
+        createESP(otherPlayer)
     end
 end)
 
-game.Players.PlayerAdded:Connect(function(p)
-    p.CharacterAdded:Connect(function(char)
-        if p == player then
-            local savedSpeed = player:GetAttribute("SavedSpeed")
-            local savedJumpPower = player:GetAttribute("SavedJumpPower")
-            if savedSpeed then
-                setSpeed(savedSpeed)
-            end
-            if savedJumpPower then
-                setJumpPower(savedJumpPower)
+game:GetService("RunService").Heartbeat:Connect(function()
+    for _, otherPlayer in pairs(game.Players:GetPlayers()) do
+        if otherPlayer ~= player and otherPlayer.Character then
+            -- Update the glove label
+            local espLabel = screenGui:FindFirstChild(otherPlayer.Name)
+            if espLabel then
+                local gloveLabel = espLabel:FindFirstChild("GloveLabel")
+                if gloveLabel then
+                    gloveLabel.Text = "Glove: " .. (otherPlayer.Backpack:FindFirstChildOfClass("Tool") and otherPlayer.Backpack:FindFirstChildOfClass("Tool").Name or "No Glove")
+                end
             end
         end
-    end)
-end)
-
--- Create the Button to toggle the GUI
-local toggleButton = Instance.new("TextButton")
-toggleButton.Parent = screenGui
-toggleButton.Size = UDim2.new(0, 100, 0, 50)
-toggleButton.Position = UDim2.new(0.95, -110, 0.5, -25)
-toggleButton.Text = "Open GUI"
-toggleButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-addUICorner(toggleButton, 10)
-
-toggleButton.MouseButton1Click:Connect(function()
-    mainFrame.Visible = not mainFrame.Visible
-end)
-
-game.Players.PlayerAdded:Connect(function(p)
-    p.CharacterAdded:Connect(function(char)
-        if p == player then
-            local savedSpeed = player:GetAttribute("SavedSpeed")
-            if savedSpeed then
-                setSpeed(savedSpeed)
-            end
-        end
-    end)
+    end
 end)
