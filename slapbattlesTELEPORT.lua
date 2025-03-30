@@ -11,8 +11,8 @@ end
 
 local mainFrame = Instance.new("Frame")
 mainFrame.Parent = screenGui
-mainFrame.Size = UDim2.new(0, 500, 0, 400) -- Wider GUI
-mainFrame.Position = UDim2.new(0.5, -250, 0.3, -10)
+mainFrame.Size = UDim2.new(0, 500, 0, 300) -- Wider GUI
+mainFrame.Position = UDim2.new(0.5, -250, 0, 0)
 mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 addUICorner(mainFrame, 15)
 
