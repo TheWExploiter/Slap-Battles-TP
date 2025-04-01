@@ -9,17 +9,19 @@ local function addUICorner(uiElement, radius)
     corner.Parent = uiElement
 end
 
+-- Create Main GUI Frame
 local mainFrame = Instance.new("Frame")
 mainFrame.Parent = screenGui
-mainFrame.Size = UDim2.new(0, 500, 0, 300) -- Wider GUI
+mainFrame.Size = UDim2.new(0, 500, 0, 300)
 mainFrame.Position = UDim2.new(0.5, -250, 0, 0)
 mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 addUICorner(mainFrame, 15)
 
-local sections = {"Teleports", "Features", "Settings"}
+local sections = {"Teleports", "Features"}
 local buttons = {}
 local activeSection = "Teleports"
 
+-- Section Buttons Frame
 local sectionFrame = Instance.new("Frame")
 sectionFrame.Parent = mainFrame
 sectionFrame.Size = UDim2.new(1, 0, 0, 40)
@@ -34,7 +36,6 @@ for i, section in ipairs(sections) do
     btn.TextColor3 = Color3.fromRGB(255, 255, 255)
     btn.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
     buttons[section] = btn
-    
     btn.MouseButton1Click:Connect(function()
         activeSection = section
         for _, child in pairs(mainFrame:GetChildren()) do
@@ -49,6 +50,7 @@ for i, section in ipairs(sections) do
     end)
 end
 
+-- Teleports Frame
 local teleportsFrame = Instance.new("Frame")
 teleportsFrame.Parent = mainFrame
 teleportsFrame.Name = "Teleports"
@@ -60,7 +62,7 @@ teleportsFrame.Visible = true
 local teleports = {
     {"Guide Place", Vector3.new(17892, -130, -3539)},
     {"Guide Place Outside", Vector3.new(17934, -130, -3600)},
-    {"Starter Island", Vector3.new(-0, -4, -0)},
+    {"Starter Island", Vector3.new(0, -4, 0)},
     {"Slapple Island", Vector3.new(-388, 51, -14)},
     {"Cannon Island", Vector3.new(266, 34, 202)},
     {"Default Only Island", Vector3.new(136, 360, -2)}
@@ -75,7 +77,7 @@ for i, tp in ipairs(teleports) do
     tpButton.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
     tpButton.TextColor3 = Color3.fromRGB(255, 255, 255)
     addUICorner(tpButton, 10)
-    
+
     tpButton.MouseButton1Click:Connect(function()
         if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
             player.Character.HumanoidRootPart.CFrame = CFrame.new(tp[2])
@@ -83,6 +85,7 @@ for i, tp in ipairs(teleports) do
     end)
 end
 
+-- Features Frame
 local featuresFrame = Instance.new("Frame")
 featuresFrame.Parent = mainFrame
 featuresFrame.Name = "Features"
@@ -91,7 +94,6 @@ featuresFrame.Position = UDim2.new(0, 0, 0, 40)
 featuresFrame.BackgroundTransparency = 1
 featuresFrame.Visible = false
 
--- Anti-Void Toggle Button
 local antiVoid = Instance.new("TextButton")
 antiVoid.Parent = featuresFrame
 antiVoid.Size = UDim2.new(0, 300, 0, 40)
@@ -110,86 +112,47 @@ antiVoid.MouseButton1Click:Connect(function()
         antiVoid.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
         antiVoid.Text = "Deactivate Anti-Void"
         voidGuard = Instance.new("Part")
-        voidGuard.Size = Vector3.new(1000000, 2, 1000000)
-        voidGuard.Position = Vector3.new(0, -10, 0)
+        voidGuard.Size = Vector3.new(1000, 2, 1000)
+        voidGuard.Position = Vector3.new(0, -14, 0)
         voidGuard.Anchored = true
         voidGuard.CanCollide = true
-        voidGuard.Transparency = 0.8
         voidGuard.Parent = game.Workspace
+        voidGuard.Transparency = 0.7  -- Set transparency to 0.7
     else
         antiVoid.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
         antiVoid.Text = "Activate Anti-Void"
         if voidGuard then
             voidGuard:Destroy()
-            voidGuard = nil
         end
     end
 end)
 
--- Speed Button in Settings
-local speedBox = Instance.new("TextBox")
-speedBox.Parent = settingsFrame
-speedBox.Size = UDim2.new(0, 150, 0, 40)
-speedBox.Position = UDim2.new(0.5, -75, 0, 50)
-speedBox.Text = "Enter Speed"
-addUICorner(speedBox, 10)
-
-local function setSpeed(value)
-    if player.Character and player.Character:FindFirstChild("Humanoid") then
-        player.Character.Humanoid.WalkSpeed = value
-    end
-end
-
-speedBox.FocusLost:Connect(function()
-    local newSpeed = tonumber(speedBox.Text)
-    if newSpeed then
-        setSpeed(newSpeed)
-        player:SetAttribute("SavedSpeed", newSpeed)
-    end
-end)
-
--- Jump Power Button in Settings
-local jumpBoostBox = Instance.new("TextBox")
-jumpBoostBox.Parent = settingsFrame
-jumpBoostBox.Size = UDim2.new(0, 150, 0, 40)
-jumpBoostBox.Position = UDim2.new(0.5, -75, 0, 100)
-jumpBoostBox.Text = "Enter Jump Power"
-addUICorner(jumpBoostBox, 10)
-
-local function setJumpPower(value)
-    if player.Character and player.Character:FindFirstChild("Humanoid") then
-        player.Character.Humanoid.JumpPower = value
-    end
-end
-
-jumpBoostBox.FocusLost:Connect(function()
-    local newJumpPower = tonumber(jumpBoostBox.Text)
-    if newJumpPower then
-        setJumpPower(newJumpPower)
-        player:SetAttribute("SavedJumpPower", newJumpPower)
-    end
-end)
-
-game.Players.PlayerAdded:Connect(function(p)
-    p.CharacterAdded:Connect(function(char)
-        if p == player then
-            local savedSpeed = player:GetAttribute("SavedSpeed")
-            local savedJumpPower = player:GetAttribute("SavedJumpPower")
-            if savedSpeed then
-                setSpeed(savedSpeed)
-            end
-            if savedJumpPower then
-                setJumpPower(savedJumpPower)
-            end
+game:GetService("RunService").Stepped:Connect(function()
+    if antiVoidEnabled and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        if player.Character.HumanoidRootPart.Position.Y < -14 then
+            player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(0, -4, 0))
         end
-    end)
+    end
 end)
 
--- Toggle Button to Open/Close GUI
+local flyButton = Instance.new("TextButton")
+flyButton.Parent = featuresFrame
+flyButton.Size = UDim2.new(0, 300, 0, 40)
+flyButton.Position = UDim2.new(0.5, -150, 0, 50)
+flyButton.BackgroundColor3 = Color3.fromRGB(255, 100, 100)
+flyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+flyButton.Text = "Activate Fly GUI"
+addUICorner(flyButton, 10)
+
+flyButton.MouseButton1Click:Connect(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
+end)
+
+-- Open/Close GUI Button (always visible)
 local toggleButton = Instance.new("TextButton")
 toggleButton.Parent = screenGui
 toggleButton.Size = UDim2.new(0, 100, 0, 50)
-toggleButton.Position = UDim2.new(0.95, -110, 0.5, -15)
+toggleButton.Position = UDim2.new(0.95, -110, 0.5, -15)  -- New coordinates
 toggleButton.Text = "Open GUI"
 toggleButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
 toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -199,13 +162,40 @@ toggleButton.MouseButton1Click:Connect(function()
     mainFrame.Visible = not mainFrame.Visible
 end)
 
-game.Players.PlayerAdded:Connect(function(p)
-    p.CharacterAdded:Connect(function(char)
-        if p == player then
-            local savedSpeed = player:GetAttribute("SavedSpeed")
-            if savedSpeed then
-                setSpeed(savedSpeed)
-            end
-        end
-    end)
-end)
+-- Create Fake Player and Position it at "Guide Place Outside"
+local fakePlayer = Instance.new("Model")
+fakePlayer.Name = "FakePlayer"
+fakePlayer.Parent = game.Workspace
+
+-- Create Fake Character Parts
+local humanoidRootPart = Instance.new("Part")
+humanoidRootPart.Size = Vector3.new(2, 2, 1)
+humanoidRootPart.Position = Vector3.new(17934, -130, -3600)  -- "Guide Place Outside"
+humanoidRootPart.Anchored = true
+humanoidRootPart.CanCollide = false
+humanoidRootPart.Name = "HumanoidRootPart"
+humanoidRootPart.Parent = fakePlayer
+
+local head = Instance.new("Part")
+head.Size = Vector3.new(2, 2, 2)
+head.Position = humanoidRootPart.Position + Vector3.new(0, 3, 0)
+head.Anchored = true
+head.CanCollide = false
+head.Name = "Head"
+head.Parent = fakePlayer
+
+local torso = Instance.new("Part")
+torso.Size = Vector3.new(2, 2, 1)
+torso.Position = humanoidRootPart.Position + Vector3.new(0, 1, 0)
+torso.Anchored = true
+torso.CanCollide = false
+torso.Name = "Torso"
+torso.Parent = fakePlayer
+
+local humanoid = Instance.new("Humanoid")
+humanoid.Health = 100
+humanoid.MaxHealth = 100
+humanoid.Name = "Humanoid"
+humanoid.Parent = fakePlayer
+
+-- Made By Cat
