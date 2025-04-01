@@ -61,7 +61,9 @@ local teleports = {
     {"Guide Place", Vector3.new(17892, -130, -3539)},
     {"Guide Place Outside", Vector3.new(17934, -130, -3600)},
     {"Starter Island", Vector3.new(-0, -4, -0)},
-    {"Slapple Island", Vector3.new(-388, 51, -14)}
+    {"Slapple Island", Vector3.new(-388, 51, -14)},
+    {"Cannon Island", Vector3.new(266, 34, 202)},
+    {"Default Only Island", Vector3.new(136, 360, -2)}
 }
 
 for i, tp in ipairs(teleports) do
@@ -89,6 +91,7 @@ featuresFrame.Position = UDim2.new(0, 0, 0, 40)
 featuresFrame.BackgroundTransparency = 1
 featuresFrame.Visible = false
 
+-- Anti-Void Toggle Button
 local antiVoid = Instance.new("TextButton")
 antiVoid.Parent = featuresFrame
 antiVoid.Size = UDim2.new(0, 300, 0, 40)
@@ -98,18 +101,34 @@ antiVoid.TextColor3 = Color3.fromRGB(255, 255, 255)
 antiVoid.Text = "Activate Anti-Void"
 addUICorner(antiVoid, 10)
 
+local voidGuard = nil
+local antiVoidEnabled = false
+
 antiVoid.MouseButton1Click:Connect(function()
-    local voidGuard = Instance.new("Part")
-    voidGuard.Size = Vector3.new(1000000, 2, 1000000)
-    voidGuard.Position = Vector3.new(-82, -12, 87)
-    voidGuard.Anchored = true
-    voidGuard.CanCollide = true
-    voidGuard.Transparency = 0.8
-    voidGuard.Parent = game.Workspace
+    antiVoidEnabled = not antiVoidEnabled
+    if antiVoidEnabled then
+        antiVoid.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+        antiVoid.Text = "Deactivate Anti-Void"
+        voidGuard = Instance.new("Part")
+        voidGuard.Size = Vector3.new(1000000, 2, 1000000)
+        voidGuard.Position = Vector3.new(0, -10, 0)
+        voidGuard.Anchored = true
+        voidGuard.CanCollide = true
+        voidGuard.Transparency = 0.8
+        voidGuard.Parent = game.Workspace
+    else
+        antiVoid.BackgroundColor3 = Color3.fromRGB(100, 100, 255)
+        antiVoid.Text = "Activate Anti-Void"
+        if voidGuard then
+            voidGuard:Destroy()
+            voidGuard = nil
+        end
+    end
 end)
 
+-- Speed Button in Settings
 local speedBox = Instance.new("TextBox")
-speedBox.Parent = featuresFrame
+speedBox.Parent = settingsFrame
 speedBox.Size = UDim2.new(0, 150, 0, 40)
 speedBox.Position = UDim2.new(0.5, -75, 0, 50)
 speedBox.Text = "Enter Speed"
@@ -129,9 +148,9 @@ speedBox.FocusLost:Connect(function()
     end
 end)
 
--- Add Jump Boost in the Settings Section
+-- Jump Power Button in Settings
 local jumpBoostBox = Instance.new("TextBox")
-jumpBoostBox.Parent = featuresFrame
+jumpBoostBox.Parent = settingsFrame
 jumpBoostBox.Size = UDim2.new(0, 150, 0, 40)
 jumpBoostBox.Position = UDim2.new(0.5, -75, 0, 100)
 jumpBoostBox.Text = "Enter Jump Power"
@@ -166,7 +185,7 @@ game.Players.PlayerAdded:Connect(function(p)
     end)
 end)
 
--- Create the Button to toggle the GUI
+-- Toggle Button to Open/Close GUI
 local toggleButton = Instance.new("TextButton")
 toggleButton.Parent = screenGui
 toggleButton.Size = UDim2.new(0, 100, 0, 50)
