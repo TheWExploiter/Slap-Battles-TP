@@ -1,16 +1,16 @@
 # SLAP BATTLES TP GUI 
-# [Update]
+# [Update] V1.5
 
-> [+] Cannon Teleport
+> [+] Baseplate Teleport
 
-> [+] Default Island Teleport
+> [+] Fly Gui Added
 
 > [+] Bug Fixes
 
-> [+] Anti Void Spam Patched
+> [+] Anti Void Saver (If Noclipped Under U will be saved)
 
 > [+] Better Ui
 
-> [-] Removed Slap Aura (Broken)
-
 # Tell me What to Add on my Youtube
+
+https://youtube.com/@TheEpicGamer16YT
