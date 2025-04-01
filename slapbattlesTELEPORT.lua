@@ -112,7 +112,7 @@ antiVoid.MouseButton1Click:Connect(function()
         antiVoid.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
         antiVoid.Text = "Deactivate Anti-Void"
         voidGuard = Instance.new("Part")
-        voidGuard.Size = Vector3.new(1000, 2, 1000)
+        voidGuard.Size = Vector3.new(10000000, 2, 10000000)
         voidGuard.Position = Vector3.new(0, -14, 0)
         voidGuard.Anchored = true
         voidGuard.CanCollide = true
