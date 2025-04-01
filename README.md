@@ -11,6 +11,8 @@
 
 > [+] Better Ui
 
+> [+] Animations
+
 # Tell me What to Add on my Youtube
 
 https://youtube.com/@TheEpicGamer16YT
