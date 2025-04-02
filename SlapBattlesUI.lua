@@ -74,6 +74,8 @@ end)
 
 -- Slap Reach feature (Expanding other players' hitboxes)
 local slapReachEnabled = false
+local slapReachBoxes = {}
+
 FeaturesTab:addToggle("Slap Reach", function(value)
     slapReachEnabled = value
     if slapReachEnabled then
@@ -82,32 +84,36 @@ FeaturesTab:addToggle("Slap Reach", function(value)
             if otherPlayer ~= player then
                 local character = otherPlayer.Character
                 if character and character:FindFirstChild("HumanoidRootPart") then
+                    -- Create and move the slap reach box
                     local hitbox = Instance.new("Part")
-                    hitbox.Size = Vector3.new(15, 5, 15)  -- Expanding the hitbox size
+                    hitbox.Size = Vector3.new(15, 15, 15)  -- Expanding the hitbox size
                     hitbox.Position = character.HumanoidRootPart.Position
-                    hitbox.Anchored = true
+                    hitbox.Anchored = false
                     hitbox.Transparency = 0.8
                     hitbox.Color = Color3.fromRGB(0, 255, 0)  -- Green color to distinguish the box
                     hitbox.CanCollide = false
                     hitbox.Parent = game.Workspace
-                    character:SetAttribute("HitboxExpanded", true)
+                    
+                    -- Make it follow the character
+                    local bodyPosition = Instance.new("BodyPosition")
+                    bodyPosition.MaxForce = Vector3.new(10000, 10000, 10000)
+                    bodyPosition.P = 10000
+                    bodyPosition.D = 1000
+                    bodyPosition.Parent = hitbox
+                    bodyPosition.Position = character.HumanoidRootPart.Position
+                    
+                    slapReachBoxes[otherPlayer.UserId] = hitbox
                 end
             end
         end
     else
         -- Remove the expanded hitboxes when disabled
-        for _, otherPlayer in pairs(game.Players:GetPlayers()) do
-            if otherPlayer ~= player then
-                local character = otherPlayer.Character
-                if character and character:FindFirstChild("HumanoidRootPart") then
-                    local hitbox = character:FindFirstChild("Hitbox")
-                    if hitbox then
-                        hitbox:Destroy()
-                    end
-                    character:SetAttribute("HitboxExpanded", nil)
-                end
+        for _, hitbox in pairs(slapReachBoxes) do
+            if hitbox then
+                hitbox:Destroy()
             end
         end
+        slapReachBoxes = {}
     end
 end, false)
 
@@ -121,14 +127,53 @@ local function freezeCharacterForRagdoll()
     end
 end
 
--- Monitor for ragdoll state
-player.CharacterAdded:Connect(function(character)
-    local humanoid = character:WaitForChild("Humanoid")
-    local ragdollDetector = character:WaitForChild("Ragdolled")
-    
-    ragdollDetector.Changed:Connect(function()
-        if ragdollDetector.Value then
-            freezeCharacterForRagdoll()  -- Freeze if ragdolled
+FeaturesTab:addToggle("Anti Ragdoll", function(value)
+    if value then
+        -- Monitor for ragdoll state
+        player.CharacterAdded:Connect(function(character)
+            local humanoid = character:WaitForChild("Humanoid")
+            local ragdollDetector = character:WaitForChild("Ragdolled")
+            
+            ragdollDetector.Changed:Connect(function()
+                if ragdollDetector.Value then
+                    freezeCharacterForRagdoll()  -- Freeze if ragdolled
+                end
+            end)
+        end)
+    end
+end, false)
+
+-- Listen for new players joining and give them the slap reach box
+game.Players.PlayerAdded:Connect(function(otherPlayer)
+    if slapReachEnabled and otherPlayer ~= player then
+        local character = otherPlayer.Character
+        if character and character:FindFirstChild("HumanoidRootPart") then
+            local hitbox = Instance.new("Part")
+            hitbox.Size = Vector3.new(15, 15, 15)
+            hitbox.Position = character.HumanoidRootPart.Position
+            hitbox.Anchored = false
+            hitbox.Transparency = 0.8
+            hitbox.Color = Color3.fromRGB(0, 255, 0)
+            hitbox.CanCollide = false
+            hitbox.Parent = game.Workspace
+            
+            local bodyPosition = Instance.new("BodyPosition")
+            bodyPosition.MaxForce = Vector3.new(10000, 10000, 10000)
+            bodyPosition.P = 10000
+            bodyPosition.D = 1000
+            bodyPosition.Parent = hitbox
+            bodyPosition.Position = character.HumanoidRootPart.Position
+            
+            slapReachBoxes[otherPlayer.UserId] = hitbox
         end
-    end)
+    end
+end)
+
+-- Listen for players leaving and remove their slap reach box
+game.Players.PlayerRemoving:Connect(function(otherPlayer)
+    local hitbox = slapReachBoxes[otherPlayer.UserId]
+    if hitbox then
+        hitbox:Destroy()
+        slapReachBoxes[otherPlayer.UserId] = nil
+    end
 end)
