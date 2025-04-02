@@ -7,7 +7,7 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
     Duration = 10;
 })
 
-wait(1.5)
+wait(10)
 
 -- Show Completion Notification
 game:GetService("StarterGui"):SetCore("SendNotification", {
@@ -39,6 +39,7 @@ TeleportsTab:addButton("Cannon Island", function() teleportTo(263, 33, 197) end)
 TeleportsTab:addButton("Guide Room (Inside)", function() teleportTo(17894, -130, -3542) end)
 TeleportsTab:addButton("Guide Room (Outside)", function() teleportTo(17894, -90, -3542) end)
 
+-- Features Section
 FeaturesTab:addLabel("Features", "Additional functionalities")
 
 -- Speed Changer
@@ -72,8 +73,6 @@ FeaturesTab:addToggle("Anti Void", function(value)
     end
 end, true)
 
-FeaturesTab:addLabel("Anti Void", "Toggle to enable")
-
 -- Anti Ragdoll
 local antiRagdollEnabled = false
 FeaturesTab:addButton("Toggle Anti-Ragdoll", function()
@@ -88,6 +87,16 @@ FeaturesTab:addButton("Toggle Anti-Ragdoll", function()
         end
         disableRagdoll()
     end
+end)
+
+-- Discord Button
+HomeTab:addButton("Join Discord (Copy Link)", function()
+    setclipboard("https://discord.gg/6cVygU3NHU")
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "Discord Link Copied!";
+        Text = "Paste it in your browser to join!";
+        Duration = 5;
+    })
 end)
 
 -- "🥔" Button (Kick Player)
