@@ -1,9 +1,9 @@
 # **SLAP BATTLES TP GUI**
 # **[Rework]**
 
-# > [+] Reworked The Script
+> [+] Reworked The Script
 
-# > [+] Anti Ragdoll Added
+> [+] New UI
 
 # Tell me What to Add on my Youtube
 
