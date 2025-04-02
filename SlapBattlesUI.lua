@@ -24,5 +24,5 @@ Tab:addToggle("Toggle", function(value) print("Toggle state: ", value) end)
 
 Tab:addTextBox("TextBox", "Input", function(value) print("TextBox input: ", value) end)
 
-Tab:addLabel("Credits", "UI Created by Nugget")
+Tab:addLabel("Credits", "UI Created by ImCatTrust")
 
