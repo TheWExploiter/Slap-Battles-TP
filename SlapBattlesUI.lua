@@ -7,7 +7,7 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
     Duration = 10;
 })
 
-wait(10)
+wait(1.5)
 
 -- Show Completion Notification
 game:GetService("StarterGui"):SetCore("SendNotification", {
