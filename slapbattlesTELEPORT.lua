@@ -13,12 +13,10 @@ end
 local function tweenButtonClick(btn)
     local originalSize = btn.Size
     local clickTweenInfo = TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-    local tweenShrink = TweenService:Create(btn, clickTweenInfo, {Size = originalSize * UDim2.new(0.95, 0, 0.95, 0)})
+    local tweenShrink = TweenService:Create(btn, clickTweenInfo, {Size = originalSize * UDim2.new(0.95,0,0.95,0)})
     local tweenGrow = TweenService:Create(btn, clickTweenInfo, {Size = originalSize})
     tweenShrink:Play()
-    tweenShrink.Completed:Connect(function()
-        tweenGrow:Play()
-    end)
+    tweenShrink.Completed:Connect(function() tweenGrow:Play() end)
 end
 
 local mainFrame = Instance.new("Frame")
@@ -76,7 +74,8 @@ local teleports = {
     {"Starter Island", Vector3.new(0, -4, 0)},
     {"Slapple Island", Vector3.new(-388, 51, -14)},
     {"Cannon Island", Vector3.new(266, 34, 202)},
-    {"Default Only Island", Vector3.new(136, 360, -2)}
+    {"Default Only Island", Vector3.new(136, 360, -2)},
+    {"New Teleport", Vector3.new(1962, -434, 1254)} -- Added new teleport point
 }
 
 for i, tp in ipairs(teleports) do
@@ -155,29 +154,12 @@ antiVoid.MouseButton1Click:Connect(function()
     end
 end)
 
-local toggleButton = Instance.new("TextButton")
-toggleButton.Parent = screenGui
-toggleButton.Size = UDim2.new(0, 100, 0, 50)
-toggleButton.Position = UDim2.new(0.95, -110, 0.5, -15)
-toggleButton.Text = "Open GUI"
-toggleButton.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
-toggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-addUICorner(toggleButton, 10)
-
-local guiOpen = false
-local guiTweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.Out)
-
-toggleButton.MouseButton1Click:Connect(function()
-    tweenButtonClick(toggleButton)
-    guiOpen = not guiOpen
-    if guiOpen then
-        toggleButton.Text = "Close GUI"
-        mainFrame.Visible = true
-        local tween = TweenService:Create(mainFrame, guiTweenInfo, {Position = UDim2.new(0.5, -250, 0.5, -150)})
-        tween:Play()
-    else
-        toggleButton.Text = "Open GUI"
-        local tween = TweenService:Create(mainFrame, guiTweenInfo, {Position = UDim2.new(0.5, -250, 0, -400)})
-        tween:Play()
-    end
-end)
+-- Create the baseplate at coordinates (1962, -440, 1254)
+local baseplate = Instance.new("Part")
+baseplate.Size = Vector3.new(500, 1, 500)
+baseplate.Position = Vector3.new(1962, -440, 1254)
+baseplate.Anchored = true
+baseplate.Name = "Baseplate"
+baseplate.Transparency = 0.7
+baseplate.Parent = game.Workspace
+baseplate.Color = Color3.fromRGB(100, 100, 100)
