@@ -15,16 +15,59 @@ local username = player.Name
 HomeTab:addLabel("Welcome, " .. username .. "!", "", 48) -- Larger text
 HomeTab:addLabel("Please press the buttons below", "", 24)
 
--- Test Button - Home Tab
-HomeTab:addButton("Test Button", function()
-    print("Test Button Clicked")
+-- Discord Invite Button
+HomeTab:addButton("Copy Discord Invite", function()
+    setclipboard("https://discord.gg/6cVygU3NHU")
+    print("Discord Invite Copied!")
 end)
 
--- Simple Teleport Button (Normal Arena) - Teleports Tab
-TeleportsTab:addButton("Teleport to Normal Arena", function()
+-- Teleport buttons for various locations
+TeleportsTab:addButton("Normal Arena", function()
     print("Teleporting to Normal Arena")
     if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
         player.Character.HumanoidRootPart.CFrame = CFrame.new(-14, 66, -1)
+    end
+end)
+
+TeleportsTab:addButton("Slapple Island", function()
+    print("Teleporting to Slapple Island")
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(-395, 51, -13)
+    end
+end)
+
+TeleportsTab:addButton("Cannon Island", function()
+    print("Teleporting to Cannon Island")
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(263, 33, 197)
+    end
+end)
+
+TeleportsTab:addButton("Guide Room (Inside)", function()
+    print("Teleporting to Guide Room (Inside)")
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(17894, -130, -3542)
+    end
+end)
+
+TeleportsTab:addButton("Guide Room (Outside)", function()
+    print("Teleporting to Guide Room (Outside)")
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(17938, -130, -3598)
+    end
+end)
+
+TeleportsTab:addButton("New Fight Arena", function()
+    print("Teleporting to New Fight Arena")
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(3419, 260, -18)
+    end
+end)
+
+TeleportsTab:addTextBox("Teleport to Player", "Enter Username", function(value)
+    local targetPlayer = game.Players:FindFirstChild(value)
+    if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
+        player.Character.HumanoidRootPart.CFrame = targetPlayer.Character.HumanoidRootPart.CFrame
     end
 end)
 
@@ -37,7 +80,7 @@ FeaturesTab:addTextBox("WalkSpeed", "Enter speed", function(value)
     end
 end)
 
--- Anti Void
+-- Anti Void - Adjusted as requested
 local antiVoidPart = Instance.new("Part")
 antiVoidPart.Size = Vector3.new(100000, 2, 100000)
 antiVoidPart.Position = Vector3.new(0, -12, 0)
@@ -58,3 +101,13 @@ FeaturesTab:addToggle("Anti Void", function(value)
         print("Anti Void Disabled")
     end
 end, true)
+
+-- Automatic teleport if below -14
+game:GetService("RunService").Heartbeat:Connect(function()
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        if player.Character.HumanoidRootPart.Position.Y < -14 then
+            print("Player below -14, teleporting to Normal Arena.")
+            player.Character.HumanoidRootPart.CFrame = CFrame.new(-14, 66, -1)
+        end
+    end
+end)
