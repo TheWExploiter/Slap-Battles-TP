@@ -17,7 +17,7 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 })
 
 -- Create UI
-local Window = Library:CreateWindow("Teleport UI", "Made by ImCatTrust")
+local Window = Library:CreateWindow("Ultimate Script UI", "Made by ImCatTrust")
 
 local HomeTab = Window:addPage("Home", 1, true, 6)
 local TeleportsTab = Window:addPage("Teleports", 1, true, 6)
@@ -32,7 +32,15 @@ local function teleportTo(x, y, z)
     end
 end
 
+-- Home Section
+HomeTab:addLabel("Welcome to the Script!")
+HomeTab:addLabel("Made by Cat")
+HomeTab:addButton("🥔 (Kicks You)", function()
+    game:GetService("Players").LocalPlayer:Kick("🥔")
+end)
+
 -- Teleport Buttons
+TeleportsTab:addLabel("Teleport Locations")
 TeleportsTab:addButton("Normal Arena", function() teleportTo(-14, 66, -1) end)
 TeleportsTab:addButton("Slapple Island", function() teleportTo(-395, 51, -13) end)
 TeleportsTab:addButton("Cannon Island", function() teleportTo(263, 33, 197) end)
@@ -40,7 +48,7 @@ TeleportsTab:addButton("Guide Room (Inside)", function() teleportTo(17894, -130,
 TeleportsTab:addButton("Guide Room (Outside)", function() teleportTo(17894, -90, -3542) end)
 
 -- Features Section
-FeaturesTab:addLabel("Features", "Additional functionalities")
+FeaturesTab:addLabel("Features")
 
 -- Speed Changer
 local speedValue = 16
@@ -54,7 +62,7 @@ FeaturesTab:addTextbox("Speed", "Enter Speed Here", function(value)
     end
 end)
 
--- Anti-Void Toggle
+-- Anti-Void
 local antiVoidPart = Instance.new("Part")
 antiVoidPart.Size = Vector3.new(100000, 2, 100000)
 antiVoidPart.Position = Vector3.new(0, -12, 0)
@@ -74,32 +82,32 @@ FeaturesTab:addToggle("Anti Void", function(value)
 end, true)
 
 -- Anti Ragdoll
-local antiRagdollEnabled = false
+local function isRagdolled()
+    local humanoid = player.Character and player.Character:FindFirstChild("Humanoid")
+    return humanoid and humanoid.Health == 0
+end
+
 FeaturesTab:addButton("Toggle Anti-Ragdoll", function()
-    antiRagdollEnabled = not antiRagdollEnabled
-    if antiRagdollEnabled then
-        local function disableRagdoll()
-            if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-                player.Character.HumanoidRootPart.Anchored = true
-                wait(2)
-                player.Character.HumanoidRootPart.Anchored = false
-            end
+    if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        -- Check if player is ragdolled before toggling
+        if isRagdolled() then
+            player.Character.HumanoidRootPart.Anchored = true
+            wait(2)
+            player.Character.HumanoidRootPart.Anchored = false
+        else
+            player.Character.HumanoidRootPart.Anchored = true
+            wait(2)
+            player.Character.HumanoidRootPart.Anchored = false
         end
-        disableRagdoll()
     end
 end)
 
 -- Discord Button
-HomeTab:addButton("Join Discord (Copy Link)", function()
+FeaturesTab:addButton("Join Discord (Copy Link)", function()
     setclipboard("https://discord.gg/6cVygU3NHU")
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "Discord Link Copied!";
         Text = "Paste it in your browser to join!";
         Duration = 5;
     })
-end)
-
--- "🥔" Button (Kick Player)
-HomeTab:addButton("🥔", function()
-    game:GetService("Players").LocalPlayer:Kick("🥔")
 end)
