@@ -8,6 +8,12 @@ local FeaturesTab = Window:addPage("Features", 1, true, 6)
 
 local player = game.Players.LocalPlayer
 
+game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "Made By Cat",
+            Text = "Havd Fun Using My Script",
+            Duration = 10
+    })
+
 -- Teleport Function
 local function teleportTo(x, y, z)
     if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
@@ -63,18 +69,43 @@ end, true)
 
 -- Slap Reach (Hitbox)
 local slapReachEnabled = false
-local slapReachPart = Instance.new("Part")
-slapReachPart.Size = Vector3.new(15, 15, 15)
-slapReachPart.Anchored = true
-slapReachPart.CanCollide = false
-slapReachPart.Transparency = 0.8
-slapReachPart.Color = Color3.fromRGB(255, 0, 0)
-slapReachPart.Parent = player.Character or game.Workspace
+local slapReachParts = {}
 
 -- Update Slap Reach position
 game:GetService("RunService").Heartbeat:Connect(function()
-    if slapReachEnabled and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        slapReachPart.CFrame = player.Character.HumanoidRootPart.CFrame
+    if slapReachEnabled then
+        for _, targetPlayer in pairs(game.Players:GetPlayers()) do
+            if targetPlayer ~= player and targetPlayer.Character then
+                local targetHumanoid = targetPlayer.Character:FindFirstChild("Humanoid")
+                if targetHumanoid then
+                    -- Create or update the slap reach box around the player
+                    if not slapReachParts[targetPlayer] then
+                        local slapPart = Instance.new("Part")
+                        slapPart.Size = Vector3.new(15, 15, 15)  -- Set the desired hitbox size here (15x15x15)
+                        slapPart.Anchored = true
+                        slapPart.CanCollide = false
+                        slapPart.Transparency = 0.8
+                        slapPart.Color = Color3.fromRGB(255, 0, 0)
+                        slapPart.Parent = targetPlayer.Character
+                        slapReachParts[targetPlayer] = slapPart
+                    end
+
+                    -- Update the slap part to match the player's position
+                    local targetRootPart = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
+                    if targetRootPart then
+                        slapReachParts[targetPlayer].CFrame = targetRootPart.CFrame
+                    end
+                end
+            end
+        end
+    else
+        -- Remove the slap reach box when disabled
+        for _, slapPart in pairs(slapReachParts) do
+            if slapPart then
+                slapPart:Destroy()
+            end
+        end
+        slapReachParts = {}
     end
 end)
 
@@ -82,15 +113,19 @@ FeaturesTab:addToggle("Slap Reach", function(value)
     slapReachEnabled = value
 end, false)
 
--- Slap Function
+-- Slap Function (Expands hitbox and makes the player slap others in the hitbox range)
 game:GetService("RunService").Heartbeat:Connect(function()
     if slapReachEnabled then
         for _, targetPlayer in pairs(game.Players:GetPlayers()) do
             if targetPlayer ~= player and targetPlayer.Character then
                 local targetHumanoidRootPart = targetPlayer.Character:FindFirstChild("HumanoidRootPart")
-                if targetHumanoidRootPart and slapReachPart and (slapReachPart.Position - targetHumanoidRootPart.Position).Magnitude <= 15 then
-                    -- Apply slap to target (simple damage or knockback, adjust as needed)
-                    targetPlayer.Character:BreakJoints()  -- Simulates a slap by breaking joints (use with caution)
+                if targetHumanoidRootPart and slapReachParts[targetPlayer] then
+                    -- This checks if the slap part is within 15 studs of the player's root part
+                    if (slapReachParts[targetPlayer].Position - targetHumanoidRootPart.Position).Magnitude <= 15 then
+                        -- You can apply your slap behavior here (e.g., knockback, damage, etc.)
+                        -- For now, we simulate it with a simple knockback (apply custom behavior as needed)
+                        targetPlayer.Character.HumanoidRootPart.Velocity = targetHumanoidRootPart.CFrame.LookVector * 50
+                    end
                 end
             end
         end
