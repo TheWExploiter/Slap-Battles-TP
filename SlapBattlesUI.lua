@@ -4,7 +4,7 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/blood
 game:GetService("StarterGui"):SetCore("SendNotification", {
     Title = "Loading...";
     Text = "Please wait while the script is loading...";
-    Duration = 10;
+    Duration = 9;
 })
 
 wait(10)
@@ -17,7 +17,7 @@ game:GetService("StarterGui"):SetCore("SendNotification", {
 })
 
 -- Create UI
-local Window = Library:CreateWindow("Ultimate Script UI", "Made by ImCatTrust")
+local Window = Library:CreateWindow("Ultimate Teleport UI", "Made by ImCatTrust")
 
 local HomeTab = Window:addPage("Home", 1, true, 6)
 local TeleportsTab = Window:addPage("Teleports", 1, true, 6)
@@ -103,7 +103,7 @@ FeaturesTab:addButton("Toggle Anti-Ragdoll", function()
 end)
 
 -- Discord Button
-HomeTab:addButton("Join Discord (Copy Link)", function()
+FeaturesTab:addButton("Join Discord (Copy Link)", function()
     setclipboard("https://discord.gg/6cVygU3NHU")
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "Discord Link Copied!";
@@ -112,7 +112,8 @@ HomeTab:addButton("Join Discord (Copy Link)", function()
     })
 end)
 
--- Update the Tabs
-FeaturesTab:Update()
-HomeTab:Update()
-Teleports:Update()
+-- Force update Features Tab to display the UI elements
+wait(0.5) -- Small wait to allow for proper UI initialization
+
+-- Refresh Features Tab UI after adding all features
+FeaturesTab:Update()  -- Refresh the UI
