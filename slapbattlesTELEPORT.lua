@@ -10,11 +10,10 @@ local function addUICorner(uiElement, radius)
     corner.Parent = uiElement
 end
 
--- Tween utility function for button click animation
 local function tweenButtonClick(btn)
     local originalSize = btn.Size
     local clickTweenInfo = TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-    local tweenShrink = TweenService:Create(btn, clickTweenInfo, {Size = originalSize * UDim2.new(0.95,0,0.95,0)})
+    local tweenShrink = TweenService:Create(btn, clickTweenInfo, {Size = originalSize * UDim2.new(0.95, 0, 0.95, 0)})
     local tweenGrow = TweenService:Create(btn, clickTweenInfo, {Size = originalSize})
     tweenShrink:Play()
     tweenShrink.Completed:Connect(function()
@@ -22,11 +21,10 @@ local function tweenButtonClick(btn)
     end)
 end
 
--- Create Main GUI Frame with open/close animations
 local mainFrame = Instance.new("Frame")
 mainFrame.Parent = screenGui
 mainFrame.Size = UDim2.new(0, 500, 0, 300)
-mainFrame.Position = UDim2.new(0.5, -250, 0, -400)  -- start offscreen for tween
+mainFrame.Position = UDim2.new(0.5, -250, 0, -400)
 mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 addUICorner(mainFrame, 15)
 
@@ -34,7 +32,6 @@ local sections = {"Teleports", "Features"}
 local buttons = {}
 local activeSection = "Teleports"
 
--- Section Buttons Frame
 local sectionFrame = Instance.new("Frame")
 sectionFrame.Parent = mainFrame
 sectionFrame.Size = UDim2.new(1, 0, 0, 40)
@@ -65,7 +62,6 @@ for i, section in ipairs(sections) do
     end)
 end
 
--- Teleports Frame
 local teleportsFrame = Instance.new("Frame")
 teleportsFrame.Parent = mainFrame
 teleportsFrame.Name = "Teleports"
@@ -101,7 +97,6 @@ for i, tp in ipairs(teleports) do
     end)
 end
 
--- Features Frame
 local featuresFrame = Instance.new("Frame")
 featuresFrame.Parent = mainFrame
 featuresFrame.Name = "Features"
@@ -109,6 +104,22 @@ featuresFrame.Size = UDim2.new(1, 0, 1, -40)
 featuresFrame.Position = UDim2.new(0, 0, 0, 40)
 featuresFrame.BackgroundTransparency = 1
 featuresFrame.Visible = false
+
+local speedBox = Instance.new("TextBox")
+speedBox.Parent = featuresFrame
+speedBox.Size = UDim2.new(0, 300, 0, 40)
+speedBox.Position = UDim2.new(0.5, -150, 0, 50)
+speedBox.PlaceholderText = "Enter Speed"
+speedBox.BackgroundColor3 = Color3.fromRGB(255, 255, 100)
+speedBox.TextColor3 = Color3.fromRGB(0, 0, 0)
+addUICorner(speedBox, 10)
+
+speedBox.FocusLost:Connect(function()
+    local speed = tonumber(speedBox.Text)
+    if speed and player.Character and player.Character:FindFirstChild("Humanoid") then
+        player.Character.Humanoid.WalkSpeed = speed
+    end
+end)
 
 local antiVoid = Instance.new("TextButton")
 antiVoid.Parent = featuresFrame
@@ -144,29 +155,6 @@ antiVoid.MouseButton1Click:Connect(function()
     end
 end)
 
-game:GetService("RunService").Stepped:Connect(function()
-    if antiVoidEnabled and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        if player.Character.HumanoidRootPart.Position.Y < -14 then
-            player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(0, -4, 0))
-        end
-    end
-end)
-
-local flyButton = Instance.new("TextButton")
-flyButton.Parent = featuresFrame
-flyButton.Size = UDim2.new(0, 300, 0, 40)
-flyButton.Position = UDim2.new(0.5, -150, 0, 50)
-flyButton.BackgroundColor3 = Color3.fromRGB(255, 100, 100)
-flyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-flyButton.Text = "Activate Fly GUI"
-addUICorner(flyButton, 10)
-
-flyButton.MouseButton1Click:Connect(function()
-    tweenButtonClick(flyButton)
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.txt"))()
-end)
-
--- Open/Close GUI Button (always visible)
 local toggleButton = Instance.new("TextButton")
 toggleButton.Parent = screenGui
 toggleButton.Size = UDim2.new(0, 100, 0, 50)
@@ -184,50 +172,11 @@ toggleButton.MouseButton1Click:Connect(function()
     guiOpen = not guiOpen
     if guiOpen then
         toggleButton.Text = "Close GUI"
-        -- Tween mainFrame from offscreen to center
         local tween = TweenService:Create(mainFrame, guiTweenInfo, {Position = UDim2.new(0.5, -250, 0.5, -150)})
         tween:Play()
     else
         toggleButton.Text = "Open GUI"
-        -- Tween mainFrame offscreen (above the view)
         local tween = TweenService:Create(mainFrame, guiTweenInfo, {Position = UDim2.new(0.5, -250, 0, -400)})
         tween:Play()
     end
 end)
-
--- Create Fake Player and Position it at "Guide Place Outside"
-local fakePlayer = Instance.new("Model")
-fakePlayer.Name = "FakePlayer"
-fakePlayer.Parent = game.Players
-
-local humanoidRootPart = Instance.new("Part")
-humanoidRootPart.Size = Vector3.new(2, 2, 1)
-humanoidRootPart.Position = Vector3.new(17934, -130, -3600)
-humanoidRootPart.Anchored = true
-humanoidRootPart.CanCollide = false
-humanoidRootPart.Name = "HumanoidRootPart"
-humanoidRootPart.Parent = fakePlayer
-
-local head = Instance.new("Part")
-head.Size = Vector3.new(2, 2, 2)
-head.Position = humanoidRootPart.Position + Vector3.new(0, 3, 0)
-head.Anchored = true
-head.CanCollide = false
-head.Name = "Head"
-head.Parent = fakePlayer
-
-local torso = Instance.new("Part")
-torso.Size = Vector3.new(2, 2, 1)
-torso.Position = humanoidRootPart.Position + Vector3.new(0, 1, 0)
-torso.Anchored = true
-torso.CanCollide = false
-torso.Name = "Torso"
-torso.Parent = fakePlayer
-
-local humanoid = Instance.new("Humanoid")
-humanoid.Health = 100
-humanoid.MaxHealth = 100
-humanoid.Name = "Humanoid"
-humanoid.Parent = fakePlayer
-
--- Made By Cat
