@@ -19,7 +19,7 @@ end
 
 -- Credits lol
 CreditsTab:addLabel("Made By Cat")
-CreditsTab:addLabel("Tested By Dorinel")
+CreditsTab:addLabel("Tested By Dorinel, TotallyNotAnAlt193")
 
 -- Teleports Section
 TeleportsTab:addButton("Normal Arena", function() teleportTo(-14, 66, -1) end)
@@ -50,7 +50,7 @@ FeaturesTab:addToggle("Anti Void", function(value)
 end, true)
 
 -- Discord Invite
-FeaturesTab:addButton("Copy Invite to Discord", function()
+HomeTab:addButton("Copy Invite to Discord", function()
     setclipboard("https://discord.gg/6cVygU3NHU")
 end)
 
