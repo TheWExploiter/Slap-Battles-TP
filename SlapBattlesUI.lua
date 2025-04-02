@@ -103,7 +103,7 @@ FeaturesTab:addButton("Toggle Anti-Ragdoll", function()
 end)
 
 -- Discord Button
-FeaturesTab:addButton("Join Discord (Copy Link)", function()
+HomeTab:addButton("Join Discord (Copy Link)", function()
     setclipboard("https://discord.gg/6cVygU3NHU")
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "Discord Link Copied!";
@@ -111,3 +111,8 @@ FeaturesTab:addButton("Join Discord (Copy Link)", function()
         Duration = 5;
     })
 end)
+
+-- Update the Tabs
+FeaturesTab:Update()
+HomeTab:Update()
+Teleports:Update()
