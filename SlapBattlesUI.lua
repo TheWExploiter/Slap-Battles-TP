@@ -1,6 +1,7 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/aaaa"))()
 
-local Window = Library:CreateWindow("Teleport UI", "Made by ImCatTrust")
+-- Create a wider window without scroll frame
+local Window = Library:CreateWindow("Teleport UI", "Made by ImCatTrust", { 800, 600 }) -- Increased window size
 
 -- Create Tabs
 local HomeTab = Window:addPage("Home", 1, true, 6)
@@ -9,11 +10,6 @@ local FeaturesTab = Window:addPage("Features", 1, true, 6)
 
 local player = game.Players.LocalPlayer
 local username = player.Name
-
--- ScrollFrame for sections
-HomeTab:addScrollFrame()
-TeleportsTab:addScrollFrame()
-FeaturesTab:addScrollFrame()
 
 -- Welcome Message
 HomeTab:addLabel("Welcome, " .. username .. "!", "", 48) -- Larger text
@@ -39,7 +35,7 @@ FeaturesTab:addToggle("Anti Void", function(value)
 end, true)
 
 -- Potato Emoji Button (Kicks Player)
-FeaturesTab:addButton("🥔 Potato Button", function()
+FeaturesTab:addButton("🥔", function()
     game.Players.LocalPlayer:Kick("🥔")
 end)
 
