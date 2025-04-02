@@ -4,7 +4,7 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/blood
 game:GetService("StarterGui"):SetCore("SendNotification", {
     Title = "Loading...";
     Text = "Please wait while the script is loading...";
-    Duration = 9;
+    Duration = 10;
 })
 
 wait(10)
@@ -50,7 +50,8 @@ TeleportsTab:addButton("Guide Room (Outside)", function() teleportTo(17894, -90,
 -- Features Section
 FeaturesTab:addLabel("Features")
 
--- Speed Changer
+-- Debugging print statements to check if the toggle is being added
+print("Adding SpeedChanger textbox...")
 local speedValue = 16
 FeaturesTab:addTextbox("Speed", "Enter Speed Here", function(value)
     local speedNum = tonumber(value)
@@ -71,6 +72,7 @@ antiVoidPart.Transparency = 1
 antiVoidPart.CanCollide = true
 antiVoidPart.Parent = game.Workspace
 
+print("Adding Anti-Void toggle...")
 FeaturesTab:addToggle("Anti Void", function(value)
     if value then
         antiVoidPart.Transparency = 0.7
@@ -87,6 +89,7 @@ local function isRagdolled()
     return humanoid and humanoid.Health == 0
 end
 
+print("Adding Anti-Ragdoll button...")
 FeaturesTab:addButton("Toggle Anti-Ragdoll", function()
     if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
         -- Check if player is ragdolled before toggling
@@ -103,7 +106,8 @@ FeaturesTab:addButton("Toggle Anti-Ragdoll", function()
 end)
 
 -- Discord Button
-FeaturesTab:addButton("Join Discord (Copy Link)", function()
+print("Adding Discord button...")
+HomeTab:addButton("Join Discord (Copy Link)", function()
     setclipboard("https://discord.gg/6cVygU3NHU")
     game:GetService("StarterGui"):SetCore("SendNotification", {
         Title = "Discord Link Copied!";
@@ -116,4 +120,5 @@ end)
 wait(0.5) -- Small wait to allow for proper UI initialization
 
 -- Refresh Features Tab UI after adding all features
+print("Refreshing UI...")
 FeaturesTab:Update()  -- Refresh the UI
