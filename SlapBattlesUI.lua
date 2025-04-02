@@ -8,11 +8,9 @@ local FeaturesTab = Window:addPage("Features", 1, true, 6)
 
 local player = game.Players.LocalPlayer
 local username = player.Name
-local avatarUrl = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. player.UserId .. "&width=420&height=420&format=png"
 
--- Display user info in HomeTab
-HomeTab:addLabel("Welcome, " .. username .. "!", "", 36)
-HomeTab:addImage(avatarUrl, {100, 100})
+-- Display user info in HomeTab with larger text and no avatar
+HomeTab:addLabel("Welcome, " .. username .. "!", "", 48)  -- Increased font size
 HomeTab:addLabel("Join my Discord: https://discord.gg/6cVygU3NHU", "", 24)
 
 -- Teleport function
