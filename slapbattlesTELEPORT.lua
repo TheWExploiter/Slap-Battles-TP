@@ -172,6 +172,7 @@ toggleButton.MouseButton1Click:Connect(function()
     guiOpen = not guiOpen
     if guiOpen then
         toggleButton.Text = "Close GUI"
+        mainFrame.Visible = true
         local tween = TweenService:Create(mainFrame, guiTweenInfo, {Position = UDim2.new(0.5, -250, 0.5, -150)})
         tween:Play()
     else
