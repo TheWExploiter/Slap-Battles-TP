@@ -8,12 +8,11 @@ local FeaturesTab = Window:addPage("Features", 1, true, 6)
 
 local player = game.Players.LocalPlayer
 local username = player.Name
-local avatarUrl = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. player.UserId .. "&width=420&height=420&format=png"
 
 -- Removed executor checker, added other necessary things
 
 HomeTab:addLabel("Welcome, " .. username .. "!", "", 36) 
-HomeTab:addImage(avatarUrl, {100, 100})
+HomeTab:addLabel("🥔")
 
 -- Teleports Section
 local function teleportTo(x, y, z)
