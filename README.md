@@ -1,15 +1,11 @@
-# SLAP BATTLES TP GUI 
-# [Update] V1.5
+**# SLAP BATTLES TP GUI**
+# [Update] V2.1
 
-> [+] Baseplate Teleport
+> [-] Baseplate Teleport
 
-> [+] Fly Gui Added
+> [-] Fly Gui Added
 
 > [+] Bug Fixes
-
-> [+] Anti Void Saver (If Noclipped Under U will be saved)
-
-> [+] Better Ui
 
 > [+] Animations
 
