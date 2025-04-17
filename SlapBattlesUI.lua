@@ -34,10 +34,18 @@ local GlovesTab = Window:MakeTab({
     PremiumOnly = false
 })
 
+local CreditsTab = Window:MakeTab({
+    Name = "Credits",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+
 HomeTab:AddSection({Name = "Welcome, " .. username .. "!"})
 TeleportsTab:AddSection({Name = "Teleport Points"})
 FeaturesTab:AddSection({Name = "Useful Features"})
 GlovesTab:AddSection({Name = "Get Gloves"})
+CreditsTab:AddSection({Name = "Credits"})
 
 local gloveScripts = {
     ["Elude & Counter Gloves"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/EludeAndCounterGloves.luau",
@@ -96,6 +104,9 @@ platform.Anchored = true
 platform.Transparency = 0.7
 platform.Color = Color3.fromRGB(255, 0, 0)
 platform.Parent = game.Workspace
+
+CreditsTab:AddParagraph("Made By : ImCatTrust (TheEpicGamer16Yt)")
+CreditsTab:AddParagraph("Get Glove Scripts By : Nexer1234")
 
 FeaturesTab:AddTextbox({
     Name = "WalkSpeed",
