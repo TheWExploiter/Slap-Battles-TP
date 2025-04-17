@@ -109,6 +109,106 @@ FeaturesTab:AddTextbox({
     end
 })
 
+FeaturesTab:AddButton({
+    Name = "Server Hop (Random 10-16 Players)",
+    Callback = function()
+        local HttpService = game:GetService("HttpService")
+        local TeleportService = game:GetService("TeleportService")
+        local PlaceId = game.PlaceId
+        local cursor = ""
+        local servers = {}
+
+        repeat
+            local url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="..cursor
+            local data = HttpService:JSONDecode(game:HttpGet(url))
+            for _, server in ipairs(data.data) do
+                if server.playing >= 10 and server.playing <= 16 and server.id ~= game.JobId then
+                    table.insert(servers, server)
+                end
+            end
+            cursor = data.nextPageCursor or ""
+        until not cursor or #servers >= 25
+
+        if #servers > 0 then
+            local chosen = servers[math.random(1, #servers)]
+            TeleportService:TeleportToPlaceInstance(PlaceId, chosen.id)
+        else
+            OrionLib:MakeNotification({
+                Name = "No Servers Found",
+                Content = "No 10–16 player servers available!",
+                Time = 5
+            })
+        end
+    end
+})
+
+FeaturesTab:AddButton({
+    Name = "Server Hop (Lowest Ping)",
+    Callback = function()
+        local HttpService = game:GetService("HttpService")
+        local TeleportService = game:GetService("TeleportService")
+        local PlaceId = game.PlaceId
+        local cursor = ""
+        local bestServer = nil
+
+        repeat
+            local url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="..cursor
+            local data = HttpService:JSONDecode(game:HttpGet(url))
+            for _, server in ipairs(data.data) do
+                if server.ping and server.id ~= game.JobId then
+                    if not bestServer or server.ping < bestServer.ping then
+                        bestServer = server
+                    end
+                end
+            end
+            cursor = data.nextPageCursor or ""
+        until not cursor
+
+        if bestServer then
+            TeleportService:TeleportToPlaceInstance(PlaceId, bestServer.id)
+        else
+            OrionLib:MakeNotification({
+                Name = "No Server Found",
+                Content = "Could not find server with ping data!",
+                Time = 5
+            })
+        end
+    end
+})
+
+FeaturesTab:AddButton({
+    Name = "Server Hop (Under 5 Players)",
+    Callback = function()
+        local HttpService = game:GetService("HttpService")
+        local TeleportService = game:GetService("TeleportService")
+        local PlaceId = game.PlaceId
+        local cursor = ""
+        local target = nil
+
+        repeat
+            local url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="..cursor
+            local data = HttpService:JSONDecode(game:HttpGet(url))
+            for _, server in ipairs(data.data) do
+                if server.playing < 5 and server.id ~= game.JobId then
+                    target = server
+                    break
+                end
+            end
+            cursor = data.nextPageCursor or ""
+        until not cursor or target
+
+        if target then
+            TeleportService:TeleportToPlaceInstance(PlaceId, target.id)
+        else
+            OrionLib:MakeNotification({
+                Name = "No Low Server",
+                Content = "No servers under 5 players found!",
+                Time = 5
+            })
+        end
+    end
+})
+
 local antiVoidPart = Instance.new("Part")
 antiVoidPart.Size = Vector3.new(100000, 2, 100000)
 antiVoidPart.Position = Vector3.new(0, -12, 0)
