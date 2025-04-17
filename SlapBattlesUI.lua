@@ -63,10 +63,10 @@ TeleportsTab:AddTextbox({
 
 -- Platform at Fight Arena
 local platform = Instance.new("Part")
-platform.Size = Vector3.new(50, 2, 5)
+platform.Size = Vector3.new(5, 2, 5)
 platform.Position = Vector3.new(3419, 257, -18)
 platform.Anchored = true
-platform.Transparency = 0.5
+platform.Transparency = 0.7
 platform.Color = Color3.fromRGB(255, 0, 0)
 platform.Parent = game.Workspace
 
