@@ -110,6 +110,64 @@ FeaturesTab:AddTextbox({
 })
 
 FeaturesTab:AddButton({
+
+
+
+local antiVoidPart = Instance.new("Part")
+antiVoidPart.Size = Vector3.new(100000, 2, 100000)
+antiVoidPart.Position = Vector3.new(0, -12, 0)
+antiVoidPart.Anchored = true
+antiVoidPart.Color = Color3.fromRGB(255, 255, 255)
+antiVoidPart.CanCollide = true
+antiVoidPart.Transparency = 1
+antiVoidPart.Parent = game.Workspace
+
+FeaturesTab:AddToggle({
+    Name = "Anti Void",
+    Default = true,
+    Callback = function(state)
+        if state then
+            antiVoidPart.Transparency = 0.7
+            antiVoidPart.CanCollide = true
+        else
+            antiVoidPart.Transparency = 1
+            antiVoidPart.CanCollide = false
+        end
+    end
+})
+
+HomeTab:AddButton({
+    Name = "Copy Discord Invite",
+    Callback = function()
+        setclipboard("https://discord.gg/6cVygU3NHU")
+    end
+})
+
+FeaturesTab:AddToggle({
+    Name = "Anti Ragdoll",
+    Default = false,
+    Callback = function(state)
+        if state then
+            player.CharacterAdded:Connect(function(character)
+                local humanoid = character:WaitForChild("Humanoid")
+                local ragdoll = character:WaitForChild("Ragdolled")
+
+                ragdoll.Changed:Connect(function()
+                    if ragdoll.Value then
+                        local hrp = character:FindFirstChild("HumanoidRootPart")
+                        if hrp then
+                            hrp.Anchored = true
+                            wait(2)
+                            hrp.Anchored = false
+                        end
+                    end
+                end)
+            end)
+        end
+    end
+})
+
+FeaturesTab:AddButton({
     Name = "Server Hop (Random 10-16 Players)",
     Callback = function()
         local HttpService = game:GetService("HttpService")
@@ -170,137 +228,6 @@ FeaturesTab:AddButton({
             OrionLib:MakeNotification({
                 Name = "No Server Found",
                 Content = "Could not find server with ping data!",
-                Time = 5
-            })
-        end
-    end
-})
-
-FeaturesTab:AddButton({
-    Name = "Server Hop (Under 5 Players)",
-    Callback = function()
-        local HttpService = game:GetService("HttpService")
-        local TeleportService = game:GetService("TeleportService")
-        local PlaceId = game.PlaceId
-        local cursor = ""
-        local target = nil
-
-        repeat
-            local url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="..cursor
-            local data = HttpService:JSONDecode(game:HttpGet(url))
-            for _, server in ipairs(data.data) do
-                if server.playing < 5 and server.id ~= game.JobId then
-                    target = server
-                    break
-                end
-            end
-            cursor = data.nextPageCursor or ""
-        until not cursor or target
-
-        if target then
-            TeleportService:TeleportToPlaceInstance(PlaceId, target.id)
-        else
-            OrionLib:MakeNotification({
-                Name = "No Low Server",
-                Content = "No servers under 5 players found!",
-                Time = 5
-            })
-        end
-    end
-})
-
-local antiVoidPart = Instance.new("Part")
-antiVoidPart.Size = Vector3.new(100000, 2, 100000)
-antiVoidPart.Position = Vector3.new(0, -12, 0)
-antiVoidPart.Anchored = true
-antiVoidPart.Color = Color3.fromRGB(255, 255, 255)
-antiVoidPart.CanCollide = true
-antiVoidPart.Transparency = 1
-antiVoidPart.Parent = game.Workspace
-
-FeaturesTab:AddToggle({
-    Name = "Anti Void",
-    Default = true,
-    Callback = function(state)
-        if state then
-            antiVoidPart.Transparency = 0.7
-            antiVoidPart.CanCollide = true
-        else
-            antiVoidPart.Transparency = 1
-            antiVoidPart.CanCollide = false
-        end
-    end
-})
-
-HomeTab:AddButton({
-    Name = "Copy Discord Invite",
-    Callback = function()
-        setclipboard("https://discord.gg/6cVygU3NHU")
-    end
-})
-
-FeaturesTab:AddToggle({
-    Name = "Anti Ragdoll",
-    Default = false,
-    Callback = function(state)
-        if state then
-            player.CharacterAdded:Connect(function(character)
-                local humanoid = character:WaitForChild("Humanoid")
-                local ragdoll = character:WaitForChild("Ragdolled")
-
-                ragdoll.Changed:Connect(function()
-                    if ragdoll.Value then
-                        local hrp = character:FindFirstChild("HumanoidRootPart")
-                        if hrp then
-                            hrp.Anchored = true
-                            wait(2)
-                            hrp.Anchored = false
-                        end
-                    end
-                end)
-            end)
-        end
-    end
-})
-
-FeaturesTab:AddButton({
-    Name = "Server Hop (3 Players or Less)",
-    Callback = function()
-        local placeId = 6403373529
-
-        local success, servers = pcall(function()
-            return game:GetService("TeleportService"):GetPlayerPlaceAsync(placeId)
-        end)
-
-        if success and servers then
-            local validServers = {}
-            for _, server in pairs(servers) do
-                if server.PlayerCount <= 3 then
-                    table.insert(validServers, server)
-                end
-            end
-
-            if #validServers > 0 then
-                table.sort(validServers, function(a, b)
-                    return a.PlayerCount < b.PlayerCount
-                end)
-
-                local bestServer = validServers[1]
-
-                game:GetService("TeleportService"):TeleportToPlaceInstance(placeId, bestServer)
-            else
-                OrionLib:MakeNotification({
-                    Name = "No Low Pop Servers",
-                    Content = "No servers with 3 players or fewer found for Place ID " .. placeId,
-                    Image = "rbxassetid://4483345998",
-                    Time = 5
-                })
-            end
-        else
-            OrionLib:MakeNotification({
-                Name = "Server Hop Error",
-                Content = "Failed to retrieve server information for Place ID " .. placeId,
-                Image = "rbxassetid://4483345998",
                 Time = 5
             })
         end
