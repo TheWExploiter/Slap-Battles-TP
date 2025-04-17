@@ -34,6 +34,13 @@ local GlovesTab = Window:MakeTab({
     PremiumOnly = false
 })
 
+local TrollTab = Window:MakeTab({
+    Name = "Troll",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+
 local CreditsTab = Window:MakeTab({
     Name = "Credits",
     Icon = "rbxassetid://4483345998",
@@ -65,6 +72,21 @@ local gloveScripts = {
 
 for name, link in pairs(gloveScripts) do
     GlovesTab:AddButton({
+        Name = name,
+        Callback = function()
+            loadstring(game:HttpGet(link))()
+        end
+    })
+end
+
+local TrollScripts = {
+    
+    ["Fling GUI V1"] = "https://raw.githubusercontent.com/TheWExploiter/FlingGuiV1/refs/heads/main/FlingGUIV1.lua"
+
+}
+
+for name, link in pairs(TrollScripts) do
+    TrollTab:AddButton({
         Name = name,
         Callback = function()
             loadstring(game:HttpGet(link))()
