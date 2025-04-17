@@ -110,64 +110,6 @@ FeaturesTab:AddTextbox({
 })
 
 FeaturesTab:AddButton({
-
-
-
-local antiVoidPart = Instance.new("Part")
-antiVoidPart.Size = Vector3.new(100000, 2, 100000)
-antiVoidPart.Position = Vector3.new(0, -12, 0)
-antiVoidPart.Anchored = true
-antiVoidPart.Color = Color3.fromRGB(255, 255, 255)
-antiVoidPart.CanCollide = true
-antiVoidPart.Transparency = 1
-antiVoidPart.Parent = game.Workspace
-
-FeaturesTab:AddToggle({
-    Name = "Anti Void",
-    Default = true,
-    Callback = function(state)
-        if state then
-            antiVoidPart.Transparency = 0.7
-            antiVoidPart.CanCollide = true
-        else
-            antiVoidPart.Transparency = 1
-            antiVoidPart.CanCollide = false
-        end
-    end
-})
-
-HomeTab:AddButton({
-    Name = "Copy Discord Invite",
-    Callback = function()
-        setclipboard("https://discord.gg/6cVygU3NHU")
-    end
-})
-
-FeaturesTab:AddToggle({
-    Name = "Anti Ragdoll",
-    Default = false,
-    Callback = function(state)
-        if state then
-            player.CharacterAdded:Connect(function(character)
-                local humanoid = character:WaitForChild("Humanoid")
-                local ragdoll = character:WaitForChild("Ragdolled")
-
-                ragdoll.Changed:Connect(function()
-                    if ragdoll.Value then
-                        local hrp = character:FindFirstChild("HumanoidRootPart")
-                        if hrp then
-                            hrp.Anchored = true
-                            wait(2)
-                            hrp.Anchored = false
-                        end
-                    end
-                end)
-            end)
-        end
-    end
-})
-
-FeaturesTab:AddButton({
     Name = "Server Hop (Random 10-16 Players)",
     Callback = function()
         local HttpService = game:GetService("HttpService")
@@ -230,6 +172,60 @@ FeaturesTab:AddButton({
                 Content = "Could not find server with ping data!",
                 Time = 5
             })
+        end
+    end
+})
+
+local antiVoidPart = Instance.new("Part")
+antiVoidPart.Size = Vector3.new(100000, 2, 100000)
+antiVoidPart.Position = Vector3.new(0, -12, 0)
+antiVoidPart.Anchored = true
+antiVoidPart.Color = Color3.fromRGB(255, 255, 255)
+antiVoidPart.CanCollide = true
+antiVoidPart.Transparency = 1
+antiVoidPart.Parent = game.Workspace
+
+FeaturesTab:AddToggle({
+    Name = "Anti Void",
+    Default = true,
+    Callback = function(state)
+        if state then
+            antiVoidPart.Transparency = 0.7
+            antiVoidPart.CanCollide = true
+        else
+            antiVoidPart.Transparency = 1
+            antiVoidPart.CanCollide = false
+        end
+    end
+})
+
+HomeTab:AddButton({
+    Name = "Copy Discord Invite",
+    Callback = function()
+        setclipboard("https://discord.gg/6cVygU3NHU")
+    end
+})
+
+FeaturesTab:AddToggle({
+    Name = "Anti Ragdoll",
+    Default = false,
+    Callback = function(state)
+        if state then
+            player.CharacterAdded:Connect(function(character)
+                local humanoid = character:WaitForChild("Humanoid")
+                local ragdoll = character:WaitForChild("Ragdolled")
+
+                ragdoll.Changed:Connect(function()
+                    if ragdoll.Value then
+                        local hrp = character:FindFirstChild("HumanoidRootPart")
+                        if hrp then
+                            hrp.Anchored = true
+                            wait(2)
+                            hrp.Anchored = false
+                        end
+                    end
+                end)
+            end)
         end
     end
 })
