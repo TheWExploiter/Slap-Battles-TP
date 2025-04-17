@@ -51,8 +51,8 @@ HomeTab:AddSection({Name = "Welcome, " .. username .. "!"})
 TeleportsTab:AddSection({Name = "Teleport Points"})
 FeaturesTab:AddSection({Name = "Useful Features"})
 GlovesTab:AddSection({Name = "Get Gloves"})
-CreditsTab:AddSection{(Name = "Credits")}
-TrollTab:AddSection{(Name = "Troll Scripts")}
+CreditsTab:AddSection({Name = "Credits"})
+TrollTab:AddSection({Name = "Troll Scripts"})
 
 local gloveScripts = {
     ["Boxer Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/BoxerGlove.luau",
