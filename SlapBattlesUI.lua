@@ -34,14 +34,14 @@ local GlovesTab = Window:MakeTab({
     PremiumOnly = false
 })
 
-local CreditsTab = Window:MakeTab({
-    Name = "Credits",
+local TrollTab = Window:MakeTab({
+    Name = "Troll Stuff",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
-local TrollTab = Window:MakeTab({
-    Name = "Troll Stuff",
+local CreditsTab = Window:MakeTab({
+    Name = "Credits",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
@@ -98,6 +98,19 @@ local gloveScripts = {
 
 for name, link in pairs(gloveScripts) do
     GlovesTab:AddButton({
+        Name = name,
+        Callback = function()
+            loadstring(game:HttpGet(link))()
+        end
+    })
+end
+
+local featureScripts ={
+["Hide Name (Client)"] = "loadstring(game:HttpGet('https://raw.githubusercontent.com/isaberjan420/Roblox/refs/heads/main/Slap%20Battles/NameHider'))()"
+}
+
+for name, link in pairs(featureScripts) do
+    FeaturesTab:AddButton({
         Name = name,
         Callback = function()
             loadstring(game:HttpGet(link))()
