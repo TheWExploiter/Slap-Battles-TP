@@ -118,18 +118,18 @@ for name, link in pairs(featureScripts) do
     })
 end
 
-local featuresScripts = {
-["Slap Aura (SOON)"] = "" -- put the slap aura here lmao only the link
-}
+-- local featuresScripts = {
+-- ["Slap Aura (SOON)"] = "" -- put the slap aura here lmao only the link
+-- }
 
-for name, link in pairs(featuresScripts) do
-    FeaturesTab:AddToggle({
-            Name = name,
-        Callback = function()
-           loadstring(game:HttpGet(link))()
-        end
-    })
-end
+-- for name, link in pairs(featuresScripts) do
+--   FeaturesTab:AddToggle({
+--            Name = name,
+--        Callback = function()
+           --loadstring(game:HttpGet(link))()
+--        end
+--    })
+-- end
 
 local trollScripts = {
 ["Fling Gui V1"] = "https://raw.githubusercontent.com/TheWExploiter/FlingGuiV1/refs/heads/main/FlingGUIV1.lua"
