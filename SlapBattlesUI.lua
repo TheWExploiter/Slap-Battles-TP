@@ -106,7 +106,7 @@ for name, link in pairs(gloveScripts) do
 end
 
 local featureScripts = {
-["Hide Name (Client)"] = "https://raw.githubusercontent.com/isaberjan420/Roblox/refs/heads/main/Slap%20Battles/NameHider"
+["Hide Name (Client) (for vids)"] = "https://raw.githubusercontent.com/isaberjan420/Roblox/refs/heads/main/Slap%20Battles/NameHider"
 }
 
 for name, link in pairs(featureScripts) do
@@ -118,18 +118,18 @@ for name, link in pairs(featureScripts) do
     })
 end
 
--- local featuresScripts = {
--- ["Slap Aura"] = "" -- put the slap aura here lmao only the link
--- }
+local featuresScripts = {
+["Slap Aura (SOON)"] = "" -- put the slap aura here lmao only the link
+}
 
--- for name, link in pairs(featuresScripts) do
---     FeaturesTab:AddToggle({
---       Name = name,
---        Callback = function()
---           loadstring(game:HttpGet(link))()
---        end
---    })
--- end
+for name, link in pairs(featuresScripts) do
+    FeaturesTab:AddToggle({
+            Name = name,
+        Callback = function()
+           loadstring(game:HttpGet(link))()
+        end
+    })
+end
 
 local trollScripts = {
 ["Fling Gui V1"] = "https://raw.githubusercontent.com/TheWExploiter/FlingGuiV1/refs/heads/main/FlingGUIV1.lua"
@@ -146,6 +146,7 @@ end
 
 CreditsTab:AddParagraph("Made By : ImCatTrust! (TheEpicGamer16Yt)")
 CreditsTab:AddParagraph("Get Glove Scripts By : Nexer1234!")
+CreditsTab:AddParagraph("Some Scripts By : Celerity!")
 
 local function teleportTo(x, y, z)
     if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
