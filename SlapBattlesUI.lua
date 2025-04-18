@@ -106,11 +106,24 @@ for name, link in pairs(gloveScripts) do
 end
 
 local featureScripts ={
-["Hide Name (Client)"] = "loadstring(game:HttpGet('https://raw.githubusercontent.com/isaberjan420/Roblox/refs/heads/main/Slap%20Battles/NameHider'))()"
+["Hide Name (Client)"] = "https://raw.githubusercontent.com/isaberjan420/Roblox/refs/heads/main/Slap%20Battles/NameHider"
 }
 
 for name, link in pairs(featureScripts) do
     FeaturesTab:AddButton({
+        Name = name,
+        Callback = function()
+            loadstring(game:HttpGet(link))()
+        end
+    })
+end
+
+local featuresScripts
+["Slap Aura"] = "" -- put the slap aura here lmao only the link
+}
+
+for name, link in pairs(featuresScripts) do
+    FeaturesTab:AddToggle({
         Name = name,
         Callback = function()
             loadstring(game:HttpGet(link))()
