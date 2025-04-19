@@ -136,7 +136,7 @@ for name, link in pairs(featureScripts) do
 end
 
 local OPScripts = {
-["Slap Aura (fixed)"] = "https://raw.githubusercontent.com/TheWExploiter/Slap-Battles-TP/refs/heads/main/slapaura.lua"
+["Slap Aura (may break)"] = "https://raw.githubusercontent.com/TheWExploiter/Slap-Battles-TP/refs/heads/main/slapaura.lua"
 }
 
 for name, link in pairs(OPScripts) do
@@ -178,7 +178,7 @@ end
 CreditsTab:AddParagraph("Made By : ImCatTrust! (TheEpicGamer16Yt)")
 CreditsTab:AddParagraph("Get Glove Scripts By : Nexer1234!")
 CreditsTab:AddParagraph("Some Scripts By : Celerity!")
-ChangeLogTab:AddParagraph("(Update V2.3)               Slap Aura (fixed), Slap / Slapple Farm Added!")
+ChangeLogTab:AddParagraph("(Update V2.3)              Slap Aura (fixed), Slap / Slapple Farm Added!")
 
 local function teleportTo(x, y, z)
     if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
@@ -214,17 +214,17 @@ platform.Color = Color3.fromRGB(255, 0, 0)
 platform.Parent = game.Workspace
 
 local platform2 = Instance.new("Part")
-platform2.Size = Vector3.new(200, 2, 200)
-platform2.Position = Vector3.new(3419, 237, -19)
+platform2.Size = Vector3.new(230, 2, 230)
+platform2.Position = Vector3.new(3419, 235, -19)
 platform2.Anchored = true
-platform2.Transparency = 0.5
+platform2.Transparency = 0.83
 platform2.Color = Color3.fromRGB(0, 0, 0)
 platform2.Parent = game.Workspace
 
 
 FeaturesTab:AddTextbox({
     Name = "WalkSpeed",
-    Default = "26",
+    Default = "16",
     TextDisappear = true,
     Callback = function(value)
         local speed = tonumber(value)
@@ -267,42 +267,9 @@ FeaturesTab:AddButton({
     end
 })
 
-FeaturesTab:AddButton({
-    Name = "Server Hop (Lowest Ping)",
-    Callback = function()
-        local HttpService = game:GetService("HttpService")
-        local TeleportService = game:GetService("TeleportService")
-        local PlaceId = game.PlaceId
-        local cursor = ""
-        local bestServer = nil
-
-        repeat
-            local url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="..cursor
-            local data = HttpService:JSONDecode(game:HttpGet(url))
-            for _, server in ipairs(data.data) do
-                if server.ping and server.id ~= game.JobId then
-                    if not bestServer or server.ping < bestServer.ping then
-                        bestServer = server
-                    end
-                end
-            end
-            cursor = data.nextPageCursor or ""
-        until not cursor
-
-        if bestServer then
-            TeleportService:TeleportToPlaceInstance(PlaceId, bestServer.id)
-        else
-            OrionLib:MakeNotification({
-                Name = "No Server Found",
-                Content = "Could not find server with ping data!",
-                Time = 5
-            })
-        end
-    end
-})
 
 FeaturesTab:AddButton({
-    Name = "Server Hop (Under 5 Players)",
+    Name = "Server Hop (Under 6 Players)",
     Callback = function()
         local HttpService = game:GetService("HttpService")
         local TeleportService = game:GetService("TeleportService")
@@ -314,7 +281,7 @@ FeaturesTab:AddButton({
             local url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="..cursor
             local data = HttpService:JSONDecode(game:HttpGet(url))
             for _, server in ipairs(data.data) do
-                if server.playing < 5 and server.id ~= game.JobId then
+                if server.playing < 6 and server.id ~= game.JobId then
                     target = server
                     break
                 end
@@ -335,7 +302,7 @@ FeaturesTab:AddButton({
 })
 
 local antiVoidPart = Instance.new("Part")
-antiVoidPart.Size = Vector3.new(100000, 2, 100000)
+antiVoidPart.Size = Vector3.new(10000000, 3, 10000000)
 antiVoidPart.Position = Vector3.new(0, -12, 0)
 antiVoidPart.Anchored = true
 antiVoidPart.Color = Color3.fromRGB(255, 255, 255)
