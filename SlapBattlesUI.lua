@@ -119,7 +119,8 @@ for name, link in pairs(gloveScripts) do
 end
 
 local featureScripts = {
-["Hide Name (Client) (for vids)"] = "https://raw.githubusercontent.com/isaberjan420/Roblox/refs/heads/main/Slap%20Battles/NameHider"
+["Hide Name (Client) (for vids)"] = "https://raw.githubusercontent.com/isaberjan420/Roblox/refs/heads/main/Slap%20Battles/NameHider",
+["Bypass Ban"] = "https://raw.githubusercontent.com/Pro666Pro/BypassAntiCheat/refs/heads/main/main.lua"
 }
 
 for name, link in pairs(featureScripts) do
