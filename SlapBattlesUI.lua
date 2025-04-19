@@ -1,3 +1,7 @@
+_G.Key1 = 3457547547
+_G.Key2 = 999854233
+_G.Key3 = 125969439
+
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jensonhirst/Orion/main/source"))()
 
 local Window = OrionLib:MakeWindow({
@@ -118,18 +122,18 @@ for name, link in pairs(featureScripts) do
     })
 end
 
--- local featuresScripts = {
--- ["Slap Aura (SOON)"] = "" -- put the slap aura here lmao only the link
--- }
+local OPScripts = {
+["Slap Aura"] = "https://raw.githubusercontent.com/TheWExploiter/Slap-Battles-TP/refs/heads/main/script.lua"
+}
 
--- for name, link in pairs(featuresScripts) do
---   FeaturesTab:AddToggle({
---            Name = name,
---        Callback = function()
-           --loadstring(game:HttpGet(link))()
---        end
---    })
--- end
+for name, link in pairs(OPScripts) do
+   FeaturesTab:AddToggle({
+            Name = name,
+        Callback = function()
+           loadstring(game:HttpGet(link))()
+        end
+    })
+end
 
 local trollScripts = {
 ["Fling Gui V1"] = "https://raw.githubusercontent.com/TheWExploiter/FlingGuiV1/refs/heads/main/FlingGUIV1.lua"
