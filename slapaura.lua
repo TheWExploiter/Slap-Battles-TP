@@ -1,0 +1,3 @@
+SlapRemotes = loadstring(game:HttpGet('https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Other/SlapRemotesTable.luau'))()
+SlapNames = loadstring(game:HttpGet('https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Other/SlapRemotesNamesTable.luau'))()
+Slap = function(args, mode) mode = mode or 1 if mode == 1 then if SlapRemotes[GloveValue()] ~= nil then SlapRemotes[GloveValue()]:FireServer(unpack(args)) else ReplicatedStorage:WaitForChild("GeneralHit"):FireServer(unpack(args)) end elseif mode == 2 then ReplicatedStorage:WaitForChild("b"):FireServer(unpack(args)) end end
