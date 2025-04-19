@@ -44,6 +44,12 @@ local TrollTab = Window:MakeTab({
     PremiumOnly = false
 })
 
+local FarmTab = Window:MakeTab({
+    Name = "Farm Scripts",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
 local CreditsTab = Window:MakeTab({
     Name = "Credits",
     Icon = "rbxassetid://4483345998",
@@ -131,6 +137,20 @@ for name, link in pairs(OPScripts) do
             Name = name,
         Callback = function()
            loadstring(game:HttpGet(link))()
+        end
+    })
+end
+
+local farmscripts = {
+["Slapple Farm"] = "https://raw.githubusercontent.com/Skzuppy/forge-hub/refs/heads/main/slapfarm_slapple",
+["Snow Slap Farm (by incognitoscripts)"] = "https://raw.githubusercontent.com/IncognitoScripts/SlapBattles/refs/heads/main/SnowFarm"
+}
+
+for name, link in pairs(farmscripts) do
+    FarmTab:AddButton({
+        Name = name,
+        Callback = function()
+            loadstring(game:HttpGet(link))()
         end
     })
 end
