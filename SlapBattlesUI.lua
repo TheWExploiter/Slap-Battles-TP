@@ -7,7 +7,7 @@ _G.Key3 = 125969439
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jensonhirst/Orion/main/source"))()
 
 local Window = OrionLib:MakeWindow({
-    Name = "Teleport UI",
+    Name = "Slap Battles Multi Script (V2.3)",
     HidePremium = false,
     SaveConfig = true,
     ConfigFolder = "TeleportConfig"
@@ -52,6 +52,12 @@ local FarmTab = Window:MakeTab({
     PremiumOnly = false
 })
 
+local ChangeLogTab = Window:MakeTab({
+    Name = "Changelogs",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
 local CreditsTab = Window:MakeTab({
     Name = "Credits",
     Icon = "rbxassetid://4483345998",
@@ -66,6 +72,7 @@ GlovesTab:AddSection({Name = "Get Gloves"})
 CreditsTab:AddSection({Name = "Credits"})
 TrollTab:AddSection({Name = "Troll Scripts"})
 FarmTab:AddSection({Name = "Farm Scripts"})
+ChangeLogTab:AddSection({Name = "Update Changelogs"})
 
 local gloveScripts = {
     ["Boxer Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/BoxerGlove.luau",
@@ -133,7 +140,7 @@ for name, link in pairs(featureScripts) do
 end
 
 local OPScripts = {
-["Slap Aura (bugged)"] = "https://raw.githubusercontent.com/TheWExploiter/Slap-Battles-TP/refs/heads/main/script.lua"
+["Slap Aura (fixed)"] = "https://raw.githubusercontent.com/TheWExploiter/Slap-Battles-TP/refs/heads/main/slapaura.lua"
 }
 
 for name, link in pairs(OPScripts) do
@@ -175,6 +182,7 @@ end
 CreditsTab:AddParagraph("Made By : ImCatTrust! (TheEpicGamer16Yt)")
 CreditsTab:AddParagraph("Get Glove Scripts By : Nexer1234!")
 CreditsTab:AddParagraph("Some Scripts By : Celerity!")
+ChangeLogTab:AddParagraph("(Update V2.3)               Slap Aura (fixed), Slap / Slapple Farm Added!")
 
 local function teleportTo(x, y, z)
     if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
