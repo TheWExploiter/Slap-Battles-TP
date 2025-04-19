@@ -185,6 +185,15 @@ platform.Transparency = 0.7
 platform.Color = Color3.fromRGB(255, 0, 0)
 platform.Parent = game.Workspace
 
+local platform2 = Instance.new("Part")
+platform2.Size = Vector3.new(200, 2, 200)
+platform2.Position = Vector3.new(3419, 237, -19)
+platform2.Anchored = true
+platform2.Transparency = 0.5
+platform2.Color = Color3.fromRGB(0, 0, 0)
+platform2.Parent = game.Workspace
+
+
 FeaturesTab:AddTextbox({
     Name = "WalkSpeed",
     Default = "26",
