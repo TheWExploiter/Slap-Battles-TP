@@ -63,6 +63,7 @@ FeaturesTab:AddSection({Name = "Useful Features"})
 GlovesTab:AddSection({Name = "Get Gloves"})
 CreditsTab:AddSection({Name = "Credits"})
 TrollTab:AddSection({Name = "Troll Scripts"})
+FarmTab:AddSection({Name = "Farm Scripts"})
 
 local gloveScripts = {
     ["Boxer Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/BoxerGlove.luau",
