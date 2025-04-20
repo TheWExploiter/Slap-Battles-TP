@@ -23,10 +23,12 @@ end
 local slapDelay = 0.7
 local slapRange = 35
 
-task.spawn(function()
-	while true do
+local running = true
+
+local function SlapAuraLoop()
+	while running do
 		task.wait(slapDelay)
-		if _G.SlapAuraEnabled and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+		if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
 			local playerPos = LocalPlayer.Character.HumanoidRootPart.Position
 			for _, target in pairs(Players:GetPlayers()) do
 				if target ~= LocalPlayer and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
@@ -38,4 +40,10 @@ task.spawn(function()
 			end
 		end
 	end
-end)
+end
+
+task.spawn(SlapAuraLoop)
+
+return function()
+	running = false
+end
