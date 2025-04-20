@@ -3,7 +3,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Pro666Pro/BypassAntiC
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jensonhirst/Orion/main/source"))()
 
 local Window = OrionLib:MakeWindow({
-    Name = "Slap Battles Multi Script (V2.3)",
+    Name = "Slap Battles Multi Script (V2.4)",
     HidePremium = false,
     SaveConfig = true,
     ConfigFolder = "TeleportConfig"
@@ -178,6 +178,7 @@ end
 CreditsTab:AddParagraph("Made By : ImCatTrust! (TheEpicGamer16Yt)")
 CreditsTab:AddParagraph("Get Glove Scripts By : Nexer1234!")
 CreditsTab:AddParagraph("Some Scripts By : Celerity!")
+ChangeLogTab:AddParagraph("(Update V2.4)              Added Anti Void (Tournament)")
 ChangeLogTab:AddParagraph("(Update V2.3)              Slap Aura (fixed), Slap / Slapple Farm Added!")
 
 local function teleportTo(x, y, z)
@@ -214,7 +215,7 @@ platform.Color = Color3.fromRGB(255, 0, 0)
 platform.Parent = game.Workspace
 
 local platform2 = Instance.new("Part")
-platform2.Size = Vector3.new(230, 2, 230)
+platform2.Size = Vector3.new(300, 2, 300)
 platform2.Position = Vector3.new(3419, 235, -19)
 platform2.Anchored = true
 platform2.Transparency = 0.83
@@ -269,7 +270,7 @@ FeaturesTab:AddButton({
 
 
 FeaturesTab:AddButton({
-    Name = "Server Hop (Under 6 Players)",
+    Name = "Low Server Hop",
     Callback = function()
         local HttpService = game:GetService("HttpService")
         local TeleportService = game:GetService("TeleportService")
