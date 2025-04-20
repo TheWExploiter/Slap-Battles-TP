@@ -14,13 +14,13 @@ local username = player.Name
 
 local HomeTab = Window:MakeTab({
     Name = "Home",
-    Icon = "rbxassetid://4483345998",
+    Icon = "rbxassetid://71529229380398",
     PremiumOnly = false
 })
 
 local TeleportsTab = Window:MakeTab({
     Name = "Teleports",
-    Icon = "rbxassetid://4483345998",
+    Icon = "rbxassetid://135723737711673",
     PremiumOnly = false
 })
 
@@ -38,7 +38,7 @@ local GlovesTab = Window:MakeTab({
 
 local TrollTab = Window:MakeTab({
     Name = "Troll Stuff",
-    Icon = "rbxassetid://4483345998",
+    Icon = "rbxassetid://135503438920297",
     PremiumOnly = false
 })
 
