@@ -1,6 +1,3 @@
-_G.SlapAuraEnabled = false
-
-
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Pro666Pro/BypassAntiCheat/refs/heads/main/main.lua"))()
 
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jensonhirst/Orion/main/source"))()
@@ -211,11 +208,19 @@ TeleportsTab:AddTextbox({
     end
 })
 
+local slapAuraStopper
+
 FeaturesTab:AddToggle({
 	Name = "Slap Aura",
 	Default = false,
 	Callback = function(state)
-		_G.SlapAuraEnabled = state
+		if state then
+			slapAuraStopper = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheWExploiter/Slap-Battles-TP/refs/heads/main/slapaura.lua"))()
+		else
+			if slapAuraStopper then
+				slapAuraStopper()
+			end
+		end
 	end
 })
 
