@@ -1,4 +1,4 @@
-# **SLAP BATTLES TP GUI**
+# **SLAP BATTLES MULTI GUI**
 # **[Rework]**
 
 > [+] Reworked The Script
