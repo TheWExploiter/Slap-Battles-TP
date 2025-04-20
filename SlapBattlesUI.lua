@@ -32,7 +32,7 @@ local FeaturesTab = Window:MakeTab({
 
 local GlovesTab = Window:MakeTab({
     Name = "Gloves",
-    Icon = "rbxassetid://4483345998",
+    Icon = "rbxassetid://137087641784442",
     PremiumOnly = false
 })
 
