@@ -314,8 +314,8 @@ FeaturesTab:AddButton({
 })
 
 local antiVoidPart = Instance.new("Part")
-antiVoidPart.Size = Vector3.new(10000000, 3, 10000000)
-antiVoidPart.Position = Vector3.new(0, -12, 0)
+antiVoidPart.Size = Vector3.new(100000000, 3, 100000000)
+antiVoidPart.Position = Vector3.new(0, -11.5, 0)
 antiVoidPart.Anchored = true
 antiVoidPart.Color = Color3.fromRGB(255, 255, 255)
 antiVoidPart.CanCollide = true
@@ -343,7 +343,7 @@ HomeTab:AddButton({
     end
 })
 
-FeaturesTab:AddButton({
+FeaturesTab:AddToggle({
     Name = "Anti Ragdoll (Need Reset)",
     Default = false,
     Callback = function(state)
