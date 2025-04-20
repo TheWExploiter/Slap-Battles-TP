@@ -136,7 +136,7 @@ for name, link in pairs(featureScripts) do
 end
 
 local OPScripts = {
-["Slap Aura (may break)"] = "https://raw.githubusercontent.com/TheWExploiter/Slap-Battles-TP/refs/heads/main/slapaura.lua"
+["Slap Aura (broken)"] = "https://raw.githubusercontent.com/TheWExploiter/Slap-Battles-TP/refs/heads/main/slapaura.lua"
 }
 
 for name, link in pairs(OPScripts) do
@@ -193,6 +193,8 @@ TeleportsTab:AddButton({Name = "Cannon Island", Callback = function() teleportTo
 TeleportsTab:AddButton({Name = "Guide Room (Inside)", Callback = function() teleportTo(17894, -130, -3542) end})
 TeleportsTab:AddButton({Name = "Guide Room (Outside)", Callback = function() teleportTo(17938, -130, -3598) end})
 TeleportsTab:AddButton({Name = "New Arena (Free Slaps & Null Shards)", Callback = function() teleportTo(3419, 260, -18) end})
+TeleportsTab:AddButton({Name = "Void Platform", Callback = function() teleportTo(-34919, -2593, -18) end})
+
 
 TeleportsTab:AddTextbox({
     Name = "Teleport to Player",
@@ -213,6 +215,15 @@ platform.Anchored = true
 platform.Transparency = 0.7
 platform.Color = Color3.fromRGB(255, 0, 0)
 platform.Parent = game.Workspace
+
+local voidplatform = Instance.new("Part")
+voidplatform.Size = Vector3.new(9999, 3, 9999)
+voidplatform.Position = Vector3.new(-34919, -2597, -18)
+voidplatform.Anchored = true
+voidplatform.Transparency = 0.7
+voidplatform.Color = Color3.fromRGB(0, 0, 0)
+voidplatform.Parent = game.Workspace
+
 
 local platform2 = Instance.new("Part")
 platform2.Size = Vector3.new(300, 2, 300)
@@ -236,7 +247,7 @@ FeaturesTab:AddTextbox({
 })
 
 FeaturesTab:AddButton({
-    Name = "Server Hop (Random 10-16 Players)",
+    Name = "Server Hop (10-16 Players)",
     Callback = function()
         local HttpService = game:GetService("HttpService")
         local TeleportService = game:GetService("TeleportService")
