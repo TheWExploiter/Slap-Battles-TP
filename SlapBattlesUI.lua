@@ -332,8 +332,8 @@ HomeTab:AddButton({
     end
 })
 
-FeaturesTab:AddToggle({
-    Name = "Anti Ragdoll",
+FeaturesTab:AddButton({
+    Name = "Anti Ragdoll (Need Reset)",
     Default = false,
     Callback = function(state)
         if state then
