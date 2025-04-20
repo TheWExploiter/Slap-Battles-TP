@@ -3,7 +3,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Pro666Pro/BypassAntiC
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jensonhirst/Orion/main/source"))()
 
 local Window = OrionLib:MakeWindow({
-    Name = "Slap Battles Multi Script (V2.4)",
+    Name = "Slap Battles Multi Script (V2.5)",
     HidePremium = false,
     SaveConfig = true,
     ConfigFolder = "TeleportConfig"
@@ -135,19 +135,6 @@ for name, link in pairs(featureScripts) do
     })
 end
 
-local OPScripts = {
-["Slap Aura (broken)"] = "https://raw.githubusercontent.com/TheWExploiter/Slap-Battles-TP/refs/heads/main/slapaura.lua"
-}
-
-for name, link in pairs(OPScripts) do
-   FeaturesTab:AddToggle({
-            Name = name,
-        Callback = function()
-           loadstring(game:HttpGet(link))()
-        end
-    })
-end
-
 local farmscripts = {
 ["Slapple Farm"] = "https://raw.githubusercontent.com/Skzuppy/forge-hub/refs/heads/main/slapfarm_slapple",
 ["Snow Slap Farm (by incognitoscripts)"] = "https://raw.githubusercontent.com/IncognitoScripts/SlapBattles/refs/heads/main/SnowFarm"
@@ -178,6 +165,7 @@ end
 CreditsTab:AddParagraph("Made By : ImCatTrust! (TheEpicGamer16Yt)")
 CreditsTab:AddParagraph("Get Glove Scripts By : Nexer1234!")
 CreditsTab:AddParagraph("Some Scripts By : Celerity!")
+ChangeLogTab:AddParagraph("(Update V2.5)              Added Better Slap Aura! (fixed)")
 ChangeLogTab:AddParagraph("(Update V2.4)              Added Anti Void (Tournament)")
 ChangeLogTab:AddParagraph("(Update V2.3)              Slap Aura (fixed), Slap / Slapple Farm Added!")
 
