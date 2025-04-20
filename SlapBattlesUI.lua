@@ -6,7 +6,10 @@ local Window = OrionLib:MakeWindow({
     Name = "Slap Battles Multi Script (V2.6)",
     HidePremium = false,
     SaveConfig = true,
-    ConfigFolder = "TeleportConfig"
+    ConfigFolder = "TeleportConfig",
+    IntroEnabled = true,
+    IntroText = "Slap Battles Multi Script",
+    CloseCallback = function() end
 })
 
 local player = game.Players.LocalPlayer
