@@ -3,7 +3,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Pro666Pro/BypassAntiC
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jensonhirst/Orion/main/source"))()
 
 local Window = OrionLib:MakeWindow({
-    Name = "Slap Battles Multi Script (V2.5)",
+    Name = "Slap Battles Multi Script (V2.6)",
     HidePremium = false,
     SaveConfig = true,
     ConfigFolder = "TeleportConfig"
@@ -48,6 +48,12 @@ local FarmTab = Window:MakeTab({
     PremiumOnly = false
 })
 
+local CombatTab = Window:MakeTab({
+    Name = "Combat",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
 local ChangeLogTab = Window:MakeTab({
     Name = "Changelogs",
     Icon = "rbxassetid://4483345998",
@@ -62,13 +68,14 @@ local CreditsTab = Window:MakeTab({
 
 
 HomeTab:AddSection({Name = "Welcome, " .. username .. "!"})
-TeleportsTab:AddSection({Name = "Teleport Points"})
+TeleportsTab:AddSection({Name = "Teleports"})
 FeaturesTab:AddSection({Name = "Useful Features"})
-GlovesTab:AddSection({Name = "Get Gloves"})
+GlovesTab:AddSection({Name = "Auto Get Gloves"})
 CreditsTab:AddSection({Name = "Credits"})
 TrollTab:AddSection({Name = "Troll Scripts"})
 FarmTab:AddSection({Name = "Farm Scripts"})
-ChangeLogTab:AddSection({Name = "[[Update Changelogs]]"})
+ChangeLogTab:AddSection({Name = "Update Changelogs"})
+CombatTab:AddSection({Name = "Combat"})
 
 local gloveScripts = {
     ["Boxer Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/BoxerGlove.luau",
@@ -165,9 +172,10 @@ end
 CreditsTab:AddParagraph("Made By : ImCatTrust! (TheEpicGamer16Yt)")
 CreditsTab:AddParagraph("Get Glove Scripts By : Nexer1234!")
 CreditsTab:AddParagraph("Some Scripts By : Celerity!")
-ChangeLogTab:AddParagraph("(Update V2.5)              Added Better Slap Aura! (fixed)")
-ChangeLogTab:AddParagraph("(Update V2.4)              Added Anti Void (Tournament)")
-ChangeLogTab:AddParagraph("(Update V2.3)              Slap Aura (fixed), Slap / Slapple Farm Added!")
+ChangeLogTab:AddParagraph("(Update V2.6)!              Bug Fixes!, Combat Tab (New)")
+ChangeLogTab:AddParagraph("(Update V2.5)!              Added Better Slap Aura! (fixed)")
+ChangeLogTab:AddParagraph("(Update V2.4)!              Added Anti Void (Tournament)")
+ChangeLogTab:AddParagraph("(Update V2.3)!              Slap Aura (fixed), Slap / Slapple Farm Added!")
 
 local function teleportTo(x, y, z)
     if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
@@ -198,7 +206,7 @@ TeleportsTab:AddTextbox({
 
 local slapAuraStopper
 
-FeaturesTab:AddToggle({
+CombatTab:AddToggle({
 	Name = "Slap Aura",
 	Default = false,
 	Callback = function(state)
@@ -238,7 +246,7 @@ platform2.Color = Color3.fromRGB(0, 0, 0)
 platform2.Parent = game.Workspace
 
 
-FeaturesTab:AddTextbox({
+CombatTab:AddTextbox({
     Name = "WalkSpeed",
     Default = "16",
     TextDisappear = true,
@@ -326,7 +334,7 @@ antiVoidPart.CanCollide = true
 antiVoidPart.Transparency = 1
 antiVoidPart.Parent = game.Workspace
 
-FeaturesTab:AddToggle({
+CombatTab:AddToggle({
     Name = "Anti Void",
     Default = true,
     Callback = function(state)
@@ -347,7 +355,7 @@ HomeTab:AddButton({
     end
 })
 
-FeaturesTab:AddToggle({
+CombatTab:AddToggle({
     Name = "Anti Ragdoll (Need Reset)",
     Default = false,
     Callback = function(state)
