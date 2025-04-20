@@ -50,7 +50,7 @@ local FarmTab = Window:MakeTab({
 
 local ChangeLogTab = Window:MakeTab({
     Name = "Changelogs",
-    Icon = "rbxassetid://4483345998",
+    Icon = "rbxassetid://4834592491",
     PremiumOnly = false
 })
 
