@@ -14,13 +14,13 @@ local username = player.Name
 
 local HomeTab = Window:MakeTab({
     Name = "Home",
-    Icon = "rbxassetid://71529229380398",
+    Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
 local TeleportsTab = Window:MakeTab({
     Name = "Teleports",
-    Icon = "rbxassetid://135723737711673",
+    Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
@@ -32,13 +32,13 @@ local FeaturesTab = Window:MakeTab({
 
 local GlovesTab = Window:MakeTab({
     Name = "Gloves",
-    Icon = "rbxassetid://137087641784442",
+    Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
 local TrollTab = Window:MakeTab({
     Name = "Troll Stuff",
-    Icon = "rbxassetid://135503438920297",
+    Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
@@ -50,7 +50,7 @@ local FarmTab = Window:MakeTab({
 
 local ChangeLogTab = Window:MakeTab({
     Name = "Changelogs",
-    Icon = "rbxassetid://4834592491",
+    Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
 
@@ -68,7 +68,7 @@ GlovesTab:AddSection({Name = "Get Gloves"})
 CreditsTab:AddSection({Name = "Credits"})
 TrollTab:AddSection({Name = "Troll Scripts"})
 FarmTab:AddSection({Name = "Farm Scripts"})
-ChangeLogTab:AddSection({Name = "Update Changelogs"})
+ChangeLogTab:AddSection({Name = "[[Update Changelogs]]"})
 
 local gloveScripts = {
     ["Boxer Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/BoxerGlove.luau",
