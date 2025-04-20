@@ -1,3 +1,6 @@
+_G.SlapAuraEnabled = false
+
+
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Pro666Pro/BypassAntiCheat/refs/heads/main/main.lua"))()
 
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jensonhirst/Orion/main/source"))()
@@ -206,6 +209,14 @@ TeleportsTab:AddTextbox({
             player.Character.HumanoidRootPart.CFrame = target.Character.HumanoidRootPart.CFrame
         end
     end
+})
+
+FeaturesTab:AddToggle({
+	Name = "Slap Aura",
+	Default = false,
+	Callback = function(state)
+		_G.SlapAuraEnabled = state
+	end
 })
 
 local platform = Instance.new("Part")
