@@ -82,3 +82,12 @@ Players.PlayerRemoving:Connect(function(plr)
 		TeleportService:Teleport(game.PlaceId, LocalPlayer)
 	end
 end)
+
+local GuiService = game:GetService("GuiService")
+
+GuiService:GetPropertyChangedSignal("ErrorMessage"):Connect(function()
+	local errorText = GuiService.ErrorMessage
+	if errorText ~= "" then
+		TeleportService:Teleport(game.PlaceId, LocalPlayer)
+	end
+end)
