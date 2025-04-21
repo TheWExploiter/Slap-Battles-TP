@@ -27,7 +27,7 @@ local function notifyBadge(status)
 	txt.TextScaled = true
 	txt.Text = status and "Has Bob lol" or "Dosen't have bob lol"
 
-	task.delay(3, function()
+	task.delay(2, function()
 		gui:Destroy()
 	end)
 end
@@ -71,7 +71,7 @@ local function hop()
 end
 
 local function startGrind()
-	while task.wait(0.1) do
+	while task.wait(2) do
 		if not lp or not lp.Parent then break end
 		if hasBadge() then break end
 		if hasReplica() then
@@ -80,7 +80,7 @@ local function startGrind()
 			task.wait(1)
 
 			local t0 = tick()
-			while tick() - t0 < 2 and hasReplica() do
+			while tick() - t0 < 1 and hasReplica() do
 				if hasBadge() then return end
 				local bob = rs:FindFirstChild("bob")
 				local dup = rs:FindFirstChild("Duplicate")
