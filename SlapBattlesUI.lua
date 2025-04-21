@@ -3,7 +3,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Pro666Pro/BypassAntiC
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jensonhirst/Orion/main/source"))()
 
 local Window = OrionLib:MakeWindow({
-    Name = "Slap Battles Multi Script (V2.7)📃",
+    Name = "Slap Battles Multi Script (V2.8)📜",
     HidePremium = false,
     SaveConfig = true,
     ConfigFolder = "TeleportConfig",
@@ -39,11 +39,35 @@ local GlovesTab = Window:MakeTab({
     PremiumOnly = false
 })
 
+AllUnlockedGloves = function()
+local A = {}
+if workspace:FindFirstChild("Lobby") and game.Players.LocalPlayer:FindFirstChild("_unlockedGloves") then
+for i,v in pairs(game.Players.LocalPlayer:FindFirstChild("_unlockedGloves"):GetChildren()) do
+if v and v:IsA("BoolValue") and v.Value == true then
+table.insert(A, v.Name)
+end
+end
+return A
+end
+end
+
 local EquipGlovesTab = Window:MakeTab({
     Name = "Equip Gloves",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
+
+
+for i,v in ipairs(AllUnlockedGloves) do
+EquipGlovesTab:AddButton({
+    Name = v,
+    Callback = function()
+        
+fireclickdetector(workspace.Lobby[v]:FindFirstChildWhichIsA("ClickDetector"))
+
+    end
+})
+end
 
 local TrollTab = Window:MakeTab({
     Name = "Troll Stuff",
@@ -166,29 +190,6 @@ for name, link in pairs(farmscripts) do
     })
 end
 
-AllUnlockedGloves = function()
-local A = {}
-if workspace:FindFirstChild("Lobby") and game.Players.LocalPlayer:FindFirstChild("_unlockedGloves") then
-for i,v in pairs(game.Players.LocalPlayer:FindFirstChild("_unlockedGloves"):GetChildren()) do
-if v and v:IsA("BoolValue") and v.Value == true then
-table.insert(A, v.Name)
-end
-end
-return A
-end
-end
-
-for i,v in ipairs(AllUnlockedGloves) do
-EquipGlovesTab:AddButton({
-    Name = v,
-    Callback = function()
-        
-fireclickdetector(workspace.Lobby[v]:FindFirstChildWhichIsA("ClickDetector"))
-
-    end
-})
-end
-
 local trollScripts = {
 ["Fling Gui V1"] = "https://raw.githubusercontent.com/TheWExploiter/FlingGuiV1/refs/heads/main/FlingGUIV1.lua"
 }
@@ -205,6 +206,7 @@ end
 CreditsTab:AddParagraph("Made By : ImCatTrust! (TheEpicGamer16Yt)")
 CreditsTab:AddParagraph("Get Glove Scripts By : Nexer1234!")
 CreditsTab:AddParagraph("Some Scripts By : Celerity!")
+ChangeLogTab:AddParagraph("(Update V2.8)!              Added Equip Glove")
 ChangeLogTab:AddParagraph("(Update V2.7)!              Added Auto Get Bob (10% chance)")
 ChangeLogTab:AddParagraph("(Update V2.6)!              Bug Fixes!, Combat Tab (New)")
 ChangeLogTab:AddParagraph("(Update V2.5)!              Added Better Slap Aura! (fixed)")
