@@ -1,98 +1,84 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local StarterGui = game:GetService("StarterGui")
-local RunService = game:GetService("RunService")
+local TeleportService = game:GetService("TeleportService")
+local LocalPlayer = Players.LocalPlayer
 
-local player = Players.LocalPlayer
-local gui = player:WaitForChild("PlayerGui")
+-- UI Setup
+local ScreenGui = Instance.new("ScreenGui", LocalPlayer:WaitForChild("PlayerGui"))
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Name = "BobGui"
 
--- GUI Creation
-local screenGui = Instance.new("ScreenGui", gui)
-screenGui.Name = "ReplicaBobGUI"
-screenGui.ResetOnSpawn = false
+local Frame = Instance.new("Frame", ScreenGui)
+Frame.Size = UDim2.new(0, 250, 0, 140)
+Frame.Position = UDim2.new(0.5, -125, 0.5, -70)
+Frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+Frame.Active = true
+Frame.Draggable = true
 
-local mainFrame = Instance.new("Frame", screenGui)
-mainFrame.Size = UDim2.new(0, 300, 0, 200)
-mainFrame.Position = UDim2.new(0.5, -150, 0.5, -100)
-mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-mainFrame.Active = true
-mainFrame.Draggable = true
-mainFrame.Name = "MainFrame"
+local UICorner = Instance.new("UICorner", Frame)
+UICorner.CornerRadius = UDim.new(0, 8)
 
-local corner = Instance.new("UICorner", mainFrame)
-corner.CornerRadius = UDim.new(0, 12)
+local Title = Instance.new("TextLabel", Frame)
+Title.Size = UDim2.new(1, 0, 0, 30)
+Title.BackgroundTransparency = 1
+Title.Text = "Bob Auto Spammer"
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 18
+Title.TextColor3 = Color3.new(1, 1, 1)
 
-local titleLabel = Instance.new("TextLabel", mainFrame)
-titleLabel.Size = UDim2.new(1, 0, 0, 30)
-titleLabel.Position = UDim2.new(0, 0, 0, 0)
-titleLabel.Text = "Bob Spam UI"
-titleLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-titleLabel.BackgroundTransparency = 1
-titleLabel.TextSize = 18
-titleLabel.Font = Enum.Font.GothamBold
+local Button = Instance.new("TextButton", Frame)
+Button.Position = UDim2.new(0.1, 0, 0.4, 0)
+Button.Size = UDim2.new(0.8, 0, 0.4, 0)
+Button.Text = "(Get Bob) (10% Chance)"
+Button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+Button.TextColor3 = Color3.new(1, 1, 1)
+Button.Font = Enum.Font.Gotham
+Button.TextSize = 16
 
-local featuresLabel = Instance.new("TextLabel", mainFrame)
-featuresLabel.Size = UDim2.new(1, 0, 0, 60)
-featuresLabel.Position = UDim2.new(0, 0, 0.15, 0)
-featuresLabel.Text = "Features:\n- Spam Bob & Duplicate\n- Replica Glove Check"
-featuresLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-featuresLabel.BackgroundTransparency = 1
-featuresLabel.TextSize = 14
-featuresLabel.Font = Enum.Font.Gotham
-
-local button = Instance.new("TextButton", mainFrame)
-button.Size = UDim2.new(1, 0, 0, 50)
-button.Position = UDim2.new(0, 0, 0.6, 0)
-button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-button.TextColor3 = Color3.fromRGB(255, 255, 255)
-button.Text = "(Get Bob) (10% chance)"
-
-local btnCorner = Instance.new("UICorner", button)
-btnCorner.CornerRadius = UDim.new(0, 8)
-
-local draggingFrame = Instance.new("Frame", mainFrame)
-draggingFrame.Size = UDim2.new(1, 0, 0, 30)
-draggingFrame.BackgroundTransparency = 1
-draggingFrame.Position = UDim2.new(0, 0, 0, 0)
-
-local dragCorner = Instance.new("UICorner", draggingFrame)
-dragCorner.CornerRadius = UDim.new(0, 8)
+local UICornerBtn = Instance.new("UICorner", Button)
+UICornerBtn.CornerRadius = UDim.new(0, 6)
 
 -- Glove Check
-local function hasReplica()
-    local stats = player:FindFirstChild("leaderstats")
-    if stats then
-        local glove = stats:FindFirstChild("Glove")
-        return glove and glove.Value == "Replica"
-    end
-    return false
+local function checkReplica()
+	local stats = LocalPlayer:FindFirstChild("leaderstats")
+	if not stats or stats:FindFirstChild("Glove") == nil then return false end
+	return stats.Glove.Value == "Replica"
 end
 
--- Spam Toggle Logic
-local spamming = false
+local function notifyMissingGlove()
+	local StarterGui = game:GetService("StarterGui")
+	StarterGui:SetCore("SendNotification", {
+		Title = "Missing Replica",
+		Text = "You to equip the Replica glove bruh",
+		Duration = 9
+	})
+end
 
-button.MouseButton1Click:Connect(function()
-    if not hasReplica() then
-        StarterGui:SetCore("SendNotification", {
-            Title = "Missing Replica",
-            Text = "Your Glove is not 'Replica'",
-            Duration = 4
-        })
-        return
-    end
+-- Main Function
+local running = false
 
-    spamming = not spamming
-    button.Text = spamming and "Spamming Bob..." or "(Get Bob) (10% chance)"
+Button.MouseButton1Click:Connect(function()
+	if running then return end
+	running = true
 
-    if spamming then
-        task.spawn(function()
-            while spamming and task.wait(0.1) do
-                ReplicatedStorage.bob:FireServer()
-                local dup = ReplicatedStorage:FindFirstChild("Duplicate")
-                if dup and dup:IsA("RemoteEvent") then
-                    dup:FireServer()
-                end
-            end
-        end)
-    end
+	if not checkReplica() then
+		notifyMissingGlove()
+		running = false
+		return
+	end
+
+	while running do
+		if checkReplica() then
+			ReplicatedStorage:FindFirstChild("bob"):FireServer()
+			ReplicatedStorage:FindFirstChild("Duplicate"):FireServer()
+		end
+		task.wait(0.1)
+	end
+end)
+
+-- Instant Rejoin on Kick
+Players.PlayerRemoving:Connect(function(plr)
+	if plr == LocalPlayer then
+		TeleportService:Teleport(game.PlaceId, LocalPlayer)
+	end
 end)
