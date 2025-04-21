@@ -1,57 +1,86 @@
--- UI Setup
-local ScreenGui = Instance.new("ScreenGui")
-local Frame = Instance.new("Frame")
-local Button = Instance.new("TextButton")
-local Title = Instance.new("TextLabel")
+local Players       = game:GetService("Players")
+local Replicated    = game:GetService("ReplicatedStorage")
+local TeleportSvc   = game:GetService("TeleportService")
+local StarterGui    = game:GetService("StarterGui")
 
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-ScreenGui.ResetOnSpawn = false
+local player    = Players.LocalPlayer
+local gui       = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+gui.ResetOnSpawn = false
 
-Frame.Parent = ScreenGui
-Frame.Size = UDim2.new(0, 220, 0, 90)
-Frame.Position = UDim2.new(0.5, -110, 0.5, -45)
-Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-Frame.Active = true
-Frame.Draggable = true
+local frame = Instance.new("Frame", gui)
+frame.Size       = UDim2.new(0, 260, 0, 100)
+frame.Position   = UDim2.new(0.5, -130, 0.5, -50)
+frame.BackgroundColor3 = Color3.fromRGB(30,30,30)
+frame.Active     = true
+frame.Draggable  = true
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0,12)
 
-Title.Parent = Frame
-Title.Size = UDim2.new(1, 0, 0, 30)
-Title.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-Title.Text = "Spam UI"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.Font = Enum.Font.SourceSans
-Title.TextSize = 20
+local title = Instance.new("TextLabel", frame)
+title.Size     = UDim2.new(1,0,0,30)
+title.BackgroundColor3 = Color3.fromRGB(45,45,45)
+title.Text     = "Get Bob GUI"
+title.TextSize = 20
+title.Font     = Enum.Font.SourceSans
+title.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", title).CornerRadius = UDim.new(0,12)
 
-Button.Parent = Frame
-Button.Size = UDim2.new(1, -20, 0, 40)
-Button.Position = UDim2.new(0, 10, 0, 40)
-Button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-Button.Text = "Get Bob (need replica)"
+local button = Instance.new("TextButton", frame)
+button.Size       = UDim2.new(1,-20,0,40)
+button.Position   = UDim2.new(0,10,0,40)
+button.BackgroundColor3 = Color3.fromRGB(60,60,60)
+button.Text       = "(Get Bob) (10% chance)"
+button.TextSize   = 18
+button.Font       = Enum.Font.SourceSans
+button.TextColor3 = Color3.new(1,1,1)
+Instance.new("UICorner", button).CornerRadius = UDim.new(0,8)
 
 local spamming = false
-local player = game.Players.LocalPlayer
-local rs = game:GetService("ReplicatedStorage")
 
 local function hasReplicaTool()
-    return player.Backpack:FindFirstChild("Replica") or player.Character:FindFirstChild("Replica")
+    local bp = player:FindFirstChild("Backpack")
+    local char = player.Character
+    return (bp and bp:FindFirstChild("Replica")) or (char and char:FindFirstChild("Replica"))
 end
 
-local function toggleSpam()
+local function notify(title, text)
+    StarterGui:SetCore("SendNotification", {
+        Title = title;
+        Text  = text;
+        Duration = 5;
+    })
+end
+
+player.PlayerGui.ChildAdded:Connect(function(child)
+    if child:IsA("ScreenGui") and (child:FindFirstChild("Message")
+        or string.find(child.Name:lower(), "kick")) then
+        TeleportSvc:Teleport(game.PlaceId)
+    end
+end)
+
+button.MouseButton1Click:Connect(function()
     spamming = not spamming
-    Button.Text = spamming and "Stop Spamming" or "Start Spamming"
+    button.Text = spamming and "(STOP NOW!)" or "(Get Bob) (10% chance)"
 
     if spamming then
+        local stats = player:FindFirstChild("leaderstats")
+        local glove = stats and stats:FindFirstChild("Glove")
+        if not glove or glove.Value ~= "Replica" then
+            notify("Wrong Glove!", "Your Glove is: "..(glove and glove.Value or "None"))
+            spamming = false
+            button.Text = "(Get Bob) (10% chance)"
+            return
+        end
+
         task.spawn(function()
             while spamming do
                 if hasReplicaTool() then
-                    rs.bob:FireServer()
-                    rs.Duplicate:FireServer()
+                    Replicated.bob:FireServer()
+                    Replicated.Duplicate:FireServer()
                 end
-                task.wait(0.1)
+                task.wait(0.01)
             end
         end)
     end
-end
+end)
 
-Button.MouseButton1Click:Connect(toggleSpam)
+-- pro tip : 🍋
