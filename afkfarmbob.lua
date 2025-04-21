@@ -71,7 +71,7 @@ local function hop()
 end
 
 local function startGrind()
-	while task.wait(2) do
+	while task.wait(0.01) do
 		if not lp or not lp.Parent then break end
 		if hasBadge() then break end
 		if hasReplica() then
@@ -88,7 +88,7 @@ local function startGrind()
 					bob:FireServer()
 					dup:FireServer()
 				end
-				task.wait(0.01)
+				task.wait(2)
 			end
 
 			hop()
