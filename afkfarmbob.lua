@@ -88,7 +88,7 @@ local function startGrind()
 					bob:FireServer()
 					dup:FireServer()
 				end
-				task.wait(2)
+				task.wait(0.1)
 			end
 
 			hop()
