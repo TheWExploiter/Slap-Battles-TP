@@ -1,39 +1,10 @@
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local TeleportService = game:GetService("TeleportService")
 local StarterGui = game:GetService("StarterGui")
 local RunService = game:GetService("RunService")
 
 local player = Players.LocalPlayer
 local gui = player:WaitForChild("PlayerGui")
-
--- Function to instantly rejoin
-local function rejoinNow()
-    pcall(function()
-        TeleportService:Teleport(game.PlaceId, player)
-    end)
-end
-
--- Rejoin if weird UI shows up
-game:GetService("CoreGui").DescendantAdded:Connect(function(desc)
-    if desc:IsA("TextLabel") or desc:IsA("TextBox") or desc:IsA("TextButton") then
-        if desc.Text and desc.Text:lower():find("imagine exploiting hahahahaha") then
-            rejoinNow()
-        end
-    end
-end)
-
--- Failsafe: Bind to shutdown
-game:BindToClose(function()
-    rejoinNow()
-end)
-
--- Optional: Heartbeat rejoin failsafe (paranoid mode)
-RunService.Heartbeat:Connect(function()
-    if not player:IsDescendantOf(Players) then
-        rejoinNow()
-    end
-end)
 
 -- GUI Creation
 local screenGui = Instance.new("ScreenGui", gui)
@@ -125,26 +96,3 @@ button.MouseButton1Click:Connect(function()
         end)
     end
 end)
-
--- Kick Detection and Rejoin
-local function checkForKick()
-    local coreGui = game:GetService("CoreGui")
-    local textFound = false
-
-    -- Continuously check if the "kick" message appears
-    coreGui.DescendantAdded:Connect(function(desc)
-        if desc:IsA("TextLabel") or desc:IsA("TextButton") then
-            local text = desc.Text:lower()
-            if text:find("imagine exploiting hahahahaha") then
-                textFound = true
-            end
-        end
-    end)
-
-    -- Instant rejoin if message is detected
-    if textFound then
-        rejoinNow()
-    end
-end
-
-checkForKick()
