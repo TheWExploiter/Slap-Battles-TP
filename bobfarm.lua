@@ -3,7 +3,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TeleportService = game:GetService("TeleportService")
 local LocalPlayer = Players.LocalPlayer
 
--- UI Setup
 local ScreenGui = Instance.new("ScreenGui", LocalPlayer:WaitForChild("PlayerGui"))
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Name = "BobGui"
@@ -49,12 +48,11 @@ local function notifyMissingGlove()
 	local StarterGui = game:GetService("StarterGui")
 	StarterGui:SetCore("SendNotification", {
 		Title = "Missing Replica",
-		Text = "You to equip the Replica glove bruh",
+		Text = "You need to equip the Replica glove bruh",
 		Duration = 9
 	})
 end
 
--- Main Function
 local running = false
 
 Button.MouseButton1Click:Connect(function()
@@ -72,11 +70,10 @@ Button.MouseButton1Click:Connect(function()
 			ReplicatedStorage:FindFirstChild("bob"):FireServer()
 			ReplicatedStorage:FindFirstChild("Duplicate"):FireServer()
 		end
-		task.wait(0.1)
+		task.wait(0.01)
 	end
 end)
 
--- Instant Rejoin on Kick
 Players.PlayerRemoving:Connect(function(plr)
 	if plr == LocalPlayer then
 		TeleportService:Teleport(game.PlaceId, LocalPlayer)
@@ -87,7 +84,7 @@ local GuiService = game:GetService("GuiService")
 
 GuiService:GetPropertyChangedSignal("ErrorMessage"):Connect(function()
 	local errorText = GuiService.ErrorMessage
-	if errorText ~= "" then
+	if errorText ~= "imagine exploiting hahahahaha" then
 		TeleportService:Teleport(game.PlaceId, LocalPlayer)
 	end
 end)
