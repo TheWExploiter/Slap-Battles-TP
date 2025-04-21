@@ -39,6 +39,12 @@ local GlovesTab = Window:MakeTab({
     PremiumOnly = false
 })
 
+local EquipGlovesTab = Window:MakeTab({
+    Name = "Equip Gloves",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
 local TrollTab = Window:MakeTab({
     Name = "Troll Stuff",
     Icon = "rbxassetid://4483345998",
@@ -158,6 +164,29 @@ for name, link in pairs(farmscripts) do
             loadstring(game:HttpGet(link))()
         end
     })
+end
+
+AllUnlockedGloves = function()
+local A = {}
+if workspace:FindFirstChild("Lobby") and game.Players.LocalPlayer:FindFirstChild("_unlockedGloves") then
+for i,v in pairs(game.Players.LocalPlayer:FindFirstChild("_unlockedGloves"):GetChildren()) do
+if v and v:IsA("BoolValue") and v.Value == true then
+table.insert(A, v.Name)
+end
+end
+return A
+end
+end
+
+for i,v in ipairs(AllUnlockedGloves) do
+EquipGlovesTab:AddButton({
+    Name = v,
+    Callback = function()
+        
+fireclickdetector(workspace.Lobby[v]:FindFirstChildWhichIsA("ClickDetector"))
+
+    end
+})
 end
 
 local trollScripts = {
