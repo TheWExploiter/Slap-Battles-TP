@@ -81,6 +81,7 @@ ChangeLogTab:AddSection({Name = "Update Changelogs"})
 CombatTab:AddSection({Name = "Combat"})
 
 local gloveScripts = {
+    ["Get Bob (need replica)"] = "https://raw.githubusercontent.com/TheWExploiter/Slap-Battles-TP/refs/heads/main/bobfarm.lua",
     ["Boxer Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/BoxerGlove.luau",
     ["Clock Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/ClockGlove.luau",
     ["Counter Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/CounterGlove.luau",
