@@ -1,6 +1,3 @@
-task.spawn(function()
-	task.wait(5)
-
 local lp = game:GetService("Players").LocalPlayer
 local rs = game:GetService("ReplicatedStorage")
 local ts = game:GetService("TeleportService")
