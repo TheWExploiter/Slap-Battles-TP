@@ -79,15 +79,19 @@ local function startGrind()
 			hrp.CFrame = CFrame.new(-910, 329, 4)
 			task.wait(1)
 
-			local bob = rs:FindFirstChild("bob")
-			local dup = rs:FindFirstChild("Duplicate")
-
-			if bob and dup then
-				for i = 1, 25 do
-					bob:FireServer()
-					dup:FireServer()
-					task.wait()
+			local startTime = tick()
+			while tick() - startTime < 5 and hasReplica() do
+				if hasBadge() then return end
+				local bob = rs:FindFirstChild("bob")
+				local dup = rs:FindFirstChild("Duplicate")
+				if bob and dup then
+					for i = 1, 10 do
+						bob:FireServer()
+						dup:FireServer()
+						task.wait(0.01)
+					end
 				end
+				task.wait(0.1)
 			end
 
 			hop()
