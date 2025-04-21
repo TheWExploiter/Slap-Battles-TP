@@ -83,7 +83,7 @@ local function startGrind()
 			local dup = rs:FindFirstChild("Duplicate")
 
 			if bob and dup then
-				for i = 1, 500 do
+				for i = 1, 25 do
 					bob:FireServer()
 					dup:FireServer()
 					task.wait()
