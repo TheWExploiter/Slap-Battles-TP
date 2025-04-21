@@ -2,16 +2,36 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TeleportService = game:GetService("TeleportService")
 local StarterGui = game:GetService("StarterGui")
+local RunService = game:GetService("RunService")
 
 local player = Players.LocalPlayer
 local gui = player:WaitForChild("PlayerGui")
 
--- Instant Rejoin if Kick UI Appears
-gui.DescendantAdded:Connect(function(desc)
+-- Function to instantly rejoin
+local function rejoinNow()
+    pcall(function()
+        TeleportService:Teleport(game.PlaceId, player)
+    end)
+end
+
+-- Rejoin if weird UI shows up
+game:GetService("CoreGui").DescendantAdded:Connect(function(desc)
     if desc:IsA("TextLabel") or desc:IsA("TextBox") or desc:IsA("TextButton") then
-        if desc.Text:lower():find("imagine exploiting hahahahaha") then
-            TeleportService:Teleport(game.PlaceId, player)
+        if desc.Text and desc.Text:lower():find("imagine exploiting hahahahaha") then
+            rejoinNow()
         end
+    end
+end)
+
+-- Failsafe: Bind to shutdown
+game:BindToClose(function()
+    rejoinNow()
+end)
+
+-- Optional: Heartbeat rejoin failsafe (paranoid mode)
+RunService.Heartbeat:Connect(function()
+    if not player:IsDescendantOf(Players) then
+        rejoinNow()
     end
 end)
 
