@@ -125,7 +125,7 @@ Tab:AddToggle({
 			task.spawn(function()
 				while busmoment do
 					local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
-					if glove and glove.Value == "Bus" then
+					if glove and glove.Value == "bus" then
 						local event = ReplicatedStorage:WaitForChild("busmoment")
 						event:FireServer()
 					else
