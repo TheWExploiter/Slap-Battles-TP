@@ -78,7 +78,7 @@ Tab:AddToggle({
             task.spawn(function()
                 while woahSpam do
                     local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
-                    if glove and glove.Value == "Woah" then
+                    if glove and glove.Value == "woah" then
                         ReplicatedStorage:WaitForChild("VineThud"):FireServer()
                     else
                         OrionLib:MakeNotification({
@@ -88,7 +88,7 @@ Tab:AddToggle({
                             Time = 2
                         })
                     end
-                    task.wait(5.8)
+                    task.wait(6.6)
                 end
             end)
         end
