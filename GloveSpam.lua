@@ -68,6 +68,33 @@ Tab:AddToggle({
     end
 })
 
+local woahSpam = false
+Tab:AddToggle({
+    Name = "Woah Spam",
+    Default = false,
+    Callback = function(state)
+        woahSpam = state
+        if woahSpam then
+            task.spawn(function()
+                while woahSpam do
+                    local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
+                    if glove and glove.Value == "Woah" then
+                        ReplicatedStorage:WaitForChild("VineThud"):FireServer()
+                    else
+                        OrionLib:MakeNotification({
+                            Name = "Glove Check",
+                            Content = "Equip Woah bruh",
+                            Image = "rbxassetid://7733960981",
+                            Time = 2
+                        })
+                    end
+                    task.wait(5.8)
+                end
+            end)
+        end
+    end
+})
+
 local pusherSpam = false
 Tab:AddToggle({
     Name = "Pusher Spam",
