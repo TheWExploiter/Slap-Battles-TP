@@ -93,7 +93,7 @@ Tab:AddToggle({
                             Time = 2
                         })
                     end
-                    task.wait(5)
+                    task.wait(6.35)
                 end
             end)
         end
