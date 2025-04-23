@@ -34,7 +34,7 @@ Tab:AddToggle({
                             Time = 2
                         })
                     end
-                    task.wait(4.3)
+                    task.wait(4.2)
                 end
             end)
         end
@@ -62,7 +62,7 @@ Tab:AddToggle({
                             Time = 2
                         })
                     end
-                    task.wait(0.5)
+                    task.wait(0.7)
                 end
             end)
         end
@@ -99,7 +99,7 @@ Tab:AddToggle({
 
 local glovelSpam = false
 Tab:AddToggle({
-    Name = "Glovel Spam",
+    Name = "Glovel Spam (LAGGY)",
     Default = false,
     Callback = function(state)
         glovelSpam = state
