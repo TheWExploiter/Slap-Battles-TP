@@ -1,42 +1,92 @@
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jensonhirst/Orion/main/source"))()
-local Window = OrionLib:MakeWindow({Name = "Auto Fort Placer", HidePremium = false, SaveConfig = false, ConfigFolder = "XScripts"})
+local Window = OrionLib:MakeWindow({Name = "Jet & Fort Spammer", HidePremium = false, SaveConfig = false, ConfigFolder = "XScripts"})
 
 local Tab = Window:MakeTab({
-	Name = "Fort Auto",
+	Name = "Abilities",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 
-local autoFort = false
-local fortLoop
+local jetSpam = false
+local fortSpam = false
+local jetLoop, fortLoop
 
 Tab:AddToggle({
-	Name = "Auto Place Fort",
+	Name = "Auto Jet Spam (4s)",
 	Default = false,
 	Callback = function(state)
-		autoFort = state
-		if autoFort then
-			fortLoop = task.spawn(function()
-				while autoFort do
-					local player = game:GetService("Players").LocalPlayer
-					local char = player.Character
-					local stats = player:FindFirstChild("leaderstats")
-					local glove = stats and stats:FindFirstChild("Glove")
-					
-					if glove and glove.Value == "Fort" then
-						if char and not char:FindFirstChild("Fort") then
-							game:GetService("ReplicatedStorage"):WaitForChild("Fortlol"):FireServer()
+		jetSpam = state
+		if jetSpam then
+			jetLoop = task.spawn(function()
+				local player = game:GetService("Players").LocalPlayer
+				local leaderstats = player:FindFirstChild("leaderstats")
+				while jetSpam do
+					if leaderstats and leaderstats:FindFirstChild("Glove") then
+						if leaderstats.Glove.Value == "Jet" then
+							local airstrike = game:GetService("ReplicatedStorage"):FindFirstChild("AirStrike")
+							if airstrike then
+								airstrike:FireServer()
+							end
+						else
+							OrionLib:MakeNotification({
+								Name = "Missing Jet Glove",
+								Content = "Equip the 'Jet' glove to use this!",
+								Image = "rbxassetid://7733960981",
+								Time = 3
+							})
+							task.wait(3)
 						end
 					else
 						OrionLib:MakeNotification({
-							Name = "Wrong Glove!",
-							Content = "Equip the 'Fort' glove to use Auto Place! bruhhh",
-							Image = "rbxassetid://7733964641",
-							Time = 3
+							Name = "Checking...",
+							Content = "Looking for 'Jet' glove...",
+							Image = "rbxassetid://7734054307",
+							Time = 2
 						})
 					end
-					
 					task.wait(4)
+				end
+			end)
+		else
+			if jetLoop then task.cancel(jetLoop) end
+		end
+	end
+})
+
+Tab:AddToggle({
+	Name = "Auto Fort Spam (3s)",
+	Default = false,
+	Callback = function(state)
+		fortSpam = state
+		if fortSpam then
+			fortLoop = task.spawn(function()
+				local player = game:GetService("Players").LocalPlayer
+				local leaderstats = player:FindFirstChild("leaderstats")
+				while fortSpam do
+					if leaderstats and leaderstats:FindFirstChild("Glove") then
+						if leaderstats.Glove.Value == "Fort" then
+							local fort = game:GetService("ReplicatedStorage"):FindFirstChild("Fortlol")
+							if fort then
+								fort:FireServer()
+							end
+						else
+							OrionLib:MakeNotification({
+								Name = "Missing Fort Glove",
+								Content = "Equip the 'Fort' glove to use this!",
+								Image = "rbxassetid://7733960981",
+								Time = 3
+							})
+							task.wait(4)
+						end
+					else
+						OrionLib:MakeNotification({
+							Name = "Checking...",
+							Content = "Looking for 'Fort' glove...",
+							Image = "rbxassetid://7734054307",
+							Time = 2
+						})
+					end
+					task.wait(3)
 				end
 			end)
 		else
