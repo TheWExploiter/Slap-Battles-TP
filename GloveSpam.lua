@@ -140,34 +140,6 @@ Tab:AddButton({
     end
 })
 
-local airstrikeSpam = false
-Tab:AddToggle({
-    Name = "Airstrike Spam",
-    Default = false,
-    Callback = function(state)
-        airstrikeSpam = state
-        if airstrikeSpam then
-            task.spawn(function()
-                while airstrikeSpam do
-                    local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
-                    if glove and glove.Value == "Jet" then
-                        local airstrike = ReplicatedStorage:WaitForChild("AirStrike")
-                        airstrike:FireServer()
-                    else
-                        OrionLib:MakeNotification({
-                            Name = "Glove Check",
-                            Content = "Equip Jet bruh",
-                            Image = "rbxassetid://7733960981",
-                            Time = 2
-                        })
-                    end
-                    task.wait(7)
-                end
-            end)
-        end
-    end
-})
-
 local noclipActive = false
 local noclipConn
 
