@@ -41,6 +41,33 @@ Tab:AddToggle({
     end
 })
 
+local pusherSpam = false
+Tab:AddToggle({
+    Name = "Pusher Spam",
+    Default = false,
+    Callback = function(state)
+        pusherSpam = state
+        if pusherSpam then
+            task.spawn(function()
+                while pusherSpam do
+                    local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
+                    if glove and glove.Value == "Pusher" then
+                        ReplicatedStorage:WaitForChild("PusherWall"):FireServer()
+                    else
+                        OrionLib:MakeNotification({
+                            Name = "Glove Check",
+                            Content = "Equip Pusher bruh",
+                            Image = "rbxassetid://7733960981",
+                            Time = 2
+                        })
+                    end
+                    task.wait(5.9)
+                end
+            end)
+        end
+    end
+})
+
 local barrierSpam = false
 Tab:AddToggle({
     Name = "Barrier Spam",
