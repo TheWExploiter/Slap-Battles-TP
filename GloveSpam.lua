@@ -126,17 +126,10 @@ Tab:AddToggle({
                             Time = 2
                         })
                     end
-                    task.wait(0.3)
+                    task.wait(0.01)
                 end
             end)
         end
-    end
-})
-
-Tab:AddButton({
-    Name = "Undig",
-    Callback = function()
-        ReplicatedStorage:WaitForChild("GlovelCancel"):FireServer()
     end
 })
 
