@@ -25,10 +25,8 @@ Tab:AddToggle({
 				while fortSpam do
 					local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
 					if glove and glove.Value == "Fort" then
-						local fort = ReplicatedStorage:FindFirstChild("Fortlol")
-						if fort then
-							fort:FireServer()
-						end
+						local fort = ReplicatedStorage:WaitForChild("Fortlol")
+						fort:FireServer()
 					else
 						OrionLib:MakeNotification({
 							Name = "Glove Check",
@@ -44,7 +42,7 @@ Tab:AddToggle({
 	end
 })
 
--- Barrier Spam (Defense)
+-- Barrier Spam
 local barrierSpam = false
 Tab:AddToggle({
 	Name = "Barrier Spam",
@@ -56,10 +54,8 @@ Tab:AddToggle({
 				while barrierSpam do
 					local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
 					if glove and glove.Value == "Defense" then
-						local barrier = ReplicatedStorage:FindFirstChild("Barrier")
-						if barrier then
-							barrier:FireServer()
-						end
+						local barrier = ReplicatedStorage:WaitForChild("Barrier")
+						barrier:FireServer()
 					else
 						OrionLib:MakeNotification({
 							Name = "Glove Check",
@@ -75,7 +71,7 @@ Tab:AddToggle({
 	end
 })
 
--- Noclip (fully toggleable even after respawn)
+-- Noclip
 local noclipActive = false
 local noclipConn
 
@@ -118,10 +114,10 @@ player.CharacterAdded:Connect(function(newChar)
 	end
 end)
 
--- Busmoment (Bus)
+-- Busmoment Spam (fixed name to lowercase)
 local busmoment = false
 Tab:AddToggle({
-	Name = "Busmoment",
+	Name = "Bus Spam",
 	Default = false,
 	Callback = function(state)
 		busmoment = state
@@ -130,10 +126,8 @@ Tab:AddToggle({
 				while busmoment do
 					local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
 					if glove and glove.Value == "Bus" then
-						local event = ReplicatedStorage:FindFirstChild("busmoment")
-						if event then
-							event:FireServer()
-						end
+						local event = ReplicatedStorage:WaitForChild("busmoment")
+						event:FireServer()
 					else
 						OrionLib:MakeNotification({
 							Name = "Glove Check",
