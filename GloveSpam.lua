@@ -116,7 +116,7 @@ Tab:AddToggle({
                                     ["cf"] = root.CFrame
                                 }
                             }
-                            ReplicatedStorage:WaitForChild("DigEvent"):FireServer(unpack(args))
+                            game:GetService("ReplicatedStorage"):WaitForChild("GlovelFunc"):InvokeServer()
                         end
                     else
                         OrionLib:MakeNotification({
