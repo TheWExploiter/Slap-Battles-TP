@@ -41,6 +41,33 @@ Tab:AddToggle({
     end
 })
 
+local engiSpam = false
+Tab:AddToggle({
+    Name = "Engineer Spam",
+    Default = false,
+    Callback = function(state)
+        engiSpam = state
+        if engiSpam then
+            task.spawn(function()
+                while engiSpam do
+                    local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
+                    if glove and glove.Value == "Engineer" then
+                        ReplicatedStorage:WaitForChild("Sentry"):FireServer()
+                    else
+                        OrionLib:MakeNotification({
+                            Name = "Glove Check",
+                            Content = "Equip Engineer bruh",
+                            Image = "rbxassetid://7733960981",
+                            Time = 2
+                        })
+                    end
+                    task.wait(5.5)
+                end
+            end)
+        end
+    end
+})
+
 local pusherSpam = false
 Tab:AddToggle({
     Name = "Pusher Spam",
