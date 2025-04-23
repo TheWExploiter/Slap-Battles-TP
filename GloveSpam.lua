@@ -238,7 +238,7 @@ Tab:AddToggle({
 
 local glovelSpam = false
 Tab:AddToggle({
-    Name = "Glovel Spam (LAGGY)",
+    Name = "Glovel Spam",
     Default = false,
     Callback = function(state)
         glovelSpam = state
@@ -265,7 +265,6 @@ Tab:AddToggle({
                             Time = 2
                         })
                     end
-                    task.wait(0.001)
                 end
             end)
         end
