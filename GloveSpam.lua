@@ -2,7 +2,7 @@ local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jens
 local Window = OrionLib:MakeWindow({Name = "Slap Battles Spam", HidePremium = false, SaveConfig = false, ConfigFolder = "XScripts"})
 
 local Tab = Window:MakeTab({
-    Name = "Spammable Abilities",
+    Name = "Glove Spam",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
@@ -92,6 +92,34 @@ Tab:AddToggle({
                         })
                     end
                     task.wait(4.8)
+                end
+            end)
+        end
+    end
+})
+
+local rockySpam = false
+Tab:AddToggle({
+    Name = "Rocky Spam",
+    Default = false,
+    Callback = function(state)
+        rockySpam = state
+        if rockySpam then
+            task.spawn(function()
+                while rockySpam do
+                    local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
+                    if glove and glove.Value == "Rocky" then
+                        local rockyShoot = ReplicatedStorage:WaitForChild("RockyShoot")
+                        rockyShoot:FireServer()
+                    else
+                        OrionLib:MakeNotification({
+                            Name = "Glove Check",
+                            Content = "Equip Rocky bruh",
+                            Image = "rbxassetid://7733960981",
+                            Time = 2
+                        })
+                    end
+                    task.wait(6.5) -- 6.5 sec cooldown between uses
                 end
             end)
         end
