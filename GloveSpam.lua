@@ -145,7 +145,7 @@ Tab:AddToggle({
                             Time = 2
                         })
                     end
-                    task.wait(5.9)
+                    task.wait(5.7)
                 end
             end)
         end
@@ -237,7 +237,7 @@ Tab:AddToggle({
                             Time = 2
                         })
                     end
-                    task.wait(0.01)
+                    task.wait(0.001)
                 end
             end)
         end
