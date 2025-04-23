@@ -2,7 +2,7 @@ local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jens
 local Window = OrionLib:MakeWindow({Name = "Slap Battles Spam", HidePremium = false, SaveConfig = false, ConfigFolder = "XScripts"})
 
 local Tab = Window:MakeTab({
-    Name = "Abilities",
+    Name = "Spammable Abilities",
     Icon = "rbxassetid://4483345998",
     PremiumOnly = false
 })
@@ -13,7 +13,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local player = Players.LocalPlayer
 local char = player.Character or player.CharacterAdded:Wait()
 
--- Fort Spam
 local fortSpam = false
 Tab:AddToggle({
     Name = "Fort Spam",
@@ -26,11 +25,11 @@ Tab:AddToggle({
                     local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
                     if glove and glove.Value == "Fort" then
                         local fortlol = ReplicatedStorage:WaitForChild("Fortlol")
-                        fortlol:FireServer()  -- Fires the Fortlol event
+                        fortlol:FireServer()
                     else
                         OrionLib:MakeNotification({
                             Name = "Glove Check",
-                            Content = "Fort",
+                            Content = "Equip Fort bruh.",
                             Image = "rbxassetid://7733960981",
                             Time = 2
                         })
@@ -42,7 +41,6 @@ Tab:AddToggle({
     end
 })
 
--- Barrier Spam
 local barrierSpam = false
 Tab:AddToggle({
     Name = "Barrier Spam",
@@ -55,11 +53,11 @@ Tab:AddToggle({
                     local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
                     if glove and glove.Value == "Defense" then
                         local barrier = ReplicatedStorage:WaitForChild("Barrier")
-                        barrier:FireServer()  -- Fires the Barrier event
+                        barrier:FireServer()
                     else
                         OrionLib:MakeNotification({
                             Name = "Glove Check",
-                            Content = "Defense",
+                            Content = "Equip Defense bruh",
                             Image = "rbxassetid://7733960981",
                             Time = 2
                         })
@@ -71,7 +69,6 @@ Tab:AddToggle({
     end
 })
 
--- Busmoment Spam
 local busmomentSpam = false
 Tab:AddToggle({
     Name = "Bus Spam",
@@ -84,23 +81,22 @@ Tab:AddToggle({
                     local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
                     if glove and glove.Value == "bus" then
                         local busmoment = ReplicatedStorage:WaitForChild("busmoment")
-                        busmoment:FireServer()  -- Fires the busmoment event
+                        busmoment:FireServer()
                     else
                         OrionLib:MakeNotification({
                             Name = "Glove Check",
-                            Content = "Bus",
+                            Content = "Equip Bus bruh",
                             Image = "rbxassetid://7733960981",
                             Time = 2
                         })
                     end
-                    task.wait(6.35)
+                    task.wait(7.3)
                 end
             end)
         end
     end
 })
 
--- Noclip
 local noclipActive = false
 local noclipConn
 
