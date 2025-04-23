@@ -68,6 +68,36 @@ Tab:AddToggle({
     end
 })
 
+local stopSpam = false
+Tab:AddToggle({
+    Name = "Stop Spam",
+    Default = false,
+    Callback = function(state)
+        stopSpam = state
+        if stopSpam then
+            task.spawn(function()
+                while stopSpam do
+                    local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
+                    if glove and glove.Value == "Stop" then
+                        local args = {
+                            [1] = true
+                        }
+                        ReplicatedStorage:WaitForChild("STOP"):FireServer(unpack(args))
+                    else
+                        OrionLib:MakeNotification({
+                            Name = "Glove Check",
+                            Content = "Equip Stop bruh",
+                            Image = "rbxassetid://7733960981",
+                            Time = 2
+                        })
+                    end
+                    task.wait(5)
+                end
+            end)
+        end
+    end
+})
+
 local woahSpam = false
 Tab:AddToggle({
     Name = "Woah Spam",
