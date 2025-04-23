@@ -107,15 +107,18 @@ Tab:AddToggle({
             task.spawn(function()
                 while glovelSpam do
                     local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
-                    local hrp = char:FindFirstChild("HumanoidRootPart")
-                    if glove and glove.Value == "Glovel" and hrp then
+                    if glove and glove.Value == "Glovel" then
+                        -- Get your current position
+                        local currentPos = char.HumanoidRootPart.Position
+
+                        -- Set up the CFrame based on your position
                         local args = {
                             [1] = {
                                 ["index"] = 2,
-                                ["cf"] = CFrame.new(hrp.Position - Vector3.new(0, 5.5, 0))
+                                ["cf"] = CFrame.new(currentPos.X + 8, currentPos.Y - 6, currentPos.Z - 175, -0.24, 0, -0.97, 0, 1, 0, 0.97, 0, -0.24)
                             }
                         }
-                        game:GetService("ReplicatedStorage"):WaitForChild("DigEvent"):FireServer(unpack(args))
+                        ReplicatedStorage:WaitForChild("DigEvent"):FireServer(unpack(args))
                     else
                         OrionLib:MakeNotification({
                             Name = "Glove Check",
@@ -124,7 +127,42 @@ Tab:AddToggle({
                             Time = 2
                         })
                     end
-                    task.wait(0.3)
+                    task.wait(1.25)
+                end
+            end)
+        end
+    end
+})
+
+Tab:AddButton({
+    Name = "Undig",
+    Callback = function()
+        ReplicatedStorage:WaitForChild("GlovelCancel"):FireServer()
+    end
+})
+
+local airstrikeSpam = false
+Tab:AddToggle({
+    Name = "Air Strike Spam",
+    Default = false,
+    Callback = function(state)
+        airstrikeSpam = state
+        if airstrikeSpam then
+            task.spawn(function()
+                while airstrikeSpam do
+                    local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
+                    if glove and glove.Value == "Jet" then
+                        local airstrike = ReplicatedStorage:WaitForChild("AirStrike")
+                        airstrike:FireServer()
+                    else
+                        OrionLib:MakeNotification({
+                            Name = "Glove Check",
+                            Content = "Equip Jet bruh",
+                            Image = "rbxassetid://7733960981",
+                            Time = 2
+                        })
+                    end
+                    task.wait(5.3)
                 end
             end)
         end
