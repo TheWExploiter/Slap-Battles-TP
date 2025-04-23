@@ -90,7 +90,41 @@ Tab:AddToggle({
                             Time = 2
                         })
                     end
-                    task.wait(7.3)
+                    task.wait(8.3)
+                end
+            end)
+        end
+    end
+})
+
+local glovelSpam = false
+Tab:AddToggle({
+    Name = "Glovel Spam",
+    Default = false,
+    Callback = function(state)
+        glovelSpam = state
+        if glovelSpam then
+            task.spawn(function()
+                while glovelSpam do
+                    local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
+                    local hrp = char:FindFirstChild("HumanoidRootPart")
+                    if glove and glove.Value == "Glovel" and hrp then
+                        local args = {
+                            [1] = {
+                                ["index"] = 2,
+                                ["cf"] = CFrame.new(hrp.Position - Vector3.new(0, 5.5, 0))
+                            }
+                        }
+                        game:GetService("ReplicatedStorage"):WaitForChild("DigEvent"):FireServer(unpack(args))
+                    else
+                        OrionLib:MakeNotification({
+                            Name = "Glove Check",
+                            Content = "Equip Glovel bruh",
+                            Image = "rbxassetid://7733960981",
+                            Time = 2
+                        })
+                    end
+                    task.wait(0.3)
                 end
             end)
         end
