@@ -30,13 +30,13 @@ Tab:AddToggle({
 					else
 						OrionLib:MakeNotification({
 							Name = "Wrong Glove!",
-							Content = "Equip the 'Fort' glove to use Auto Place!",
+							Content = "Equip the 'Fort' glove to use Auto Place! bruhhh",
 							Image = "rbxassetid://7733964641",
 							Time = 3
 						})
 					end
 					
-					task.wait(5.3)
+					task.wait(4)
 				end
 			end)
 		else
