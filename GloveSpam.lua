@@ -78,7 +78,7 @@ Tab:AddToggle({
             task.spawn(function()
                 while stopSpam do
                     local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
-                    if glove and glove.Value == "Stop" then
+                    if glove and glove.Value == "STOP" then
                         local args = {
                             [1] = true
                         }
@@ -91,7 +91,7 @@ Tab:AddToggle({
                             Time = 2
                         })
                     end
-                    task.wait(5)
+                    task.wait(4.8)
                 end
             end)
         end
