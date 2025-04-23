@@ -108,17 +108,16 @@ Tab:AddToggle({
                 while glovelSpam do
                     local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
                     if glove and glove.Value == "Glovel" then
-                        -- Get your current position
-                        local currentPos = char.HumanoidRootPart.Position
-
-                        -- Set up the CFrame based on your position
-                        local args = {
-                            [1] = {
-                                ["index"] = 2,
-                                ["cf"] = CFrame.new(currentPos.X + 8, currentPos.Y - 6, currentPos.Z - 175, -0.24, 0, -0.97, 0, 1, 0, 0.97, 0, -0.24)
+                        local root = char:FindFirstChild("HumanoidRootPart")
+                        if root then
+                            local args = {
+                                [1] = {
+                                    ["index"] = 2,
+                                    ["cf"] = root.CFrame
+                                }
                             }
-                        }
-                        ReplicatedStorage:WaitForChild("DigEvent"):FireServer(unpack(args))
+                            ReplicatedStorage:WaitForChild("DigEvent"):FireServer(unpack(args))
+                        end
                     else
                         OrionLib:MakeNotification({
                             Name = "Glove Check",
@@ -127,7 +126,7 @@ Tab:AddToggle({
                             Time = 2
                         })
                     end
-                    task.wait(1.25)
+                    task.wait(0.3)
                 end
             end)
         end
@@ -143,7 +142,7 @@ Tab:AddButton({
 
 local airstrikeSpam = false
 Tab:AddToggle({
-    Name = "Air Strike Spam",
+    Name = "Airstrike Spam",
     Default = false,
     Callback = function(state)
         airstrikeSpam = state
@@ -162,7 +161,7 @@ Tab:AddToggle({
                             Time = 2
                         })
                     end
-                    task.wait(5.3)
+                    task.wait(7)
                 end
             end)
         end
