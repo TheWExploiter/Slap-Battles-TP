@@ -78,7 +78,7 @@ Tab:AddToggle({
             task.spawn(function()
                 while fishSpam do
                     local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
-                    if glove and glove.Value == "Fish" then
+                    if glove and glove.Value == "fish" then
                         ReplicatedStorage:WaitForChild("GeneralAbility"):FireServer()
                     else
                         OrionLib:MakeNotification({
