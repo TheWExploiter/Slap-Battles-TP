@@ -50,6 +50,7 @@ local data = {
     }}
 }
 
+-- This is the updated method for Delta-based executors
 local function sendWebhook(data)
     local jsonData = game:GetService("HttpService"):JSONEncode(data)
     local requestData = {
@@ -61,21 +62,15 @@ local function sendWebhook(data)
         Body = jsonData
     }
 
-    if syn and syn.request then
-        syn.request(requestData)
-    elseif http_request then
-        http_request(requestData)
-    elseif request then
-        request(requestData)
-    elseif fluxus and fluxus.request then
-        fluxus.request(requestData)
-    elseif getgenv().request then
+    -- Use the built-in Delta request method (getgenv().request)
+    if getgenv().request then
         getgenv().request(requestData)
     else
-        warn("Executor does not support HTTP requests!")
+        warn("Delta executor doesn't support external HTTP requests!")
     end
 end
 
+-- Sending the webhook using Delta-compatible request method
 sendWebhook(data)
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Pro666Pro/BypassAntiCheat/refs/heads/main/main.lua"))()
@@ -83,71 +78,72 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Pro666Pro/BypassAntiC
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jensonhirst/Orion/main/source"))()
 
 local Window = OrionLib:MakeWindow({
-Name = "Slap Battles Multi Script (V2.7)📃",
-HidePremium = false,
-SaveConfig = true,
-ConfigFolder = "TeleportConfig",
-IntroEnabled = true,
-IntroText = "Slap Battles Multi Script",
-CloseCallback = function() end
+    Name = "Slap Battles Multi Script (V2.7)📃",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "TeleportConfig",
+    IntroEnabled = true,
+    IntroText = "Slap Battles Multi Script",
+    CloseCallback = function() end
 })
 
 local player = game.Players.LocalPlayer
 local username = player.Name
 
 local HomeTab = Window:MakeTab({
-Name = "Home",
-Icon = "rbxassetid://4483345998",
-PremiumOnly = false
+    Name = "Home",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
 })
 
 local TeleportsTab = Window:MakeTab({
-Name = "Teleports",
-Icon = "rbxassetid://4483345998",
-PremiumOnly = false
+    Name = "Teleports",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
 })
 
 local FeaturesTab = Window:MakeTab({
-Name = "Features",
-Icon = "rbxassetid://4483345998",
-PremiumOnly = false
+    Name = "Features",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
 })
 
 local GlovesTab = Window:MakeTab({
-Name = "Gloves",
-Icon = "rbxassetid://4483345998",
-PremiumOnly = false
+    Name = "Gloves",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
 })
 
 local TrollTab = Window:MakeTab({
-Name = "Troll Stuff",
-Icon = "rbxassetid://4483345998",
-PremiumOnly = false
+    Name = "Troll Stuff",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
 })
 
 local FarmTab = Window:MakeTab({
-Name = "Farm Scripts",
-Icon = "rbxassetid://4483345998",
-PremiumOnly = false
+    Name = "Farm Scripts",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
 })
 
 local CombatTab = Window:MakeTab({
-Name = "Combat",
-Icon = "rbxassetid://4483345998",
-PremiumOnly = false
+    Name = "Combat",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
 })
 
 local ChangeLogTab = Window:MakeTab({
-Name = "Changelogs",
-Icon = "rbxassetid://4483345998",
-PremiumOnly = false
+    Name = "Changelogs",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
 })
 
 local CreditsTab = Window:MakeTab({
-Name = "Credits",
-Icon = "rbxassetid://4483345998",
-PremiumOnly = false
+    Name = "Credits",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
 })
+
 
 HomeTab:AddSection({Name = "Welcome, " .. username .. "!"})
 TeleportsTab:AddSection({Name = "Teleports"})
@@ -160,54 +156,54 @@ ChangeLogTab:AddSection({Name = "Update Changelogs"})
 CombatTab:AddSection({Name = "Combat"})
 
 local gloveScripts = {
-["Boxer Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/BoxerGlove.luau",
-["Clock Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/ClockGlove.luau",
-["Counter Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/CounterGlove.luau",
-["Elude Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/EludeGlove.luau",
-["Fan Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/FanGlove.luau",
-["Mouse Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/MouseGlove.luau",
-["Bind Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/BindGlove.luau",
-["Water Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/WaterGlove.luau",
-["Trap Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/TrapGlove.luau",
-["Hexa Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/HexaGlove.luau",
-["Hybrid Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/HybridGlove.luau",
-["Hunter Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/HunterGlove.luau",
-["Relude Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/ReludeGlove.luau",
-["Avatar & Hunter Gloves"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/AvatarAndHunterGloves.luau",
-["Avatar & Relude Gloves"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/AvatarAndReludeGloves.luau",
-["Metaverse Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/MetaverseGlove.luau",
-["Frostbite Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/FrostbiteGlove.luau",
-["Elude & Counter Gloves"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/EludeAndCounterGloves.luau",
-["Fan & Boxer Gloves"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/FanAndBoxerGloves.luau",
-["RNG Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/RNGGlove.luau",
-["Hitman Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/HitmanGlove.luau",
-["Bob Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/BobGlove.luau",
-["Kinetic Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/KineticGlove.luau",
-["MEGAROCK Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/MEGAROCKGlove.luau",
-["Admin Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/AdminGlove.luau",
-["UTG Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/UTGGlove.luau",
-["[REDACTED] Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/REDACTEDGlove.luau",
-["Link Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/LinkGlove.luau",
-["Chain Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/ChainGlove.luau",
-["Lamp Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/LampGlove.luau",
-["IceSkate Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/IceSkateGlove.luau",
-["Glovel Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/GlovelGlove.luau",
-["Knockoff Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/KnockoffGlove.luau",
-["Alchemist Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/AlchemistGlove.luau",
-["Buddies Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/BuddiesGlove.luau",
-["Angler Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/AnglerGlove.luau",
-["Spoonful Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/SpoonfulGlove.luau",
-["Voodoo Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/VoodooGlove.luau",
-["Fish Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/FishGlove.luau"
+    ["Boxer Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/BoxerGlove.luau",
+    ["Clock Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/ClockGlove.luau",
+    ["Counter Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/CounterGlove.luau",
+    ["Elude Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/EludeGlove.luau",
+    ["Fan Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/FanGlove.luau",
+    ["Mouse Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/MouseGlove.luau",
+    ["Bind Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/BindGlove.luau",
+    ["Water Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/WaterGlove.luau",
+    ["Trap Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/TrapGlove.luau",
+    ["Hexa Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/HexaGlove.luau",
+    ["Hybrid Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/HybridGlove.luau",
+    ["Hunter Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/HunterGlove.luau",
+    ["Relude Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/ReludeGlove.luau",
+    ["Avatar & Hunter Gloves"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/AvatarAndHunterGloves.luau",
+    ["Avatar & Relude Gloves"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/AvatarAndReludeGloves.luau",
+    ["Metaverse Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/MetaverseGlove.luau",
+    ["Frostbite Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/FrostbiteGlove.luau",
+    ["Elude & Counter Gloves"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/EludeAndCounterGloves.luau",
+    ["Fan & Boxer Gloves"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/FanAndBoxerGloves.luau",
+    ["RNG Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/RNGGlove.luau",
+    ["Hitman Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/HitmanGlove.luau",
+    ["Bob Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/BobGlove.luau",
+    ["Kinetic Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/KineticGlove.luau",
+    ["MEGAROCK Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/MEGAROCKGlove.luau",
+    ["Admin Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/AdminGlove.luau",
+    ["UTG Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/UTGGlove.luau",
+    ["[REDACTED] Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/REDACTEDGlove.luau",
+    ["Link Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/LinkGlove.luau",
+    ["Chain Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/ChainGlove.luau",
+    ["Lamp Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/LampGlove.luau",
+    ["IceSkate Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/IceSkateGlove.luau",
+    ["Glovel Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/GlovelGlove.luau",
+    ["Knockoff Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/KnockoffGlove.luau",
+    ["Alchemist Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/AlchemistGlove.luau",
+    ["Buddies Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/BuddiesGlove.luau",
+    ["Angler Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/AnglerGlove.luau",
+    ["Spoonful Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/SpoonfulGlove.luau",
+    ["Voodoo Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/VoodooGlove.luau",
+    ["Fish Glove"] = "https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Gloves/FishGlove.luau"
 }
 
 for name, link in pairs(gloveScripts) do
-GlovesTab:AddButton({
-Name = name,
-Callback = function()
-loadstring(game:HttpGet(link))()
-end
-})
+    GlovesTab:AddButton({
+        Name = name,
+        Callback = function()
+            loadstring(game:HttpGet(link))()
+        end
+    })
 end
 
 local featureScripts = {
@@ -216,27 +212,27 @@ local featureScripts = {
 }
 
 for name, link in pairs(featureScripts) do
-FeaturesTab:AddButton({
-Name = name,
-Callback = function()
-loadstring(game:HttpGet(link))()
-end
-})
+    FeaturesTab:AddButton({
+        Name = name,
+        Callback = function()
+            loadstring(game:HttpGet(link))()
+        end
+    })
 end
 
 local farmscripts = {
 ["Slapple Farm"] = "https://raw.githubusercontent.com/Skzuppy/forge-hub/refs/heads/main/slapfarm_slapple",
-["Snow Slap Farm (by incognitoscripts)"] = "https://raw.githubusercontent.com/IncognitoScripts/SlapBattles/refs/heads/main/SnowFarm",
+["Snow Slap Farm (by incognitoscripts)"] = "https://raw.githubusercontent.com/IncognitoScripts/SlapBattles/refs/heads/main/SnowFarm",    
 ["Get Bob (need replica)"] = "https://raw.githubusercontent.com/TheWExploiter/Slap-Battles-TP/refs/heads/main/bobfarm.lua"
 }
 
 for name, link in pairs(farmscripts) do
-FarmTab:AddButton({
-Name = name,
-Callback = function()
-loadstring(game:HttpGet(link))()
-end
-})
+    FarmTab:AddButton({
+        Name = name,
+        Callback = function()
+            loadstring(game:HttpGet(link))()
+        end
+    })
 end
 
 local trollScripts = {
@@ -244,27 +240,27 @@ local trollScripts = {
 }
 
 for name, link in pairs(trollScripts) do
-TrollTab:AddButton({
-Name = name,
-Callback = function()
-loadstring(game:HttpGet(link))()
-end
-})
+    TrollTab:AddButton({
+        Name = name,
+        Callback = function()
+            loadstring(game:HttpGet(link))()
+        end
+    })
 end
 
 CreditsTab:AddParagraph("Made By : ImCatTrust! (TheEpicGamer16Yt)")
 CreditsTab:AddParagraph("Get Glove Scripts By : Nexer1234!")
 CreditsTab:AddParagraph("Some Scripts By : Celerity!")
-ChangeLogTab:AddParagraph("(Update V2.7)! Added Auto Get Bob (10% chance)")
-ChangeLogTab:AddParagraph("(Update V2.6)! Bug Fixes!, Combat Tab (New)")
-ChangeLogTab:AddParagraph("(Update V2.5)! Added Better Slap Aura! (fixed)")
-ChangeLogTab:AddParagraph("(Update V2.4)! Added Anti Void (Tournament)")
-ChangeLogTab:AddParagraph("(Update V2.3)! Slap Aura (fixed), Slap / Slapple Farm Added!")
+ChangeLogTab:AddParagraph("(Update V2.7)!              Added Auto Get Bob (10% chance)")
+ChangeLogTab:AddParagraph("(Update V2.6)!              Bug Fixes!, Combat Tab (New)")
+ChangeLogTab:AddParagraph("(Update V2.5)!              Added Better Slap Aura! (fixed)")
+ChangeLogTab:AddParagraph("(Update V2.4)!              Added Anti Void (Tournament)")
+ChangeLogTab:AddParagraph("(Update V2.3)!              Slap Aura (fixed), Slap / Slapple Farm Added!")
 
 local function teleportTo(x, y, z)
-if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(x, y, z))
-end
+    if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        player.Character.HumanoidRootPart.CFrame = CFrame.new(Vector3.new(x, y, z))
+    end
 end
 
 TeleportsTab:AddButton({Name = "Normal Arena", Callback = function() teleportTo(-14, 66, -1) end})
@@ -275,32 +271,33 @@ TeleportsTab:AddButton({Name = "Guide Room (Outside)", Callback = function() tel
 TeleportsTab:AddButton({Name = "New Arena (Free Slaps & Null Shards)", Callback = function() teleportTo(3419, 260, -18) end})
 TeleportsTab:AddButton({Name = "Void Platform", Callback = function() teleportTo(-34919, -2593, -18) end})
 
+
 TeleportsTab:AddTextbox({
-Name = "Teleport to Player",
-Default = "",
-TextDisappear = true,
-Callback = function(value)
-local target = game.Players:FindFirstChild(value)
-if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
-player.Character.HumanoidRootPart.CFrame = target.Character.HumanoidRootPart.CFrame
-end
-end
+    Name = "Teleport to Player",
+    Default = "",
+    TextDisappear = true,
+    Callback = function(value)
+        local target = game.Players:FindFirstChild(value)
+        if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+            player.Character.HumanoidRootPart.CFrame = target.Character.HumanoidRootPart.CFrame
+        end
+    end
 })
 
 local slapAuraStopper
 
 CombatTab:AddToggle({
-Name = "Slap Aura",
-Default = false,
-Callback = function(state)
-if state then
-slapAuraStopper = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheWExploiter/Slap-Battles-TP/refs/heads/main/slapaura.lua"))()
-else
-if slapAuraStopper then
-slapAuraStopper()
-end
-end
-end
+	Name = "Slap Aura",
+	Default = false,
+	Callback = function(state)
+		if state then
+			slapAuraStopper = loadstring(game:HttpGet("https://raw.githubusercontent.com/TheWExploiter/Slap-Battles-TP/refs/heads/main/slapaura.lua"))()
+		else
+			if slapAuraStopper then
+				slapAuraStopper()
+			end
+		end
+	end
 })
 
 local platform = Instance.new("Part")
@@ -319,6 +316,7 @@ voidplatform.Transparency = 0.7
 voidplatform.Color = Color3.fromRGB(0, 0, 0)
 voidplatform.Parent = game.Workspace
 
+
 local platform2 = Instance.new("Part")
 platform2.Size = Vector3.new(300, 2, 300)
 platform2.Position = Vector3.new(3419, 235, -19)
@@ -327,42 +325,84 @@ platform2.Transparency = 0.83
 platform2.Color = Color3.fromRGB(0, 0, 0)
 platform2.Parent = game.Workspace
 
+
 CombatTab:AddTextbox({
-Name = "WalkSpeed",
-Default = "16",
-TextDisappear = true,
-Callback = function(value)
-local speed = tonumber(value)
-if speed then
-player.Character.Humanoid.WalkSpeed = speed
-end
-end
+    Name = "WalkSpeed",
+    Default = "16",
+    TextDisappear = true,
+    Callback = function(value)
+        local speed = tonumber(value)
+        if speed then
+            player.Character.Humanoid.WalkSpeed = speed
+        end
+    end
 })
 
 FeaturesTab:AddButton({
-Name = "Server Hop (10-16 Players)",
-Callback = function()
-local HttpService = game:GetService("HttpService")
-local TeleportService = game:GetService("TeleportService")
-local PlaceId = game.PlaceId
-local cursor = ""
-local servers = {}
+    Name = "Server Hop (10-16 Players)",
+    Callback = function()
+        local HttpService = game:GetService("HttpService")
+        local TeleportService = game:GetService("TeleportService")
+        local PlaceId = game.PlaceId
+        local cursor = ""
+        local servers = {}
 
-repeat local url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="..cursor local data = HttpService:JSONDecode(game:HttpGet(url)) for _, server in ipairs(data.data) do if server.playing >= 10 and server.playing <= 16 and server.id ~= game.JobId then table.insert(servers, server) end end cursor = data.nextPageCursor or "" until not cursor or #servers >= 25 if #servers > 0 then local chosen = servers[math.random(1, #servers)] TeleportService:TeleportToPlaceInstance(PlaceId, chosen.id) else OrionLib:MakeNotification({ Name = "No Servers Found", Content = "No 10–16 player servers available!", Time = 5 }) end end 
+        repeat
+            local url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="..cursor
+            local data = HttpService:JSONDecode(game:HttpGet(url))
+            for _, server in ipairs(data.data) do
+                if server.playing >= 10 and server.playing <= 16 and server.id ~= game.JobId then
+                    table.insert(servers, server)
+                end
+            end
+            cursor = data.nextPageCursor or ""
+        until not cursor or #servers >= 25
 
+        if #servers > 0 then
+            local chosen = servers[math.random(1, #servers)]
+            TeleportService:TeleportToPlaceInstance(PlaceId, chosen.id)
+        else
+            OrionLib:MakeNotification({
+                Name = "No Servers Found",
+                Content = "No 10–16 player servers available!",
+                Time = 5
+            })
+        end
+    end
 })
 
+
 FeaturesTab:AddButton({
-Name = "Low Server Hop",
-Callback = function()
-local HttpService = game:GetService("HttpService")
-local TeleportService = game:GetService("TeleportService")
-local PlaceId = game.PlaceId
-local cursor = ""
-local target = nil
+    Name = "Low Server Hop",
+    Callback = function()
+        local HttpService = game:GetService("HttpService")
+        local TeleportService = game:GetService("TeleportService")
+        local PlaceId = game.PlaceId
+        local cursor = ""
+        local target = nil
 
-repeat local url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="..cursor local data = HttpService:JSONDecode(game:HttpGet(url)) for _, server in ipairs(data.data) do if server.playing < 6 and server.id ~= game.JobId then target = server break end end cursor = data.nextPageCursor or "" until not cursor or target if target then TeleportService:TeleportToPlaceInstance(PlaceId, target.id) else OrionLib:MakeNotification({ Name = "No Low Server", Content = "No servers under 5 players found!", Time = 5 }) end end 
+        repeat
+            local url = "https://games.roblox.com/v1/games/"..PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="..cursor
+            local data = HttpService:JSONDecode(game:HttpGet(url))
+            for _, server in ipairs(data.data) do
+                if server.playing < 6 and server.id ~= game.JobId then
+                    target = server
+                    break
+                end
+            end
+            cursor = data.nextPageCursor or ""
+        until not cursor or target
 
+        if target then
+            TeleportService:TeleportToPlaceInstance(PlaceId, target.id)
+        else
+            OrionLib:MakeNotification({
+                Name = "No Low Server",
+                Content = "No servers under 5 players found!",
+                Time = 5
+            })
+        end
+    end
 })
 
 local antiVoidPart = Instance.new("Part")
@@ -375,37 +415,49 @@ antiVoidPart.Transparency = 1
 antiVoidPart.Parent = game.Workspace
 
 CombatTab:AddToggle({
-Name = "Anti Void",
-Default = true,
-Callback = function(state)
-if state then
-antiVoidPart.Transparency = 0.7
-antiVoidPart.CanCollide = true
-else
-antiVoidPart.Transparency = 1
-antiVoidPart.CanCollide = false
-end
-end
+    Name = "Anti Void",
+    Default = true,
+    Callback = function(state)
+        if state then
+            antiVoidPart.Transparency = 0.7
+            antiVoidPart.CanCollide = true
+        else
+            antiVoidPart.Transparency = 1
+            antiVoidPart.CanCollide = false
+        end
+    end
 })
 
 HomeTab:AddButton({
-Name = "Copy Discord Invite",
-Callback = function()
-setclipboard("https://discord.gg/6cVygU3NHU")
-end
+    Name = "Copy Discord Invite",
+    Callback = function()
+        setclipboard("https://discord.gg/6cVygU3NHU")
+    end
 })
 
 CombatTab:AddToggle({
-Name = "Anti Ragdoll (Need Reset)",
-Default = false,
-Callback = function(state)
-if state then
-player.CharacterAdded:Connect(function(character)
-local humanoid = character:WaitForChild("Humanoid")
-local ragdoll = character:WaitForChild("Ragdolled")
+    Name = "Anti Ragdoll (Need Reset)",
+    Default = false,
+    Callback = function(state)
+        if state then
+            player.CharacterAdded:Connect(function(character)
+                local humanoid = character:WaitForChild("Humanoid")
+                local ragdoll = character:WaitForChild("Ragdolled")
 
-ragdoll.Changed:Connect(function() if ragdoll.Value then local hrp = character:FindFirstChild("HumanoidRootPart") if hrp then hrp.Anchored = true wait(2) hrp.Anchored = false end end end) end) end end 
-
+                ragdoll.Changed:Connect(function()
+                    if ragdoll.Value then
+                        local hrp = character:FindFirstChild("HumanoidRootPart")
+                        if hrp then
+                            hrp.Anchored = true
+                            wait(2)
+                            hrp.Anchored = false
+                        end
+                    end
+                end)
+            end)
+        end
+    end
 })
+
 
 OrionLib:Init()
