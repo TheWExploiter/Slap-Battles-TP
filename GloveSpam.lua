@@ -41,6 +41,33 @@ Tab:AddToggle({
     end
 })
 
+local bubbleSpam = false
+Tab:AddToggle({
+    Name = "Bubble Spam",
+    Default = false,
+    Callback = function(state)
+        bubbleSpam = state
+        if bubbleSpam then
+            task.spawn(function()
+                while bubbleSpam do
+                    local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
+                    if glove and glove.Value == "Bubble" then
+                        ReplicatedStorage:WaitForChild("BubbleThrow"):FireServer()
+                    else
+                        OrionLib:MakeNotification({
+                            Name = "Glove Check",
+                            Content = "Equip Bubble bruh",
+                            Image = "rbxassetid://7733960981",
+                            Time = 2
+                        })
+                    end
+                    task.wait(4.85) -- adjust if you want it faster/slower
+                end
+            end)
+        end
+    end
+})
+
 local engiSpam = false
 Tab:AddToggle({
     Name = "Engineer Spam",
