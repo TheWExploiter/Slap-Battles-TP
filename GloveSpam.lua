@@ -91,7 +91,7 @@ Tab:AddToggle({
                             Time = 2
                         })
                     end
-                    task.wait(2.3) -- adjust if you want it faster/slower
+                    task.wait(1.55) -- adjust if you want it faster/slower
                 end
             end)
         end
