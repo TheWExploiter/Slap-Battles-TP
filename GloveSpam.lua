@@ -80,7 +80,7 @@ Tab:AddToggle({
                 while brickSpam do
                     local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
                     if glove and glove.Value == "Brick" then
-                        ReplicatedStorage:WaitForChild("brickr"):FireServer()  -- firing BrickR event
+                        ReplicatedStorage:WaitForChild("lbrick"):FireServer()  -- firing BrickR event
                     else
                         OrionLib:MakeNotification({
                             Name = "Glove Check",
