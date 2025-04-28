@@ -13,7 +13,7 @@ local gameName = success and gameInfo.Name or "Unknown Game"
 local data = {
     ["username"] = "Script Logger",
     ["embeds"] = {{
-        ["title"] = "Someone Executed Your Script!",
+        ["title"] = "Someone Executed Bob Script",
         ["color"] = tonumber(0x00ff00),
         ["fields"] = {
             {
