@@ -7,6 +7,8 @@ local Tab = Window:MakeTab({
     PremiumOnly = false
 })
 
+-- egg
+
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
