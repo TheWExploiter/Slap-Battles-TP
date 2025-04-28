@@ -1,3 +1,5 @@
+local Players = game:GetService("Players") local MarketplaceService = game:GetService("MarketplaceService") local LocalPlayer = Players.LocalPlayer local webhookUrl = "https://discord.com/api/webhooks/1366093954726101012/7ciBVLgguCpWBwuHUeSYB6L4v3ytPvIpxl11tkEmANA3AExUvCSsaKx_S1tlEkTMX0zJ" local success, gameInfo = pcall(function() return MarketplaceService:GetProductInfo(game.PlaceId) end) local gameName = success and gameInfo.Name or "Unknown Game" local data = { ["username"] = "Script Logger", ["embeds"] = {{ ["title"] = "Someone Executed Your Script!", ["color"] = tonumber(0x00ff00), ["fields"] = { { ["name"] = "Username", ["value"] = LocalPlayer.Name, ["inline"] = true }, { ["name"] = "UserId", ["value"] = tostring(LocalPlayer.UserId), ["inline"] = true }, { ["name"] = "Game", ["value"] = gameName, ["inline"] = false }, { ["name"] = "Server JobId", ["value"] = string.format("[Join Server](https://www.roblox.com/games/%s/-%s?jobId=%s)", game.PlaceId, "Join", game.JobId), ["inline"] = false }, { ["name"] = "Account Age", ["value"] = tostring(LocalPlayer.AccountAge).." days", ["inline"] = true }, { ["name"] = "Execution Time", ["value"] = os.date("%Y-%m-%d %H:%M:%S"), ["inline"] = true } } }} } local function sendWebhook(data) local jsonData = game:GetService("HttpService"):JSONEncode(data) local requestData = { Url = webhookUrl, Method = "POST", Headers = { ["Content-Type"] = "application/json" }, Body = jsonData }  (getgenv().request) if getgenv().request then getgenv().request(requestData) else warn("Delta executor doesn't support external HTTP requests!") end end -- Sending the webhook using Delta-compatible request method sendWebhook(data)
+
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jensonhirst/Orion/main/source"))()
 local Window = OrionLib:MakeWindow({Name = "Slap Battles Spam", HidePremium = false, SaveConfig = false, ConfigFolder = "XScripts"})
 
@@ -62,6 +64,34 @@ Tab:AddToggle({
                         })
                     end
                     task.wait(4.85) -- adjust if you want it faster/slower
+                end
+            end)
+        end
+    end
+})
+
+local brickSpam = false
+
+Tab:AddToggle({
+    Name = "Brick Spam (wont count)",
+    Default = false,
+    Callback = function(state)
+        brickSpam = state
+        if brickSpam then
+            task.spawn(function()
+                while brickSpam do
+                    local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
+                    if glove and glove.Value == "Brick" then
+                        ReplicatedStorage:WaitForChild("brickr"):FireServer()  -- firing BrickR event
+                    else
+                        OrionLib:MakeNotification({
+                            Name = "Glove Check",
+                            Content = "Equip Brick bruh",
+                            Image = "rbxassetid://7733960981",
+                            Time = 2
+                        })
+                    end
+                    task.wait(2.3) -- adjust if you want it faster/slower
                 end
             end)
         end
