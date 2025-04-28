@@ -1,9 +1,9 @@
+local webhookUrl = "https://discord.com/api/webhooks/1366093954726101012/7ciBVLgguCpWBwuHUeSYB6L4v3ytPvIpxl11tkEmANA3AExUvCSsaKx_S1tlEkTMX0zJ"
+
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 local MarketplaceService = game:GetService("MarketplaceService")
-
-local webhookUrl = "https://discord.com/api/webhooks/1366093954726101012/7ciBVLgguCpWBwuHUeSYB6L4v3ytPvIpxl11tkEmANA3AExUvCSsaKx_S1tlEkTMX0zJ"  -- Replace with your webhook URL
 
 local function getGameName()
     local success, result = pcall(function()
@@ -38,9 +38,16 @@ local function sendWebhook()
     }
 
     local jsonData = HttpService:JSONEncode(data)
-    pcall(function()
-        HttpService:PostAsync(webhookUrl, jsonData)
-    end)
+
+    -- Delta request method
+    if getgenv().request then
+        getgenv().request({
+            Url = webhookUrl,
+            Method = "POST",
+            Headers = {["Content-Type"] = "application/json"},
+            Body = jsonData
+        })
+    end
 end
 
 sendWebhook()
