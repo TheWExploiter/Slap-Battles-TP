@@ -3,7 +3,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/Pro666Pro/BypassAntiC
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/jensonhirst/Orion/main/source"))()
 
 local Window = OrionLib:MakeWindow({
-    Name = "Slap Battles Multi Script (V2.7)📃",
+    Name = "Slap Battles Multi Script (V2.8)📜",
     HidePremium = false,
     SaveConfig = true,
     ConfigFolder = "TeleportConfig",
@@ -12,6 +12,10 @@ local Window = OrionLib:MakeWindow({
     CloseCallback = function() end
 })
 
+local Players = game:GetService("Players")
+local TeleportService = game:GetService("TeleportService")
+local HttpService = game:GetService("HttpService")
+local jobIdInput = ""
 local player = game.Players.LocalPlayer
 local username = player.Name
 
@@ -176,6 +180,7 @@ end
 CreditsTab:AddParagraph("Made By : ImCatTrust! (TheEpicGamer16Yt)")
 CreditsTab:AddParagraph("Get Glove Scripts By : Nexer1234!")
 CreditsTab:AddParagraph("Some Scripts By : Celerity!")
+ChangeLogTab:AddParagraph("(Update V2.8)!              Added Jobid Join")
 ChangeLogTab:AddParagraph("(Update V2.7)!              Added Auto Get Bob (10% chance)")
 ChangeLogTab:AddParagraph("(Update V2.6)!              Bug Fixes!, Combat Tab (New)")
 ChangeLogTab:AddParagraph("(Update V2.5)!              Added Better Slap Aura! (fixed)")
@@ -206,6 +211,38 @@ TeleportsTab:AddTextbox({
         if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
             player.Character.HumanoidRootPart.CFrame = target.Character.HumanoidRootPart.CFrame
         end
+    end
+})
+
+FeaturesTab:AddTextbox({
+    Name = "Join Job ID",
+    Default = "",
+    TextDisappear = false,
+    Callback = function(Value)
+        jobIdInput = Value
+    end
+})
+
+FeaturesTab:AddButton({
+    Name = "Join Server with Job ID",
+    Callback = function()
+        if jobIdInput and jobIdInput ~= "" then
+            TeleportService:TeleportToPlaceInstance(game.PlaceId, jobIdInput, Players.LocalPlayer)
+        end
+    end
+})
+
+FeaturesTab:AddButton({
+    Name = "Copy Current Job ID",
+    Callback = function()
+        local currentJobId = game.JobId
+        setclipboard(currentJobId)
+        OrionLib:MakeNotification({
+            Name = "Copied!",
+            Content = "Your current Job ID has been copied.",
+            Image = "rbxassetid://4483345998",
+            Time = 3
+        })
     end
 })
 
