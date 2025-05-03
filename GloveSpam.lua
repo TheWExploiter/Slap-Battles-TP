@@ -43,26 +43,17 @@ Tab:AddToggle({
     end
 })
 
-local replicaSpam = false
+local dupeSpam = false
 Tab:AddToggle({
     Name = "Replica Spam",
     Default = false,
     Callback = function(state)
-        replicaSpam = state
-        if replicaSpam then
+        dupeSpam = state
+        if dupeSpam then
             task.spawn(function()
-                while replicaSpam do
-                    local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
-                    if glove and glove.Value == "Replica" then
-                        game:GetService("ReplicatedStorage").Remotes.Replicate:FireServer()
-                    else
-                        OrionLib:MakeNotification({
-                            Name = "Glove Check",
-                            Content = "Equip Replica bruh",
-                            Image = "rbxassetid://7733960981",
-                            Time = 2
-                        })
-                    end
+                while dupeSpam do
+                    local args = { true }
+                    ReplicatedStorage:WaitForChild("Duplicate"):FireServer(unpack(args))
                     task.wait(6.5)
                 end
             end)
@@ -118,7 +109,7 @@ Tab:AddToggle({
                             Time = 2
                         })
                     end
-                    task.wait(1.55) -- adjust if you want it faster/slower
+                    task.wait(1.42) -- adjust if you want it faster/slower
                 end
             end)
         end
@@ -293,7 +284,7 @@ Tab:AddToggle({
 
 local barrierSpam = false
 Tab:AddToggle({
-    Name = "Barrier Spam",
+    Name = "Barrier Spam (NO CD)",
     Default = false,
     Callback = function(state)
         barrierSpam = state
@@ -312,7 +303,7 @@ Tab:AddToggle({
                             Time = 2
                         })
                     end
-                    task.wait(0.7)
+                    task.wait(0.51)
                 end
             end)
         end
@@ -340,7 +331,7 @@ Tab:AddToggle({
                             Time = 2
                         })
                     end
-                    task.wait(8.3)
+                    task.wait(7.3)
                 end
             end)
         end
