@@ -7,7 +7,7 @@ local Tab = Window:MakeTab({
     PremiumOnly = false
 })
 
--- egg
+-- if u copy this source please give credit :(
 
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
@@ -54,7 +54,7 @@ Tab:AddToggle({
                 while replicaSpam do
                     local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
                     if glove and glove.Value == "Replica" then
-                        ReplicatedStorage.Remotes.Replicate:FireServer()
+                        game:GetService("ReplicatedStorage").Remotes.Replicate:FireServer()
                     else
                         OrionLib:MakeNotification({
                             Name = "Glove Check",
