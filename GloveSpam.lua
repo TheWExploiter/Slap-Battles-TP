@@ -43,6 +43,33 @@ Tab:AddToggle({
     end
 })
 
+local replicaSpam = false
+Tab:AddToggle({
+    Name = "Replica Spam",
+    Default = false,
+    Callback = function(state)
+        replicaSpam = state
+        if replicaSpam then
+            task.spawn(function()
+                while replicaSpam do
+                    local glove = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Glove")
+                    if glove and glove.Value == "Replica" then
+                        ReplicatedStorage.Remotes.Replicate:FireServer()
+                    else
+                        OrionLib:MakeNotification({
+                            Name = "Glove Check",
+                            Content = "Equip Replica bruh",
+                            Image = "rbxassetid://7733960981",
+                            Time = 2
+                        })
+                    end
+                    task.wait(6.5)
+                end
+            end)
+        end
+    end
+})
+
 local bubbleSpam = false
 Tab:AddToggle({
     Name = "Bubble Spam",
