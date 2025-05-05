@@ -7,7 +7,7 @@ local Gui = Instance.new("ScreenGui", CoreGui)
 Gui.Name = "SimpleSpy"
 
 local Main = Instance.new("Frame", Gui)
-Main.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+Main.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 Main.BorderSizePixel = 0
 Main.Position = UDim2.new(0.2, 0, 0.2, 0)
 Main.Size = UDim2.new(0, 500, 0, 400)
