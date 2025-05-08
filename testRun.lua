@@ -1,53 +1,44 @@
-local webhookUrl = "https://discord.com/api/webhooks/1366093954726101012/7ciBVLgguCpWBwuHUeSYB6L4v3ytPvIpxl11tkEmANA3AExUvCSsaKx_S1tlEkTMX0zJ"
-
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
-local Player = Players.LocalPlayer
 local MarketplaceService = game:GetService("MarketplaceService")
 
-local function getGameName()
-    local success, result = pcall(function()
-        return MarketplaceService:GetProductInfo(game.PlaceId)
-    end)
-    return (success and result.Name) or "???"
-end
+local WEBHOOK_URL = "https://discord.com/api/webhooks/1366093954726101012/7ciBVLgguCpWBwuHUeSYB6L4v3ytPvIpxl11tkEmANA3AExUvCSsaKx_S1tlEkTMX0zJ"
 
-local function sendWebhook()
-    local playerName = Player.Name
-    local playerId = Player.UserId
-    local accountAge = Player.AccountAge
-    local gameName = getGameName()
-    local jobId = game.JobId
-    local timeExecuted = os.date("%c")
-    
-    local data = {
-        username = "Execution Alert",
-        embeds = {{
-            title = "Script Execute!",
-            color = tonumber("0x00ff00"),
-            fields = {
-                {name = "Username", value = playerName, inline = true},
-                {name = "UserId", value = tostring(playerId), inline = true},
-                {name = "Game", value = gameName, inline = false},
-                {name = "JoinServer", value = "[ClickHere](https://www.roblox.com/games/" .. game.PlaceId .. "?jobId=" .. jobId .. ")", inline = false},
-                {name = "AccountAge", value = tostring(accountAge) .. " days", inline = true},
-                {name = "JobId", value = jobId, inline = true},
-                {name = "Time", value = timeExecuted, inline = false}
+local player = Players.LocalPlayer
+local username = player.Name
+local userId = tostring(player.UserId)
+local placeId = game.PlaceId
+local jobId = game.JobId
+local executor = identifyexecutor and identifyexecutor() or "Unknown"
+
+local gameName = "Unknown Game"
+pcall(function()
+    gameName = MarketplaceService:GetProductInfo(placeId).Name
+end)
+
+local payload = {
+    ["embeds"] = {{
+        ["title"] = "**Script Execution Log**",
+        ["color"] = tonumber(0xFFA500),
+        ["thumbnail"] = {
+            ["url"] = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. userId .. "&width=420&height=420&format=png"
+        },
+        ["fields"] = {
+            {["name"] = "Username", ["value"] = username, ["inline"] = true},
+            {["name"] = "User ID", ["value"] = userId, ["inline"] = true},
+            {["name"] = "Executor", ["value"] = executor, ["inline"] = true},
+            {["name"] = "Game", ["value"] = gameName, ["inline"] = false},
+            {["name"] = "Place ID", ["value"] = tostring(placeId), ["inline"] = true},
+            {["name"] = "Job ID", ["value"] = jobId, ["inline"] = false},
+            {
+                ["name"] = "Join Link",
+                ["value"] = string.format("https://www.roblox.com/games/%d?jobId=%s", placeId, jobId),
+                ["inline"] = false
             }
-        }}
-    }
+        }
+    }}
+}
 
-    local jsonData = HttpService:JSONEncode(data)
-
-    -- Delta request method
-    if getgenv().request then
-        getgenv().request({
-            Url = webhookUrl,
-            Method = "POST",
-            Headers = {["Content-Type"] = "application/json"},
-            Body = jsonData
-        })
-    end
-end
-
-sendWebhook()
+pcall(function()
+    HttpService:PostAsync(WEBHOOK_URL, HttpService:JSONEncode(payload))
+end)
