@@ -13,25 +13,15 @@ local executor = identifyexecutor and identifyexecutor() or "Unknown"
 
 local gameName = "Unknown Game"
 pcall(function()
-	gameName = MarketplaceService:GetProductInfo(placeId).Name
+    gameName = MarketplaceService:GetProductInfo(placeId).Name
 end)
 
--- Try to get dynamic player image (real render)
-local userImage = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. userId .. "&width=420&height=420&format=png"
-pcall(function()
-	local thumb, isReady = Players:GetUserThumbnailAsync(tonumber(userId), Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size420x420)
-	if isReady then
-		userImage = thumb
-	end
-end)
-
--- Payload for webhook
 local payload = {
     ["embeds"] = {{
         ["title"] = "**🚨 Script Execution Log 🚨**",
         ["color"] = tonumber(0xFFA500),
         ["thumbnail"] = {
-            ["url"] = userImage
+            ["url"] = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. userId .. "&width=420&height=420&format=png"
         },
         ["fields"] = {
             {["name"] = "👤 Username", ["value"] = username .. "  |  **" .. executor .. "**", ["inline"] = false},
@@ -49,13 +39,23 @@ local payload = {
     }}
 }
 
--- Send to webhook
-local success, message = pcall(function()
-	HttpService:PostAsync(WEBHOOK_URL, HttpService:JSONEncode(payload), Enum.HttpContentType.ApplicationJson)
+local success, err = pcall(function()
+    local headers = {["Content-Type"] = "application/json"}
+    local body = HttpService:JSONEncode(payload)
+
+    if syn and syn.request then
+        syn.request({Url = WEBHOOK_URL, Method = "POST", Headers = headers, Body = body})
+    elseif http and http.request then
+        http.request({Url = WEBHOOK_URL, Method = "POST", Headers = headers, Body = body})
+    elseif request then
+        request({Url = WEBHOOK_URL, Method = "POST", Headers = headers, Body = body})
+    else
+        warn("Executor does not support webhook sending.")
+    end
 end)
 
 if success then
-	print("Webhook data successfully sent!")
+    print("Webhook data successfully sent!")
 else
-	warn("Failed to send webhook: " .. tostring(message))
+    warn("Failed to send webhook: " .. tostring(err))
 end
