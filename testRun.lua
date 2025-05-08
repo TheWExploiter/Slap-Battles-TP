@@ -60,11 +60,18 @@ local payload = {
                 ["inline"] = false
             }
         },
-        ["footer"] = {["text"] = "Made by Cat :3 🐱"}
+        ["footer"] = {["text"] = "Made by Cat :3"}
     }}
 }
 
--- Send webhook
-pcall(function()
-    HttpService:PostAsync(WEBHOOK_URL, HttpService:JSONEncode(payload))
+-- Send webhook with error handling
+local success, message = pcall(function()
+    return HttpService:PostAsync(WEBHOOK_URL, HttpService:JSONEncode(payload), Enum.HttpContentType.ApplicationJson)
 end)
+
+-- Debugging response
+if success then
+    print("Webhook successfully sent!")
+else
+    warn("Failed to send webhook: " .. message)
+end
