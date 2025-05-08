@@ -17,28 +17,48 @@ pcall(function()
 end)
 
 local payload = {
+    ["content"] = "🚨 **Script Executed!** 🚨",
     ["embeds"] = {{
-        ["title"] = "**Script Execution Log**",
+        ["title"] = "**Execution Info**",
         ["color"] = tonumber(0xFFA500),
         ["thumbnail"] = {
             ["url"] = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. userId .. "&width=420&height=420&format=png"
         },
         ["fields"] = {
-            {["name"] = "Username", ["value"] = username, ["inline"] = true},
-            {["name"] = "User ID", ["value"] = userId, ["inline"] = true},
-            {["name"] = "Executor", ["value"] = executor, ["inline"] = true},
-            {["name"] = "Game", ["value"] = gameName, ["inline"] = false},
-            {["name"] = "Place ID", ["value"] = tostring(placeId), ["inline"] = true},
-            {["name"] = "Job ID", ["value"] = jobId, ["inline"] = false},
+            {["name"] = "👤 Username", ["value"] = username, ["inline"] = true},
+            {["name"] = "🆔 User ID", ["value"] = userId, ["inline"] = true},
+            {["name"] = "🧠 Executor", ["value"] = executor, ["inline"] = true},
+            {["name"] = "🎮 Game", ["value"] = gameName, ["inline"] = false},
+            {["name"] = "🌍 Place ID", ["value"] = tostring(placeId), ["inline"] = true},
+            {["name"] = "🧩 Job ID", ["value"] = jobId, ["inline"] = false},
             {
-                ["name"] = "Join Link",
+                ["name"] = "🔗 Join Link",
                 ["value"] = string.format("https://www.roblox.com/games/%d?jobId=%s", placeId, jobId),
                 ["inline"] = false
             }
+        },
+        ["footer"] = {
+            ["text"] = "Powered by Maximum V5🔥🗿"
         }
     }}
 }
 
-pcall(function()
-    HttpService:PostAsync(WEBHOOK_URL, HttpService:JSONEncode(payload))
-end)
+local jsonData = HttpService:JSONEncode(payload)
+
+-- Auto-detect and use the correct request function
+local requestFunction = (syn and syn.request) or (http and http.request) or (http_request) or (request) or (fluxus and fluxus.request) or nil
+
+if requestFunction then
+    pcall(function()
+        requestFunction({
+            Url = WEBHOOK_URL,
+            Method = "POST",
+            Headers = {
+                ["Content-Type"] = "application/json"
+            },
+            Body = jsonData
+        })
+    end)
+else
+    warn("❌ No compatible HTTP request function found. Webhook DataN Not sent. (ERROR 0x019)")
+end
