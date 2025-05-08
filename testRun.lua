@@ -38,7 +38,7 @@ local payload = {
             }
         },
         ["footer"] = {
-            ["text"] = "Powered by Maximum V5🔥🗿"
+            ["text"] = "Made By Cat :3"
         }
     }}
 }
