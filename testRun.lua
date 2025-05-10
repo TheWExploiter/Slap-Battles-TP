@@ -1,3 +1,8 @@
+-- hello u silly goober i know u want to know what this script is for its not a ip logger its just a silly script logger and 
+-- and even if u use the webhook no one is even in the server :> so ig idk do anything
+
+
+
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
 local MarketplaceService = game:GetService("MarketplaceService")
