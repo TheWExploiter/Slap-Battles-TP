@@ -12,8 +12,11 @@ local jobId = game.JobId
 local executor = identifyexecutor and identifyexecutor() or "Unknown"
 
 local gameName = "Unknown Game"
+local gameIcon = "https://tr.rbxcdn.com/6e91f0cb1ea50cabc3cf8f76d3f38c3e/768/432/Image/Png" -- fallback icon
 pcall(function()
-    gameName = MarketplaceService:GetProductInfo(placeId).Name
+    local info = MarketplaceService:GetProductInfo(placeId)
+    gameName = info.Name
+    gameIcon = string.format("https://www.roblox.com/asset-thumbnail/image?assetId=%d&width=768&height=432&format=png", placeId)
 end)
 
 local payload = {
@@ -22,6 +25,9 @@ local payload = {
         ["color"] = tonumber(0xFFA500),
         ["thumbnail"] = {
             ["url"] = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. userId .. "&width=420&height=420&format=png"
+        },
+        ["image"] = {
+            ["url"] = gameIcon
         },
         ["fields"] = {
             {["name"] = "👤 Username", ["value"] = username .. "  |  **" .. executor .. "**", ["inline"] = false},
