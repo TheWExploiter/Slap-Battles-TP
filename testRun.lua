@@ -9,59 +9,73 @@ local username = player.Name
 local userId = tostring(player.UserId)
 local placeId = game.PlaceId
 local jobId = game.JobId
-local executor = identifyexecutor and identifyexecutor() or "Unknown"
+local scriptName = "Unknown (Valid Error)"
+
+local avatarUrl = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. userId .. "&width=420&height=420&format=png"
 
 local gameName = "Unknown Game"
-local gameIcon = "https://tr.rbxcdn.com/6e91f0cb1ea50cabc3cf8f76d3f38c3e/768/432/Image/Png" -- fallback icon
+local gameIcon = "https://tr.rbxcdn.com/6e91f0cb1ea50cabc3cf8f76d3f38c3e/768/432/Image/Png"
 pcall(function()
-    local info = MarketplaceService:GetProductInfo(placeId)
-    gameName = info.Name
-    gameIcon = string.format("https://www.roblox.com/asset-thumbnail/image?assetId=%d&width=768&height=432&format=png", placeId)
+	local info = MarketplaceService:GetProductInfo(placeId)
+	gameName = info.Name
+	gameIcon = string.format("https://www.roblox.com/asset-thumbnail/image?assetId=%d&width=768&height=432&format=png", placeId)
 end)
 
 local payload = {
-    ["embeds"] = {{
-        ["title"] = "**🚨 Script Execution Log 🚨**",
-        ["color"] = tonumber(0xFFA500),
-        ["thumbnail"] = {
-            ["url"] = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. userId .. "&width=420&height=420&format=png"
-        },
-        ["image"] = {
-            ["url"] = gameIcon
-        },
-        ["fields"] = {
-            {["name"] = "👤 Username", ["value"] = username .. "  |  **" .. executor .. "**", ["inline"] = false},
-            {["name"] = "🆔 User ID", ["value"] = userId, ["inline"] = true},
-            {["name"] = "🎮 Game", ["value"] = gameName, ["inline"] = false},
-            {["name"] = "🔑 Place ID", ["value"] = tostring(placeId), ["inline"] = true},
-            {["name"] = "📝 Job ID", ["value"] = jobId, ["inline"] = false},
-            {
-                ["name"] = "🔗 Join Link",
-                ["value"] = string.format("https://www.roblox.com/games/%d?jobId=%s", placeId, jobId),
-                ["inline"] = false
-            }
-        },
-        ["footer"] = {["text"] = "Made by Cat :3 🐱"}
-    }}
+	["embeds"] = {
+		{
+			["title"] = "🔔 Script Execution Log",
+			["color"] = 0xFFD700,
+			["thumbnail"] = {
+				["url"] = avatarUrl
+			},
+			["fields"] = {
+				{
+					["name"] = "🧑 Username",
+					["value"] = string.format("[`%s`](https://www.roblox.com/users/%s/profile)", username, userId),
+					["inline"] = false
+				},
+				{["name"] = "🆔 User ID", ["value"] = userId, ["inline"] = true},
+				{["name"] = "🏙️ Place ID", ["value"] = tostring(placeId), ["inline"] = true},
+				{["name"] = "🏷️ Place Name", ["value"] = gameName .. " 👏", ["inline"] = false},
+				{["name"] = "📝 Script Name", ["value"] = scriptName, ["inline"] = false},
+				{["name"] = "🔑 Job ID", ["value"] = jobId, ["inline"] = false},
+				{
+					["name"] = "🔗 Join Link",
+					["value"] = string.format("https://www.roblox.com/games/%d?jobId=%s", placeId, jobId),
+					["inline"] = false
+				}
+			},
+			["footer"] = {
+				["text"] = "Made by Cat :3 🐱",
+				["icon_url"] = "https://cdn.discordapp.com/emojis/1155678438691764285.webp?size=96&quality=lossless"
+			}
+		},
+		{
+			["image"] = {
+				["url"] = gameIcon
+			}
+		}
+	}
 }
 
 local success, err = pcall(function()
-    local headers = {["Content-Type"] = "application/json"}
-    local body = HttpService:JSONEncode(payload)
+	local headers = {["Content-Type"] = "application/json"}
+	local body = HttpService:JSONEncode(payload)
 
-    if syn and syn.request then
-        syn.request({Url = WEBHOOK_URL, Method = "POST", Headers = headers, Body = body})
-    elseif http and http.request then
-        http.request({Url = WEBHOOK_URL, Method = "POST", Headers = headers, Body = body})
-    elseif request then
-        request({Url = WEBHOOK_URL, Method = "POST", Headers = headers, Body = body})
-    else
-        warn("Executor does not support webhook sending.")
-    end
+	if syn and syn.request then
+		syn.request({Url = WEBHOOK_URL, Method = "POST", Headers = headers, Body = body})
+	elseif http and http.request then
+		http.request({Url = WEBHOOK_URL, Method = "POST", Headers = headers, Body = body})
+	elseif request then
+		request({Url = WEBHOOK_URL, Method = "POST", Headers = headers, Body = body})
+	else
+		warn("Executor does not support webhook sending.")
+	end
 end)
 
 if success then
-    print("Webhook data successfully sent!")
+	print("Webhook sent successfully!")
 else
-    warn("Failed to send webhook: " .. tostring(err))
+	warn("Failed to send webhook: " .. tostring(err))
 end
