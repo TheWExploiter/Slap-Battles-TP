@@ -1,4 +1,4 @@
--- bob was here
+-- bob was here again
 
 local SlapRemotes = loadstring(game:HttpGet('https://raw.githubusercontent.com/Pro666Pro/OpenSourceScripts/refs/heads/main/Other/SlapRemotesTable.luau'))()
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
