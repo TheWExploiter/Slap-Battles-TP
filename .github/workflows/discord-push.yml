@@ -6,88 +6,44 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Validate secret & debug
+      - name: Send styled push info to Discord
         run: |
-          echo "Checking DISCORD_WEBHOOK_URL…"
-          if [ -z "${{ secrets.DISCORD_WEBHOOK_URL }}" ]; then
-            echo "::error ::DISCORD_WEBHOOK_URL secret is NOT set!"
-            exit 1
-          fi
-          # Mask printed URL for security, but confirm it’s non-empty
-          SECRET="${{ secrets.DISCORD_WEBHOOK_URL }}"
-          echo "Webhook URL is set and length=${#SECRET}"
+          REPO="${{ github.repository }}"
+          USER="${{ github.actor }}"
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+          URL="${{ github.event.head_commit.url }}"
 
-      - name: Send push details to Discord
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        run: |
-          set -euo pipefail
-          EVENT_PATH="$GITHUB_EVENT_PATH"
-          echo "Event JSON path: $EVENT_PATH"
-          cat "$EVENT_PATH"  # show payload for debugging
+          ADDED=$(echo "${{ toJson(github.event.head_commit.added) }}" | jq -r '.[]' | sed ':a;N;$!ba;s/\n/\\n/g')
+          MODIFIED=$(echo "${{ toJson(github.event.head_commit.modified) }}" | jq -r '.[]' | sed ':a;N;$!ba;s/\n/\\n/g')
+          REMOVED=$(echo "${{ toJson(github.event.head_commit.removed) }}" | jq -r '.[]' | sed ':a;N;$!ba;s/\n/\\n/g')
 
-          REPO="$GITHUB_REPOSITORY"
-          USER="$GITHUB_ACTOR"
-
-          # Extract commit info
-          COMMIT_MSG=$(jq -r '.head_commit.message // empty' "$EVENT_PATH")
-          COMMIT_URL=$(jq -r '.head_commit.url // empty'     "$EVENT_PATH")
-          ADDED=$(jq -r '.head_commit.added | join("\n") // empty'    "$EVENT_PATH")
-          MODIFIED=$(jq -r '.head_commit.modified | join("\n") // empty' "$EVENT_PATH")
-          REMOVED=$(jq -r '.head_commit.removed | join("\n") // empty'  "$EVENT_PATH")
-
-          # Fallbacks
-          [ -z "$COMMIT_MSG" ] && COMMIT_MSG="(no commit message)"
-          [ -z "$COMMIT_URL" ] && COMMIT_URL="https://github.com/$REPO"
-          [ -z "$ADDED" ]    && ADDED="❌ None"
+          [ -z "$ADDED" ] && ADDED="❌ None"
           [ -z "$MODIFIED" ] && MODIFIED="❌ None"
-          [ -z "$REMOVED" ]  && REMOVED="❌ None"
+          [ -z "$REMOVED" ] && REMOVED="❌ None"
 
-          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          
-          # Build payload
-          jq -n \
-            --arg repo "$REPO" \
-            --arg user "$USER" \
-            --arg msg "$COMMIT_MSG" \
-            --arg url "$COMMIT_URL" \
-            --arg added "$ADDED" \
-            --arg modified "$MODIFIED" \
-            --arg removed "$REMOVED" \
-            --arg timestamp "$TIMESTAMP" \
-            '{
-              "embeds":[
-                {
-                  "title": "🚀 Push to "+$repo,
-                  "url": $url,
-                  "description": $msg,
-                  "color": 3447003,
-                  "author":{
-                    "name": $user,
-                    "url": "https://github.com/"+$user,
-                    "icon_url": "https://github.com/"+$user+".png"
-                  },
-                  "fields":[
-                    {"name":"➕ Added","value":$added,"inline":true},
-                    {"name":"✏️ Modified","value":$modified,"inline":true},
-                    {"name":"➖ Removed","value":$removed,"inline":true}
-                  ],
-                  "footer":{
-                    "text":"GitHub Actions",
-                    "icon_url":"https://github.githubassets.com/favicons/favicon.png"
-                  },
-                  "timestamp": $timestamp
-                }
-              ]
-            }' > payload.json
+          TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
-          # Show payload for debugging
-          echo "=== payload.json ==="
-          cat payload.json
+          PAYLOAD="{
+            \"content\": null,
+            \"embeds\": [
+              {
+                \"title\": \"🚀 New Push in \`${REPO}\`\",
+                \"description\": \"👤 **User:** \`${USER}\`\\n📝 **Message:**\n> ${COMMIT_MSG}\\n🔗 [View Commit](${URL})\",
+                \"color\": 15844367,
+                \"fields\": [
+                  {\"name\": \"🟩✨ Added Files\", \"value\": \"\`\`\`\n${ADDED}\n\`\`\`\"},
+                  {\"name\": \"🟨⚙️ Modified Files\", \"value\": \"\`\`\`\n${MODIFIED}\n\`\`\`\"},
+                  {\"name\": \"🟥🗑️ Removed Files\", \"value\": \"\`\`\`\n${REMOVED}\n\`\`\`\"}
+                ],
+                \"footer\": {
+                  \"text\": \"GitHub Webhook Logger by a silly cat :3\"
+                },
+                \"timestamp\": \"${TIMESTAMP}\"
+              }
+            ]
+          }"
 
-          # Send with verbose curl
-          echo "Posting to Discord…"
-          curl -v --fail -X POST \
-            -H "Content-Type: application/json" \
-            --data @payload.json \
-            "$DISCORD_WEBHOOK_URL"
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d "$PAYLOAD" \
+               "${{ secrets.DISCORD_WEBHOOK_URL }}"
