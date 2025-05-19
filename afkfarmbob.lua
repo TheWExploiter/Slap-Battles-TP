@@ -60,5 +60,5 @@ while true do
 		})
 	end
 
-	task.wait(6.55)
+	task.wait(4.6)
 end
