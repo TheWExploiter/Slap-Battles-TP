@@ -6,36 +6,46 @@ jobs:
   notify:
     runs-on: ubuntu-latest
     steps:
-      - name: Debug GitHub context
+      - name: Validate secret & debug
         run: |
-          echo "EVENT_PATH=$GITHUB_EVENT_PATH"
-          cat "$GITHUB_EVENT_PATH"
+          echo "Checking DISCORD_WEBHOOK_URL…"
+          if [ -z "${{ secrets.DISCORD_WEBHOOK_URL }}" ]; then
+            echo "::error ::DISCORD_WEBHOOK_URL secret is NOT set!"
+            exit 1
+          fi
+          # Mask printed URL for security, but confirm it’s non-empty
+          SECRET="${{ secrets.DISCORD_WEBHOOK_URL }}"
+          echo "Webhook URL is set and length=${#SECRET}"
 
       - name: Send push details to Discord
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          if [ ! -f "$GITHUB_EVENT_PATH" ]; then
-            echo "GitHub event path not found!"
-            exit 1
-          fi
-
+          set -euo pipefail
           EVENT_PATH="$GITHUB_EVENT_PATH"
+          echo "Event JSON path: $EVENT_PATH"
+          cat "$EVENT_PATH"  # show payload for debugging
+
           REPO="$GITHUB_REPOSITORY"
           USER="$GITHUB_ACTOR"
 
-          COMMIT_MSG=$(jq -r '.head_commit.message // "No commit message"' "$EVENT_PATH")
-          COMMIT_URL=$(jq -r '.head_commit.url // "https://github.com"' "$EVENT_PATH")
-          ADDED=$(jq -r '.head_commit.added | join("\n") // "None"' "$EVENT_PATH")
-          MODIFIED=$(jq -r '.head_commit.modified | join("\n") // "None"' "$EVENT_PATH")
-          REMOVED=$(jq -r '.head_commit.removed | join("\n") // "None"' "$EVENT_PATH")
+          # Extract commit info
+          COMMIT_MSG=$(jq -r '.head_commit.message // empty' "$EVENT_PATH")
+          COMMIT_URL=$(jq -r '.head_commit.url // empty'     "$EVENT_PATH")
+          ADDED=$(jq -r '.head_commit.added | join("\n") // empty'    "$EVENT_PATH")
+          MODIFIED=$(jq -r '.head_commit.modified | join("\n") // empty' "$EVENT_PATH")
+          REMOVED=$(jq -r '.head_commit.removed | join("\n") // empty'  "$EVENT_PATH")
 
-          [ -z "$ADDED" ] && ADDED="❌ None"
+          # Fallbacks
+          [ -z "$COMMIT_MSG" ] && COMMIT_MSG="(no commit message)"
+          [ -z "$COMMIT_URL" ] && COMMIT_URL="https://github.com/$REPO"
+          [ -z "$ADDED" ]    && ADDED="❌ None"
           [ -z "$MODIFIED" ] && MODIFIED="❌ None"
-          [ -z "$REMOVED" ] && REMOVED="❌ None"
+          [ -z "$REMOVED" ]  && REMOVED="❌ None"
 
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-
+          
+          # Build payload
           jq -n \
             --arg repo "$REPO" \
             --arg user "$USER" \
@@ -46,30 +56,38 @@ jobs:
             --arg removed "$REMOVED" \
             --arg timestamp "$TIMESTAMP" \
             '{
-              "embeds": [
+              "embeds":[
                 {
-                  "title": ("🚀 Push to " + $repo),
+                  "title": "🚀 Push to "+$repo,
                   "url": $url,
                   "description": $msg,
                   "color": 3447003,
-                  "author": {
+                  "author":{
                     "name": $user,
-                    "url": ("https://github.com/" + $user),
-                    "icon_url": ("https://github.com/" + $user + ".png")
+                    "url": "https://github.com/"+$user,
+                    "icon_url": "https://github.com/"+$user+".png"
                   },
-                  "fields": [
-                    { "name": "➕ Added", "value": $added, "inline": true },
-                    { "name": "✏️ Modified", "value": $modified, "inline": true },
-                    { "name": "➖ Removed", "value": $removed, "inline": true }
+                  "fields":[
+                    {"name":"➕ Added","value":$added,"inline":true},
+                    {"name":"✏️ Modified","value":$modified,"inline":true},
+                    {"name":"➖ Removed","value":$removed,"inline":true}
                   ],
-                  "footer": {
-                    "text": "GitHub Actions",
-                    "icon_url": "https://github.githubassets.com/favicons/favicon.png"
+                  "footer":{
+                    "text":"GitHub Actions",
+                    "icon_url":"https://github.githubassets.com/favicons/favicon.png"
                   },
                   "timestamp": $timestamp
                 }
               ]
             }' > payload.json
 
-          curl -s -X POST -H "Content-Type: application/json" \
-            -d @payload.json "$DISCORD_WEBHOOK_URL"
+          # Show payload for debugging
+          echo "=== payload.json ==="
+          cat payload.json
+
+          # Send with verbose curl
+          echo "Posting to Discord…"
+          curl -v --fail -X POST \
+            -H "Content-Type: application/json" \
+            --data @payload.json \
+            "$DISCORD_WEBHOOK_URL"
