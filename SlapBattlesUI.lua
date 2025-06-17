@@ -1,4 +1,4 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/TheWExploiter/Slap-Battles-TP/main/testRun.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/TheWExploiter/Slap-Battles-TP/refs/heads/main/testRun.lua"))()
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Pro666Pro/BypassAntiCheat/refs/heads/main/main.lua"))()
 
